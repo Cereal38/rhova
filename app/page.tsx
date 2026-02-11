@@ -1,3 +1,4 @@
+import RoomCodeInput from '@/components/room-code/room-code-input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -15,7 +16,7 @@ export default function Home() {
       <main className='flex min-h-screen w-full max-w-3xl flex-col items-center justify-center gap-8'>
         <Card className='p-8'>
           <h1 className='font-bold text-7xl md:text-8xl'>Rhova</h1>
-          <Input placeholder='Room code' />
+          <RoomCodeInput />
           <Button size='lg'>Enter</Button>
         </Card>
       </main>
