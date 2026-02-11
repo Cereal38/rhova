@@ -23,7 +23,7 @@ export default function RoomCodeInput({
       maxLength={codeLength}
       placeholder='Enter room code'
       className={cn(
-        'h-11 text-center font-mono tracking-[0.25em] uppercase',
+        'h-16 text-center font-mono tracking-[0.25em] uppercase',
         className,
       )}
       // onChange={(e) => {
