@@ -2,12 +2,12 @@
 
 import { Card } from '@/components/ui/card';
 import RoomCodeForm from './room-code-form';
-import Topbar from '@/components/topbar';
+import RoomCodeTopbar from '@/app/room-code-topbar';
 
 export default function RoomCodePage() {
   return (
     <>
-      <Topbar />
+      <RoomCodeTopbar />
       <div className='relative flex min-h-screen items-center justify-center overflow-hidden font-sans'>
         <object
           data='/room-code-bg.svg'

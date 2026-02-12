@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import './globals.css';
+import QuizSettingsTopbar from './quiz-settings-topbar';
 
 export const metadata: Metadata = {
   title: 'Rhova',
-  description: 'Enter the room code and enjoy a quiz together',
+  description: 'Create or start a quiz in minutes',
 };
 
 export default function RootLayout({
@@ -13,7 +13,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className='antialiased'>{children}</body>
+      <body className='antialiased'>
+        <QuizSettingsTopbar />
+        {children}
+      </body>
     </html>
   );
 }
