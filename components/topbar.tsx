@@ -10,10 +10,10 @@ export default function Topbar() {
       </span>
       <div className='flex gap-2'>
         <Button variant='ghost' className='font-bold h-8'>
-          <Link href='/start-quiz'>Start a quiz</Link>
+          <Link href='/quiz-settings/start'>Start a quiz</Link>
         </Button>
         <Button className='font-bold h-8'>
-          <Link href='/create-quiz'>Create a quiz</Link>
+          <Link href='/quiz-settings/create'>Create a quiz</Link>
         </Button>
       </div>
     </header>
