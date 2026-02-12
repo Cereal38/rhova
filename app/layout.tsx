@@ -15,10 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className='antialiased'>
-        <Topbar />
-        {children}
-      </body>
+      <body className='antialiased'>{children}</body>
     </html>
   );
 }
