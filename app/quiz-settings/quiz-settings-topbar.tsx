@@ -7,15 +7,15 @@ export default function QuizSettingsTopbar() {
       <span className=''>
         <Link href='/'>Rhova</Link>
       </span>
-      <div className='flex gap-2'>
+      <div className='flex'>
         <Button variant='ghost' className='font-bold h-8'>
           <Link href='/quiz-settings/start'>Start a quiz</Link>
         </Button>
         <Button variant='ghost' className='font-bold h-8'>
           <Link href='/quiz-settings/create'>Create a quiz</Link>
         </Button>
-        <Button className='font-bold h-8'>
-          <Link href='/'>Join a quiz</Link>
+        <Button className='font-bold ml-4 h-8'>
+          <Link href='/'>Join</Link>
         </Button>
       </div>
     </header>

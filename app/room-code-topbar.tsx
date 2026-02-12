@@ -8,11 +8,11 @@ export default function RoomCodeTopbar() {
       <span className=''>
         <Link href='/'>Rhova</Link>
       </span>
-      <div className='flex gap-2'>
+      <div className='flex'>
         <Button variant='ghost' className='font-bold h-8'>
           <Link href='/quiz-settings/start'>Start a quiz</Link>
         </Button>
-        <Button className='font-bold h-8'>
+        <Button className='font-bold h-8 ml-4'>
           <Link href='/quiz-settings/create'>Create a quiz</Link>
         </Button>
       </div>
