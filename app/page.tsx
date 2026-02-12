@@ -3,10 +3,9 @@
 import { Card } from '@/components/ui/card';
 import RoomCodeForm from './room-code-form';
 
-export default function Home() {
+export default function RoomCodePage() {
   return (
     <div className='relative flex min-h-screen items-center justify-center overflow-hidden font-sans'>
-      {/* Animated SVG background */}
       <object
         data='/room-code-bg.svg'
         type='image/svg+xml'
