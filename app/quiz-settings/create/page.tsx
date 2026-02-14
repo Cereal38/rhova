@@ -15,6 +15,7 @@ import Form from 'next/form';
 import AddQuestionFieldGroup from './add-question-field-group';
 import { Button } from '@/components/ui/button';
 import { createQuizBasicInfoValidator } from '@/app/validators/create-quiz-basic-info-validator';
+import QuizInput from '@/app/models/quiz-input';
 
 const enum Step {
   'BASIC_INFO',
@@ -25,6 +26,19 @@ export default function CreateQuizPage() {
   const [actionState, formAction] = useActionState(createQuiz, null);
   const [currentStep, setCurrentStep] = useState<Step>(Step.BASIC_INFO);
   const [formErrors, setFormErrors] = useState<any | null>(null); // TODO: Type this correctly
+  const [quizInput, setQuizInput] = useState<QuizInput>({
+    title: '',
+    questions: [],
+  });
+
+  const quizTitleChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setQuizInput((prev) => ({
+      ...prev,
+      title: event.target.value,
+    }));
+  };
 
   const transition = (destination: Step) => {
     const source: Step = currentStep;
@@ -76,7 +90,11 @@ export default function CreateQuizPage() {
             className='flex flex-col gap-8'
           >
             {currentStep === Step.BASIC_INFO && (
-              <CreateQuizFieldGroup errors={formErrors} />
+              <CreateQuizFieldGroup
+                errors={formErrors}
+                quizInput={quizInput}
+                onQuizInputChange={quizTitleChangeHandler}
+              />
             )}
             {currentStep === Step.ADD_QUESTION && <AddQuestionFieldGroup />}
           </Form>
