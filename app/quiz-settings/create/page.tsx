@@ -14,6 +14,7 @@ import { createQuiz } from '@/lib/actions/create-quiz-actions';
 import Form from 'next/form';
 import AddQuestionFieldGroup from './add-question-field-group';
 import { Button } from '@/components/ui/button';
+import { createQuizBasicInfoValidator } from '@/app/validators/create-quiz-basic-info-validator';
 
 const enum Step {
   'BASIC_INFO',
@@ -23,12 +24,32 @@ const enum Step {
 export default function CreateQuizPage() {
   const [actionState, formAction] = useActionState(createQuiz, null);
   const [currentStep, setCurrentStep] = useState<Step>(Step.BASIC_INFO);
+  const [formErrors, setFormErrors] = useState<any | null>(null); // TODO: Type this correctly
 
   const transition = (destination: Step) => {
     const source: Step = currentStep;
+    const form = document.getElementById(
+      'create-quiz-form',
+    ) as HTMLFormElement | null;
+    if (!form) return;
+
+    const formData = new FormData(form);
 
     // BASIC_INFO -> ADD_QUESTION
     if (source === Step.BASIC_INFO && destination === Step.ADD_QUESTION) {
+      const basicInfoValidation = createQuizBasicInfoValidator.safeParse({
+        title: formData.get('title'),
+      });
+
+      if (!basicInfoValidation.success) {
+        setFormErrors({
+          title:
+            basicInfoValidation.error.issues[0]?.message ?? 'Invalid title',
+        });
+        return;
+      }
+
+      setFormErrors(null);
       setCurrentStep(Step.ADD_QUESTION);
     }
 
@@ -50,11 +71,13 @@ export default function CreateQuizPage() {
         </CardHeader>
         <CardContent>
           <Form
-            id='create-quiz'
+            id='create-quiz-form'
             action={formAction}
             className='flex flex-col gap-8'
           >
-            {currentStep === Step.BASIC_INFO && <CreateQuizFieldGroup />}
+            {currentStep === Step.BASIC_INFO && (
+              <CreateQuizFieldGroup errors={formErrors} />
+            )}
             {currentStep === Step.ADD_QUESTION && <AddQuestionFieldGroup />}
           </Form>
         </CardContent>
@@ -80,7 +103,7 @@ export default function CreateQuizPage() {
                 Add a question
               </Button>
               {currentStep === Step.ADD_QUESTION && (
-                <Button form='create-quiz' type='submit'>
+                <Button form='create-quiz-form' type='submit'>
                   Create
                 </Button>
               )}
