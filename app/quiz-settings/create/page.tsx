@@ -60,7 +60,7 @@ export default function CreateQuizPage() {
         </CardContent>
         <CardFooter>
           <div className='flex justify-between w-full'>
-            {currentStep !== Step.BASIC_INFO && (
+            {currentStep === Step.ADD_QUESTION && (
               <Button
                 type='button'
                 variant='secondary'

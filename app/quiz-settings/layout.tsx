@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <>
       <QuizSettingsTopbar />
-      <main className='max-w-[800px] m-auto pt-4 px-4'>{children}</main>
+      <main className='max-w-[600px] m-auto pt-4 px-4'>{children}</main>
     </>
   );
 }
