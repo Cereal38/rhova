@@ -15,14 +15,28 @@ import Form from 'next/form';
 import AddQuestionFieldGroup from './add-question-field-group';
 import { Button } from '@/components/ui/button';
 
-const enum Steps {
+const enum Step {
   'BASIC_INFO',
   'ADD_QUESTION',
 }
 
 export default function CreateQuizPage() {
   const [actionState, formAction] = useActionState(createQuiz, null);
-  const [currentStep, setCurrentStep] = useState<Steps>(Steps.BASIC_INFO);
+  const [currentStep, setCurrentStep] = useState<Step>(Step.BASIC_INFO);
+
+  const transition = (destination: Step) => {
+    const source: Step = currentStep;
+
+    // BASIC_INFO -> ADD_QUESTION
+    if (source === Step.BASIC_INFO && destination === Step.ADD_QUESTION) {
+      setCurrentStep(Step.ADD_QUESTION);
+    }
+
+    // ADD_QUESTION -> BASIC_INFO
+    if (source === Step.ADD_QUESTION && destination === Step.BASIC_INFO) {
+      setCurrentStep(Step.BASIC_INFO);
+    }
+  };
 
   return (
     <main>
@@ -40,14 +54,18 @@ export default function CreateQuizPage() {
             action={formAction}
             className='flex flex-col gap-8'
           >
-            <CreateQuizFieldGroup />
-            {/* <AddQuestionFieldGroup /> */}
+            {currentStep === Step.BASIC_INFO && <CreateQuizFieldGroup />}
+            {currentStep === Step.ADD_QUESTION && <AddQuestionFieldGroup />}
           </Form>
         </CardContent>
         <CardFooter>
           <div className='flex justify-between w-full'>
-            {currentStep !== Steps.BASIC_INFO && (
-              <Button type='button' variant='secondary'>
+            {currentStep !== Step.BASIC_INFO && (
+              <Button
+                type='button'
+                variant='secondary'
+                onClick={() => transition(Step.BASIC_INFO)}
+              >
                 Back
               </Button>
             )}
@@ -55,12 +73,13 @@ export default function CreateQuizPage() {
               <Button
                 type='button'
                 variant={
-                  currentStep === Steps.BASIC_INFO ? 'default' : 'secondary'
+                  currentStep === Step.BASIC_INFO ? 'default' : 'secondary'
                 }
+                onClick={() => transition(Step.ADD_QUESTION)}
               >
                 Add a question
               </Button>
-              {currentStep === Steps.ADD_QUESTION && (
+              {currentStep === Step.ADD_QUESTION && (
                 <Button form='create-quiz' type='submit'>
                   Create
                 </Button>
