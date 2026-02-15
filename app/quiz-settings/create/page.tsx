@@ -15,7 +15,7 @@ import Form from 'next/form';
 import AddQuestionFieldGroup from './add-question-field-group';
 import { Button } from '@/components/ui/button';
 import { createQuizBasicInfoValidator } from '@/app/validators/create-quiz-basic-info-validator';
-import QuizInput from '@/app/models/quiz-input';
+import Quiz from '@/app/models/quiz';
 
 const enum Step {
   'BASIC_INFO',
@@ -28,7 +28,7 @@ export default function CreateQuizPage() {
   const [actionState, formAction] = useActionState(createQuiz, null);
   const [currentStep, setCurrentStep] = useState<Step>(Step.BASIC_INFO);
   const [formErrors, setFormErrors] = useState<any | null>(null); // TODO: Type this correctly
-  const [quizInput, setQuizInput] = useState<QuizInput>({
+  const [quizInput, setQuizInput] = useState<Quiz>({
     title: '',
     questions: [],
   });

@@ -1,6 +1,6 @@
 'use client';
 
-import QuizInput from '@/app/models/quiz-input';
+import Quiz from '@/app/models/quiz';
 import {
   Field,
   FieldDescription,
@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 
 interface Props {
   errors: any; // TODO: Type this correctly
-  quizInput: QuizInput;
+  quizInput: Quiz;
   onQuizInputChange: (quizInput: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

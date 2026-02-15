@@ -1,6 +1,6 @@
 import Question from './question';
 
-export default interface QuizInput {
+export default interface Quiz {
   title: string;
   questions: Question[];
 }
