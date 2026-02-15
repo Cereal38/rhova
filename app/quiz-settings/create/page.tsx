@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import CreateQuizFieldGroup from './create-quiz-field-group';
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { createQuiz } from '@/lib/actions/create-quiz-actions';
 import Form from 'next/form';
 import AddQuestionFieldGroup from './add-question-field-group';
@@ -22,6 +22,8 @@ const enum Step {
   'ADD_QUESTION',
 }
 
+const LOCAL_STORAGE_QUIZ_KEY = 'create-quiz';
+
 export default function CreateQuizPage() {
   const [actionState, formAction] = useActionState(createQuiz, null);
   const [currentStep, setCurrentStep] = useState<Step>(Step.BASIC_INFO);
@@ -31,6 +33,16 @@ export default function CreateQuizPage() {
     questions: [],
   });
 
+  // If there is a quiz in the localstorage, load it
+  useEffect(() => {
+    loadQuizFromLocalStorage();
+  }, []);
+
+  // Save the quiz to localstorage after any update on it
+  useEffect(() => {
+    saveQuizToLocalStorage();
+  }, [quizInput]);
+
   const quizTitleChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -38,6 +50,22 @@ export default function CreateQuizPage() {
       ...prev,
       title: event.target.value,
     }));
+    saveQuizToLocalStorage();
+  };
+
+  const saveQuizToLocalStorage = () => {
+    window.localStorage.setItem(
+      LOCAL_STORAGE_QUIZ_KEY,
+      JSON.stringify(quizInput),
+    );
+  };
+
+  const loadQuizFromLocalStorage = () => {
+    const quizRaw = window.localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY);
+
+    if (quizRaw) {
+      setQuizInput(JSON.parse(quizRaw));
+    }
   };
 
   const transition = (destination: Step) => {
