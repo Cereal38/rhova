@@ -1,0 +1,25 @@
+{
+  "title": "A quiz about animals",
+  "questions": [
+    {
+      "question": "How many legs does a spider have?",
+      "correctAnswer": "8",
+      "wrongAnswers": ["6", "4", "10"]
+    },
+    {
+      "question": "Which animal is the fastest?",
+      "correctAnswer": "Cheetah",
+      "wrongAnswers": ["Lion", "Tiger", "Elephant"]
+    },
+    {
+      "question": "Which animal is the largest?",
+      "correctAnswer": "Blue Whale",
+      "wrongAnswers": ["Elephant", "Giraffe", "Hippo"]
+    },
+    {
+      "question": "What kind of animal is a kangaroo?",
+      "correctAnswer": "Marsupial",
+      "wrongAnswers": ["Bird", "Mammal", "Reptile"]
+    }
+  ]
+}
