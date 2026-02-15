@@ -4,12 +4,20 @@ import { submitRoomCode } from '@/lib/actions/room-code-action';
 import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useSocket } from '@/hooks/use-socket';
 
 export default function RoomCodeForm() {
   const [actionState, formAction] = useActionState(submitRoomCode, null);
+  // TODO: Remove this test — temporary socket connection verification
+  const { socket, isConnected } = useSocket();
 
   return (
     <Form action={formAction} className='flex flex-col gap-4'>
+      {/* TODO: Remove this test indicator */}
+      <p className='text-center text-sm'>
+        Socket: {isConnected ? '🟢 Connected' : '🔴 Disconnected'}
+        {socket?.id && ` (${socket.id})`}
+      </p>
       <Field>
         <Input
           type='text'
