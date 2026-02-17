@@ -5,6 +5,7 @@ import { useActionState, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useSocket } from '@/hooks/use-socket';
+import { redirect } from 'next/navigation';
 
 export default function RoomCodeForm() {
   const [actionState, formAction] = useActionState(submitRoomCode, null);
@@ -27,6 +28,7 @@ export default function RoomCodeForm() {
       (res: { roomCode: string }) => {
         console.log('Session created: ', res.roomCode);
         setRoomCode(res.roomCode);
+        redirect(`/quiz/${res.roomCode}/host-waiting-room`);
       },
     );
   };
