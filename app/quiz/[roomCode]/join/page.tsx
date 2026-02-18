@@ -2,33 +2,30 @@
 
 import { Card } from '@/components/ui/card';
 import { useSocket } from '@/hooks/use-socket';
-import { useParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { notFound, useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function JoinPage() {
   const { roomCode } = useParams();
   const { socket, isConnected } = useSocket();
+  const [roomNotFound, setRoomNotFound] = useState(false);
 
   useEffect(() => {
-    handleJoinRoom();
-  }, [roomCode, socket, isConnected]);
-
-  const handleJoinRoom = () => {
-    console.log(`Trying to join room with code ${roomCode}...`);
-
-    if (!socket || !isConnected) {
-      console.log('Joining room failed');
-      return;
-    }
+    if (!socket || !isConnected) return;
 
     socket.emit(
       'join-session',
       roomCode,
       (res: { success: boolean; error?: string }) => {
-        console.log('Join success: ', res.success);
+        if (!res.success) {
+          console.error("Can't join this room: ", res.error);
+          setRoomNotFound(true);
+        }
       },
     );
-  };
+  }, [roomCode, socket, isConnected]);
+
+  if (roomNotFound) notFound();
 
   return (
     <div className='relative flex min-h-screen items-center justify-center overflow-hidden font-sans'>
