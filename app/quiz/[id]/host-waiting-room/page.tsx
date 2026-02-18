@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/card';
 import PlayerCounter from './player-counter';
 import RoomCodeSection from './room-code-section';
+import QrCodeSection from './qr-code-section';
 
 export default function HostWaitingRoomPage() {
   return (
@@ -18,6 +19,7 @@ export default function HostWaitingRoomPage() {
             <PlayerCounter />
           </div>
           <div>
+            <QrCodeSection />
             <RoomCodeSection />
           </div>
         </Card>
