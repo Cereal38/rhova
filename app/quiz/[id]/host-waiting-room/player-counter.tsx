@@ -18,5 +18,5 @@ export default function PlayerCounter() {
 
   const [playerCount, setPlayerCount] = useState(0);
 
-  return <p>{playerCount} players ready!</p>;
+  return <p className='opacity-75'>{playerCount} players ready!</p>;
 }
