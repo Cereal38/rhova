@@ -7,9 +7,9 @@ export default function QrCodeSection() {
   const { roomCode } = useParams();
 
   return (
-    <div className='flex flex-col items-center gap-4'>
+    <div className='flex flex-col items-center gap-8'>
       <h2 className='text-xl'>Scan the QR Code</h2>
-      <QRCodeSVG value={`http://localhost:3000/join/${roomCode}`} />
+      <QRCodeSVG value={`http://192.168.1.113:3000/join/${roomCode}`} />
     </div>
   );
 }
