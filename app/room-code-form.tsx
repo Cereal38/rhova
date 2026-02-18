@@ -1,16 +1,14 @@
 import { Field } from '@/components/ui/field';
-import Form from 'next/form';
-import { submitRoomCode } from '@/lib/actions/room-code-action';
-import { useActionState, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useSocket } from '@/hooks/use-socket';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function RoomCodeForm() {
-  const [actionState, formAction] = useActionState(submitRoomCode, null);
   // TODO: Remove this test — temporary socket connection verification
   const { socket, isConnected } = useSocket();
+  const router = useRouter();
   const [roomCode, setRoomCode] = useState<string | null>(null);
   const [roomCodeInput, setRoomCodeInput] = useState<string>('');
 
@@ -28,30 +26,18 @@ export default function RoomCodeForm() {
       (res: { roomCode: string }) => {
         console.log('Session created: ', res.roomCode);
         setRoomCode(res.roomCode);
-        redirect(`/quiz/${res.roomCode}/host-waiting-room`);
+        router.push(`/quiz/${res.roomCode}/host-waiting-room`);
       },
     );
   };
 
-  const handleJoinRoom = () => {
-    console.log('Trying to join a room...');
-
-    if (!socket || !isConnected) {
-      console.log('Joining room failed');
-      return;
-    }
-
-    socket.emit(
-      'join-session',
-      roomCodeInput,
-      (res: { success: boolean; error?: string }) => {
-        console.log('Join success: ', res.success);
-      },
-    );
+  const handleJoinRoom = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push(`/quiz/${roomCodeInput}/join`);
   };
 
   return (
-    <Form action={formAction} className='flex flex-col gap-4'>
+    <form onSubmit={handleJoinRoom} className='flex flex-col gap-4'>
       {/* TODO: Remove this test indicator */}
       <p className='text-center text-sm'>
         Socket: {isConnected ? '🟢 Connected' : '🔴 Disconnected'}
@@ -59,27 +45,6 @@ export default function RoomCodeForm() {
       </p>
       <Button type='button' onClick={handleCreateRoom} disabled={!isConnected}>
         Create Session
-      </Button>
-      <span>{`Room code: ${roomCode}`}</span>
-      <Input
-        type='text'
-        inputMode='text'
-        autoCapitalize='characters'
-        autoCorrect='off'
-        spellCheck={false}
-        maxLength={6}
-        placeholder='Enter room code'
-        className='h-16 text-center font-mono tracking-[0.25em] uppercase'
-        value={roomCodeInput}
-        onChange={(e) => {
-          e.currentTarget.value = e.currentTarget.value
-            .toUpperCase()
-            .replace(/[^A-Z0-9]/g, '');
-          setRoomCodeInput(e.currentTarget.value);
-        }}
-      />
-      <Button type='button' onClick={handleJoinRoom} disabled={!isConnected}>
-        Join Session
       </Button>
       <Field>
         <Input
@@ -91,12 +56,13 @@ export default function RoomCodeForm() {
           maxLength={6}
           placeholder='Enter room code'
           className='h-16 text-center font-mono tracking-[0.25em] uppercase'
-          // onChange={(e) => {
-          //   e.currentTarget.value = e.currentTarget.value
-          //     .toUpperCase()
-          //     .replace(/[^A-Z0-9]/g, '');
-          //   onChange?.(e);
-          // }}
+          value={roomCodeInput}
+          onChange={(e) => {
+            e.currentTarget.value = e.currentTarget.value
+              .toUpperCase()
+              .replace(/[^A-Z0-9]/g, '');
+            setRoomCodeInput(e.currentTarget.value);
+          }}
         />
       </Field>
       <Button
@@ -105,6 +71,6 @@ export default function RoomCodeForm() {
       >
         Enter
       </Button>
-    </Form>
+    </form>
   );
 }
