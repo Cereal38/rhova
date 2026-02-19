@@ -16,7 +16,7 @@ export default function RoomCodeForm() {
   const handleCreateRoom = () => {
     console.log('Handle create room triggered...');
     if (!socket || !isConnected) {
-      console.log('Create room failed');
+      console.error('Create room failed');
       return;
     }
 
