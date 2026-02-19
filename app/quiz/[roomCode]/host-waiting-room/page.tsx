@@ -2,6 +2,7 @@ import { Card } from '@/components/ui/card';
 import PlayerCounter from './player-counter';
 import RoomCodeSection from './room-code-section';
 import QrCodeSection from './qr-code-section';
+import StartQuizButton from './start-quiz-button';
 
 export default function HostWaitingRoomPage() {
   return (
@@ -13,7 +14,7 @@ export default function HostWaitingRoomPage() {
         className='pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover'
       />
       <main className='flex min-h-screen w-full flex-col items-center justify-center gap-8 px-4'>
-        <Card className='p-16 flex flex-col items-center gap-16'>
+        <Card className='p-8 flex flex-col items-center gap-16'>
           <div className=' flex flex-col items-center'>
             <h1 className='text-3xl'>Rhova.io</h1>
             <PlayerCounter />
@@ -27,6 +28,7 @@ export default function HostWaitingRoomPage() {
             </div>
             <RoomCodeSection />
           </div>
+          <StartQuizButton />
         </Card>
       </main>
     </div>
