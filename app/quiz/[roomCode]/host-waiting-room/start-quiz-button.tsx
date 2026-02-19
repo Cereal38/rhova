@@ -11,6 +11,7 @@ export default function StartQuizButton() {
   const { roomCode } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleStartQuiz = () => {
     setLoading(true);
@@ -22,21 +23,27 @@ export default function StartQuizButton() {
       return;
     }
 
-    socket.emit('start-quiz', () => {
-      console.log('Quiz started');
-      router.push(`/quiz/${roomCode}/host-play`);
+    socket.emit('start-quiz', (res: { success: boolean; error?: string }) => {
+      if (res.success) {
+        router.push(`/quiz/${roomCode}/host-play`);
+      } else {
+        setError(res.error ?? 'Failed to start the quiz');
+      }
       setLoading(false);
     });
   };
 
   return (
-    <Button
-      onClick={handleStartQuiz}
-      className='w-full cursor-pointer'
-      disabled={loading}
-    >
-      {loading && <Spinner />}
-      Start the quiz
-    </Button>
+    <div className='flex flex-col items-center gap-2 w-full'>
+      <Button
+        onClick={handleStartQuiz}
+        className='w-full cursor-pointer'
+        disabled={loading}
+      >
+        {loading && <Spinner />}
+        Start the quiz
+      </Button>
+      {error && <p className='text-destructive text-sm'>{error}</p>}
+    </div>
   );
 }

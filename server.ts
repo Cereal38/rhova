@@ -86,20 +86,29 @@ app.prepare().then(() => {
     );
 
     // ─── Host: Start the quiz ───
-    socket.on('start-quiz', (callback) => {
-      const roomCode = socket.data.roomCode;
-      if (!roomCode) return;
+    socket.on(
+      'start-quiz',
+      (callback: (res: { success: boolean; error?: string }) => void) => {
+        const roomCode = socket.data.roomCode;
+        if (!roomCode)
+          return callback({ success: false, error: 'No room code' });
 
-      const started = startQuiz(roomCode, socket.id);
-      if (!started) return;
+        const started = startQuiz(roomCode, socket.id);
+        if (!started)
+          return callback({ success: false, error: 'Could not start quiz' });
 
-      const question = getCurrentQuestion(roomCode);
-      if (!question) return;
+        const question = getCurrentQuestion(roomCode);
+        if (!question)
+          return callback({
+            success: false,
+            error: 'No questions in this quiz',
+          });
 
-      console.log(`Quiz started in ${roomCode}`);
-      io.to(roomCode).emit('show-question', question);
-      callback();
-    });
+        console.log(`Quiz started in ${roomCode}`);
+        io.to(roomCode).emit('show-question', question);
+        callback({ success: true });
+      },
+    );
 
     // ─── Student: Submit an answer ───
     socket.on(
