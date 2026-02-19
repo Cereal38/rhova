@@ -22,7 +22,16 @@ export default function RoomCodeForm() {
 
     socket.emit(
       'create-session',
-      { title: 'Test quiz', questions: [] },
+      {
+        title: 'Test quiz',
+        questions: [
+          {
+            question: 'How many legs does a spider have?',
+            correctAnswer: '8',
+            wrongAnswers: ['6', '4', '10'],
+          },
+        ],
+      },
       (res: { roomCode: string }) => {
         console.log('Session created: ', res.roomCode);
         setRoomCode(res.roomCode);

@@ -86,7 +86,7 @@ app.prepare().then(() => {
     );
 
     // ─── Host: Start the quiz ───
-    socket.on('start-quiz', () => {
+    socket.on('start-quiz', (callback) => {
       const roomCode = socket.data.roomCode;
       if (!roomCode) return;
 
@@ -98,6 +98,7 @@ app.prepare().then(() => {
 
       console.log(`Quiz started in ${roomCode}`);
       io.to(roomCode).emit('show-question', question);
+      callback();
     });
 
     // ─── Student: Submit an answer ───
