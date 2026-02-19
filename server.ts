@@ -17,6 +17,7 @@ import {
   getFinalLeaderboard,
 } from './server/session-manager';
 import type Quiz from '@/app/models/quiz';
+import WsCallback from './app/models/ws-callback';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
@@ -49,10 +50,7 @@ app.prepare().then(() => {
     // ─── Student: Join a session ───
     socket.on(
       'join-session',
-      (
-        roomCode: string,
-        callback: (res: { success: boolean; error?: string }) => void,
-      ) => {
+      (roomCode: string, callback: (res: WsCallback) => void) => {
         const session = getSession(roomCode);
 
         if (!session) {
@@ -86,29 +84,25 @@ app.prepare().then(() => {
     );
 
     // ─── Host: Start the quiz ───
-    socket.on(
-      'start-quiz',
-      (callback: (res: { success: boolean; error?: string }) => void) => {
-        const roomCode = socket.data.roomCode;
-        if (!roomCode)
-          return callback({ success: false, error: 'No room code' });
+    socket.on('start-quiz', (callback: (res: WsCallback) => void) => {
+      const roomCode = socket.data.roomCode;
+      if (!roomCode) return callback({ success: false, error: 'No room code' });
 
-        const started = startQuiz(roomCode, socket.id);
-        if (!started)
-          return callback({ success: false, error: 'Could not start quiz' });
+      const started = startQuiz(roomCode, socket.id);
+      if (!started)
+        return callback({ success: false, error: 'Could not start quiz' });
 
-        const question = getCurrentQuestion(roomCode);
-        if (!question)
-          return callback({
-            success: false,
-            error: 'No questions in this quiz',
-          });
+      const question = getCurrentQuestion(roomCode);
+      if (!question)
+        return callback({
+          success: false,
+          error: 'No questions in this quiz',
+        });
 
-        console.log(`Quiz started in ${roomCode}`);
-        io.to(roomCode).emit('show-question', question);
-        callback({ success: true });
-      },
-    );
+      console.log(`Quiz started in ${roomCode}`);
+      io.to(roomCode).emit('show-question', question);
+      callback({ success: true });
+    });
 
     // ─── Student: Submit an answer ───
     socket.on(

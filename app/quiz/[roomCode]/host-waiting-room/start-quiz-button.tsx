@@ -1,5 +1,6 @@
 'use client';
 
+import WsCallback from '@/app/models/ws-callback';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { useSocket } from '@/hooks/use-socket';
@@ -18,12 +19,12 @@ export default function StartQuizButton() {
     console.log('Starting the quiz...');
 
     if (!socket || !isConnected) {
-      console.error('Impossible to start the quiz');
+      setError('Impossible to start the quiz');
       setLoading(false);
       return;
     }
 
-    socket.emit('start-quiz', (res: { success: boolean; error?: string }) => {
+    socket.emit('start-quiz', (res: WsCallback) => {
       if (res.success) {
         router.push(`/quiz/${roomCode}/host-play`);
       } else {

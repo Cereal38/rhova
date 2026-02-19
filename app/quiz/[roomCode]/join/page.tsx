@@ -1,5 +1,6 @@
 'use client';
 
+import WsCallback from '@/app/models/ws-callback';
 import { Card } from '@/components/ui/card';
 import { useSocket } from '@/hooks/use-socket';
 import { notFound, useParams } from 'next/navigation';
@@ -13,16 +14,12 @@ export default function JoinPage() {
   useEffect(() => {
     if (!socket || !isConnected) return;
 
-    socket.emit(
-      'join-session',
-      roomCode,
-      (res: { success: boolean; error?: string }) => {
-        if (!res.success) {
-          console.error("Can't join this room: ", res.error);
-          setRoomNotFound(true);
-        }
-      },
-    );
+    socket.emit('join-session', roomCode, (res: WsCallback) => {
+      if (!res.success) {
+        console.error("Can't join this room: ", res.error);
+        setRoomNotFound(true);
+      }
+    });
   }, [roomCode, socket, isConnected]);
 
   if (roomNotFound) notFound();
