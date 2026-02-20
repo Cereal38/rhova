@@ -19,13 +19,15 @@ export default function HostWaitingRoomPage() {
             <h1 className='text-3xl'>Rhova.io</h1>
             <PlayerCounter />
           </div>
-          <div className='grid grid-cols-3'>
+          <div className='grid grid-cols-[1fr_10px_1fr]'>
             <QrCodeSection />
+
             <div className='flex flex-col items-center gap-4'>
               <div className='flex-1 w-[2px] bg-black'></div>
               <span>OR</span>
               <div className='flex-1 w-[2px] bg-black'></div>
             </div>
+
             <RoomCodeSection />
           </div>
           <StartQuizButton />
