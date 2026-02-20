@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function RoomCodeTopbar() {
   return (
-    <header className='z-30 absolute flex items-center justify-between gap-8 px-4 h-12 w-full backdrop-brightness-250'>
+    <header className='z-30 absolute flex items-center justify-between gap-8 px-4 h-12 w-full bg-white'>
       <span className=''>
         <ClickableLogo />
       </span>
