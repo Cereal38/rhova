@@ -11,7 +11,7 @@ export default function RoomCodeSection() {
         Go to <strong>Rhova.io</strong> and enter the room code
       </h2>
       <div className='flex-1 flex items-center'>
-        <span className='text-3xl font-bold'>{roomCode}</span>
+        <span className='text-5xl font-bold'>{roomCode}</span>
       </div>
     </div>
   );
