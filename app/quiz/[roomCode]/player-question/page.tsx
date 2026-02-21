@@ -1,7 +1,7 @@
 export default function PlayerQuestionPage() {
   return (
     <main>
-      <h1>Host question page</h1>
+      <h1>Player question page</h1>
     </main>
   );
 }

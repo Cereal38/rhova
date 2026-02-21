@@ -3,14 +3,17 @@
 import WsCallback from '@/app/models/ws-callback';
 import { Card } from '@/components/ui/card';
 import { useSocket } from '@/hooks/use-socket';
-import { notFound, useParams } from 'next/navigation';
+import { routes } from '@/lib/routes';
+import { notFound, useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function PlayerWaitingRoom() {
+  const router = useRouter();
   const { roomCode } = useParams();
   const { socket, isConnected } = useSocket();
   const [roomNotFound, setRoomNotFound] = useState(false);
 
+  // Connect the player to the session
   useEffect(() => {
     if (!socket || !isConnected) return;
 
@@ -21,6 +24,20 @@ export default function PlayerWaitingRoom() {
       }
     });
   }, [roomCode, socket, isConnected]);
+
+  // When the host start the quiz, redirect the user to the question page
+  useEffect(() => {
+    if (!socket || !isConnected) return;
+
+    const onShowQuestion = () => {
+      router.push(routes.playerQuestion(roomCode as string));
+    };
+
+    socket.on('show-question', onShowQuestion);
+    return () => {
+      socket.off('show-question', onShowQuestion);
+    };
+  }, [socket, isConnected, roomCode, router]);
 
   if (roomNotFound) notFound();
 
