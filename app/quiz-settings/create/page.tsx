@@ -14,8 +14,8 @@ import { createQuiz } from '@/lib/actions/create-quiz-actions';
 import Form from 'next/form';
 import AddQuestionFieldGroup from './add-question-field-group';
 import { Button } from '@/components/ui/button';
-import { createQuizBasicInfoValidator } from '@/app/validators/create-quiz-basic-info-validator';
 import Quiz from '@/app/models/quiz';
+import { createQuizBasicInfoValidator } from '@/validators/create-quiz-basic-info-validator';
 
 const enum Step {
   'BASIC_INFO',
