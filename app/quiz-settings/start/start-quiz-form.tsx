@@ -1,11 +1,37 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function StartQuizForm() {
+  const [fileInput, setFileInput] = useState<File | null>(null);
+
+  const fileInputChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setFileInput(file);
+    }
+  };
+
+  const startQuizHandler = (event: React.SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!fileInput) {
+      console.error('No file selected');
+      return;
+    }
+    console.log(fileInput);
+
+    // TODO: Start the quiz
+  };
+
   return (
-    <form className='flex flex-col gap-4'>
+    <form className='flex flex-col gap-4' onSubmit={startQuizHandler}>
       <Field className='pt-4'>
         <FieldLabel htmlFor='quiz'>File</FieldLabel>
         <FieldDescription>
@@ -13,9 +39,11 @@ export default function StartQuizForm() {
           have one, you can create one from the "
           <Link href='/quiz-settings/create'>create a quiz</Link>" page
         </FieldDescription>
-        <Input id='quiz' type='file' />
+        <Input id='quiz' type='file' onChange={fileInputChangeHandler} />
       </Field>
-      <Button>Start the quiz</Button>
+      <Button disabled={!fileInput} type='submit'>
+        Start the quiz
+      </Button>
     </form>
   );
 }
