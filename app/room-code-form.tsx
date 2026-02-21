@@ -1,7 +1,7 @@
 'use client';
 
 import { Field, FieldError } from '@/components/ui/field';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
@@ -13,6 +13,17 @@ export default function RoomCodeForm() {
   const router = useRouter();
   const [roomCodeInput, setRoomCodeInput] = useState<string>('');
   const [error, setError] = useState<string | undefined>(undefined);
+
+  const handleRoomCodeInputChange = (
+    e: ChangeEvent<HTMLInputElement, HTMLInputElement>,
+  ) => {
+    const newValue: string = e.currentTarget.value
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, '');
+
+    setRoomCodeInput(newValue);
+    setError(undefined);
+  };
 
   const handleJoinRoom = (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -45,12 +56,7 @@ export default function RoomCodeForm() {
           placeholder='Enter room code'
           className='h-16 text-center font-mono tracking-[0.25em] uppercase'
           value={roomCodeInput}
-          onChange={(e) => {
-            e.currentTarget.value = e.currentTarget.value
-              .toUpperCase()
-              .replace(/[^A-Z0-9]/g, '');
-            setRoomCodeInput(e.currentTarget.value);
-          }}
+          onChange={handleRoomCodeInputChange}
         />
       </Field>
       <Button
