@@ -1,5 +1,3 @@
-'use client';
-
 import { Card } from '@/components/ui/card';
 import RoomCodeForm from './room-code-form';
 import RoomCodeTopbar from '@/app/room-code-topbar';

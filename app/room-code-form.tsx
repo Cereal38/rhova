@@ -1,44 +1,14 @@
+'use client';
+
 import { Field } from '@/components/ui/field';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useSocket } from '@/hooks/use-socket';
 import { useRouter } from 'next/navigation';
 
 export default function RoomCodeForm() {
-  // TODO: Remove this test — temporary socket connection verification
-  const { socket, isConnected } = useSocket();
   const router = useRouter();
-  const [roomCode, setRoomCode] = useState<string | null>(null);
   const [roomCodeInput, setRoomCodeInput] = useState<string>('');
-
-  // TODO: Remove this. It is for test purpose
-  const handleCreateRoom = () => {
-    console.log('Handle create room triggered...');
-    if (!socket || !isConnected) {
-      console.error('Create room failed');
-      return;
-    }
-
-    socket.emit(
-      'create-session',
-      {
-        title: 'Test quiz',
-        questions: [
-          {
-            question: 'How many legs does a spider have?',
-            correctAnswer: '8',
-            wrongAnswers: ['6', '4', '10'],
-          },
-        ],
-      },
-      (res: { roomCode: string }) => {
-        console.log('Session created: ', res.roomCode);
-        setRoomCode(res.roomCode);
-        router.push(`/quiz/${res.roomCode}/host-waiting-room`);
-      },
-    );
-  };
 
   const handleJoinRoom = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,14 +17,6 @@ export default function RoomCodeForm() {
 
   return (
     <form onSubmit={handleJoinRoom} className='flex flex-col gap-4'>
-      {/* TODO: Remove this test indicator */}
-      <p className='text-center text-sm'>
-        Socket: {isConnected ? '🟢 Connected' : '🔴 Disconnected'}
-        {socket?.id && ` (${socket.id})`}
-      </p>
-      <Button type='button' onClick={handleCreateRoom} disabled={!isConnected}>
-        Create Session
-      </Button>
       <Field>
         <Input
           type='text'
