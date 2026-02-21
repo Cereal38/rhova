@@ -31,6 +31,7 @@ export default function RoomCodeForm() {
     e.preventDefault();
 
     setLoading(true);
+    setError(undefined);
     const startTime = Date.now();
 
     if (!socket || !isConnected) {
@@ -41,8 +42,9 @@ export default function RoomCodeForm() {
 
     socket.emit('check-code', roomCodeInput, (res: WsCallback) => {
       // Artificially slow the request to improve UX and avoid join spamming
+      const minimumWaitingTime = 600;
       const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, 600 - elapsedTime);
+      const remainingTime = Math.max(0, minimumWaitingTime - elapsedTime);
       setTimeout(() => {
         setLoading(false);
         if (!res.success) {
