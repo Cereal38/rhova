@@ -1,18 +1,35 @@
 'use client';
 
-import { Field } from '@/components/ui/field';
+import { Field, FieldError } from '@/components/ui/field';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
+import { useSocket } from '@/hooks/use-socket';
+import WsCallback from './models/ws-callback';
 
 export default function RoomCodeForm() {
+  const { socket, isConnected } = useSocket();
   const router = useRouter();
   const [roomCodeInput, setRoomCodeInput] = useState<string>('');
+  const [error, setError] = useState<string | undefined>(undefined);
 
-  const handleJoinRoom = (e: React.FormEvent) => {
+  const handleJoinRoom = (e: React.SubmitEvent) => {
     e.preventDefault();
-    router.push(`/quiz/${roomCodeInput}/join`);
+
+    if (!socket || !isConnected) {
+      setError('Error connecting to the server');
+      return;
+    }
+
+    socket.emit('check-code', roomCodeInput, (res: WsCallback) => {
+      if (!res.success) {
+        setError(res.error);
+        return;
+      }
+      setError(undefined);
+      router.push(`/quiz/${roomCodeInput}/join`);
+    });
   };
 
   return (
@@ -43,6 +60,7 @@ export default function RoomCodeForm() {
       >
         Enter
       </Button>
+      {error && <FieldError>{error}</FieldError>}
     </form>
   );
 }

@@ -47,6 +47,26 @@ app.prepare().then(() => {
       },
     );
 
+    // ─── Student: Verify if a room code exists ───
+    socket.on(
+      'check-code',
+      (roomCode: string, callback: (res: WsCallback) => void) => {
+        const session = getSession(roomCode);
+
+        if (!session) {
+          callback({ success: false, error: 'The room code is invalid' });
+          return;
+        }
+
+        if (session.phase !== 'lobby') {
+          callback({ success: false, error: 'Quiz has already started' });
+          return;
+        }
+
+        callback({ success: true });
+      },
+    );
+
     // ─── Student: Join a session ───
     socket.on(
       'join-session',
