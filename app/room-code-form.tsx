@@ -32,7 +32,6 @@ export default function RoomCodeForm() {
 
     setLoading(true);
     const startTime = Date.now();
-    await new Promise((r) => setTimeout(r, 1000));
 
     if (!socket || !isConnected) {
       setError('Error connecting to the server');
@@ -43,7 +42,7 @@ export default function RoomCodeForm() {
     socket.emit('check-code', roomCodeInput, (res: WsCallback) => {
       // Artificially slow the request to improve UX and avoid join spamming
       const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, 400 - elapsedTime);
+      const remainingTime = Math.max(0, 600 - elapsedTime);
       setTimeout(() => {
         setLoading(false);
         if (!res.success) {
