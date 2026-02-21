@@ -1,7 +1,13 @@
 'use client';
 
+import Quiz from '@/app/models/quiz';
 import { Button } from '@/components/ui/button';
-import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useSocket } from '@/hooks/use-socket';
 import Link from 'next/link';
@@ -13,6 +19,7 @@ export default function StartQuizForm() {
   const router = useRouter();
 
   const [fileInput, setFileInput] = useState<File | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const fileInputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -39,8 +46,25 @@ export default function StartQuizForm() {
     }
 
     // Read the content of the file and extract the json config from it
-    const text = await fileInput.text();
-    const quizData = JSON.parse(text);
+    let text: string;
+    try {
+      text = await fileInput.text();
+    } catch (err) {
+      console.error('Failed to read the file: ', err);
+      setError('Failed to read the file');
+      setFileInput(null);
+      return;
+    }
+
+    let quizData: Quiz;
+    try {
+      quizData = JSON.parse(text);
+    } catch (err) {
+      console.error('File does not contain valid Rhova config: ', err);
+      setError('Invalid quiz config. Did you selected the correct file?');
+      setFileInput(null);
+      return;
+    }
 
     socket.emit('create-session', quizData, (res: { roomCode: string }) => {
       console.log('Session created: ', res.roomCode);
@@ -58,6 +82,7 @@ export default function StartQuizForm() {
           <Link href='/quiz-settings/create'>create a quiz</Link>" page
         </FieldDescription>
         <Input id='quiz' type='file' onChange={fileInputChangeHandler} />
+        {error && <FieldError>{error}</FieldError>}
       </Field>
       <Button disabled={!fileInput} type='submit'>
         Start the quiz
