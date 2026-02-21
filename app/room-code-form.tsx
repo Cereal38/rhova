@@ -7,12 +7,14 @@ import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
 import { useSocket } from '@/hooks/use-socket';
 import WsCallback from './models/ws-callback';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function RoomCodeForm() {
   const { socket, isConnected } = useSocket();
   const router = useRouter();
   const [roomCodeInput, setRoomCodeInput] = useState<string>('');
   const [error, setError] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleRoomCodeInputChange = (
     e: ChangeEvent<HTMLInputElement, HTMLInputElement>,
@@ -25,21 +27,32 @@ export default function RoomCodeForm() {
     setError(undefined);
   };
 
-  const handleJoinRoom = (e: React.SubmitEvent) => {
+  const handleJoinRoom = async (e: React.SubmitEvent) => {
     e.preventDefault();
+
+    setLoading(true);
+    const startTime = Date.now();
+    await new Promise((r) => setTimeout(r, 1000));
 
     if (!socket || !isConnected) {
       setError('Error connecting to the server');
+      setLoading(false);
       return;
     }
 
     socket.emit('check-code', roomCodeInput, (res: WsCallback) => {
-      if (!res.success) {
-        setError(res.error);
-        return;
-      }
-      setError(undefined);
-      router.push(`/quiz/${roomCodeInput}/join`);
+      // Artificially slow the request to improve UX and avoid join spamming
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, 400 - elapsedTime);
+      setTimeout(() => {
+        setLoading(false);
+        if (!res.success) {
+          setError(res.error);
+          return;
+        }
+        setError(undefined);
+        router.push(`/quiz/${roomCodeInput}/join`);
+      }, remainingTime);
     });
   };
 
@@ -55,16 +68,23 @@ export default function RoomCodeForm() {
           maxLength={6}
           placeholder='Enter room code'
           className='h-16 text-center font-mono tracking-[0.25em] uppercase'
+          aria-invalid={!!error}
           value={roomCodeInput}
           onChange={handleRoomCodeInputChange}
         />
       </Field>
       <Button
-        disabled={roomCodeInput.length !== 6}
+        disabled={loading || roomCodeInput.length !== 6}
         type='submit'
         className='w-full text-xl h-16 uppercasep cursor-pointer'
       >
-        Enter
+        {loading ? (
+          <>
+            <Spinner /> Joining...
+          </>
+        ) : (
+          'Enter'
+        )}
       </Button>
       {error && <FieldError>{error}</FieldError>}
     </form>
