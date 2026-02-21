@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useSocket } from '@/hooks/use-socket';
+import { quizFormatValidator } from '@/validators/quiz-format-validator';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -30,6 +31,7 @@ export default function StartQuizForm() {
     }
   };
 
+  // TODO: Improve the code of this function
   const startQuizHandler = async (
     event: React.SubmitEvent<HTMLFormElement>,
   ) => {
@@ -56,15 +58,24 @@ export default function StartQuizForm() {
       return;
     }
 
-    let quizData: Quiz;
+    let parsedData: unknown;
     try {
-      quizData = JSON.parse(text);
+      parsedData = JSON.parse(text);
     } catch (err) {
       console.error('File does not contain valid Rhova config: ', err);
-      setError('Invalid quiz config. Did you selected the correct file?');
+      setError('Invalid quiz config. Did you selected a .rhova file?');
       setFileInput(null);
       return;
     }
+
+    const quizFormatValidation = quizFormatValidator.safeParse(parsedData);
+    if (!quizFormatValidation.success) {
+      setError('Invalid quiz config. Did you selected a .rhova file?');
+      setFileInput(null);
+      return;
+    }
+
+    const quizData: Quiz = quizFormatValidation.data;
 
     socket.emit('create-session', quizData, (res: { roomCode: string }) => {
       console.log('Session created: ', res.roomCode);
