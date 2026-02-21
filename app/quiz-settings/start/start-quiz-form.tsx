@@ -47,31 +47,28 @@ export default function StartQuizForm() {
       return;
     }
 
-    // Read the content of the file and extract the json config from it
+    // Read the content of the file and extract the raw content from it
     let text: string;
     try {
       text = await fileInput.text();
     } catch (err) {
-      console.error('Failed to read the file: ', err);
-      setError('Failed to read the file');
-      setFileInput(null);
+      handleError('Failed to read the file');
       return;
     }
 
+    // Parse the content of the file to obtain a valid json object
     let parsedData: unknown;
     try {
       parsedData = JSON.parse(text);
     } catch (err) {
-      console.error('File does not contain valid Rhova config: ', err);
-      setError('Invalid quiz config. Did you selected a .rhova file?');
-      setFileInput(null);
+      handleError('Invalid quiz config. Did you selected a .rhova file?');
       return;
     }
 
+    // Validate if the format of the json is a correct Quiz object
     const quizFormatValidation = quizFormatValidator.safeParse(parsedData);
     if (!quizFormatValidation.success) {
-      setError('Invalid quiz config. Did you selected a .rhova file?');
-      setFileInput(null);
+      handleError('Invalid quiz config. Did you selected a .rhova file?');
       return;
     }
 
@@ -81,6 +78,11 @@ export default function StartQuizForm() {
       console.log('Session created: ', res.roomCode);
       router.push(`/quiz/${res.roomCode}/host-waiting-room`);
     });
+  };
+
+  const handleError = (message: string) => {
+    setError(message);
+    setFileInput(null);
   };
 
   return (
