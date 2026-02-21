@@ -27,7 +27,7 @@ export default function StartQuizButton() {
 
     socket.emit('start-quiz', (res: WsCallback) => {
       if (res.success) {
-        router.push(routes.questionHost(roomCode as string));
+        router.push(routes.hostQuestion(roomCode as string));
       } else {
         setError(res.error ?? 'Failed to start the quiz');
       }

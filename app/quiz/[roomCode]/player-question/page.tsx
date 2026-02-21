@@ -1,4 +1,4 @@
-export default function QuestionHostPage() {
+export default function PlayerQuestionPage() {
   return (
     <main>
       <h1>Host question page</h1>

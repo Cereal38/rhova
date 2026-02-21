@@ -5,5 +5,6 @@ export const routes = {
   hostWaitingRoom: (roomCode: string) => `/quiz/${roomCode}/host-waiting-room`,
   playerWaitingRoom: (roomCode: string) =>
     `/quiz/${roomCode}/player-waiting-room`,
-  questionHost: (roomCode: string) => `/quiz/${roomCode}/question-host`,
+  hostQuestion: (roomCode: string) => `/quiz/${roomCode}/host-question`,
+  playerQuestion: (roomCode: string) => `/quiz/${roomCode}/player-question`,
 };
