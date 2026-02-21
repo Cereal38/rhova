@@ -2,6 +2,7 @@ import ClickableLogo from '@/components/clickable-logo';
 import { Button } from '../components/ui/button';
 import Link from 'next/link';
 
+// TODO: Try to do only 1 dynamic topbar for the whole project
 export default function RoomCodeTopbar() {
   return (
     <header className='z-30 absolute flex items-center justify-between gap-8 px-4 h-12 w-full bg-white'>
