@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useSocket } from '@/hooks/use-socket';
 import WsCallback from './models/ws-callback';
 import { Spinner } from '@/components/ui/spinner';
+import { routes } from '@/lib/routes';
 
 export default function RoomCodeForm() {
   const { socket, isConnected } = useSocket();
@@ -52,7 +53,7 @@ export default function RoomCodeForm() {
           return;
         }
         setError(undefined);
-        router.push(`/quiz/${roomCodeInput}/player-waiting-room`);
+        router.push(routes.playerWaitingRoom(roomCodeInput));
       }, remainingTime);
     });
   };

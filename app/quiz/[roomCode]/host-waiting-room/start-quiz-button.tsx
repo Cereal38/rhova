@@ -4,6 +4,7 @@ import WsCallback from '@/app/models/ws-callback';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { useSocket } from '@/hooks/use-socket';
+import { routes } from '@/lib/routes';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -26,7 +27,7 @@ export default function StartQuizButton() {
 
     socket.emit('start-quiz', (res: WsCallback) => {
       if (res.success) {
-        router.push(`/quiz/${roomCode}/question-host`);
+        router.push(routes.questionHost(roomCode as string));
       } else {
         setError(res.error ?? 'Failed to start the quiz');
       }

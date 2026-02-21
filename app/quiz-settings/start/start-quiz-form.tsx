@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useSocket } from '@/hooks/use-socket';
+import { routes } from '@/lib/routes';
 import { quizFormatValidator } from '@/validators/quiz-format-validator';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -76,7 +77,7 @@ export default function StartQuizForm() {
 
     socket.emit('create-session', quizData, (res: { roomCode: string }) => {
       console.log('Session created: ', res.roomCode);
-      router.push(`/quiz/${res.roomCode}/host-waiting-room`);
+      router.push(routes.hostWaitingRoom(res.roomCode));
     });
   };
 
