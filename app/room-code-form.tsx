@@ -52,7 +52,7 @@ export default function RoomCodeForm() {
           return;
         }
         setError(undefined);
-        router.push(`/quiz/${roomCodeInput}/join`);
+        router.push(`/quiz/${roomCodeInput}/player-waiting-room`);
       }, remainingTime);
     });
   };

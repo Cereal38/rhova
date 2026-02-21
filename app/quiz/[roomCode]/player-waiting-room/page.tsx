@@ -6,7 +6,7 @@ import { useSocket } from '@/hooks/use-socket';
 import { notFound, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export default function JoinPage() {
+export default function PlayerWaitingRoom() {
   const { roomCode } = useParams();
   const { socket, isConnected } = useSocket();
   const [roomNotFound, setRoomNotFound] = useState(false);
