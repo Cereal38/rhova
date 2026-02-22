@@ -1,7 +1,7 @@
 'use client';
 
 import { useSocket } from '@/hooks/use-socket';
-import ShowQuestionPayload from '@/models/show-question-payload';
+import WsQuestion from '@/models/ws-question';
 import { useEffect, useState } from 'react';
 
 export default function QuestionNumber() {
@@ -13,7 +13,7 @@ export default function QuestionNumber() {
   useEffect(() => {
     if (!socket) return;
 
-    const handler = (question: ShowQuestionPayload) => {
+    const handler = (question: WsQuestion) => {
       setQuestionNumber(question.questionIndex + 1);
     };
 
