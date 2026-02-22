@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 export default function PlayerCounter() {
   const { socket } = useSocket();
+  const [playerCount, setPlayerCount] = useState(0);
 
   useEffect(() => {
     if (!socket) return;
@@ -15,8 +16,6 @@ export default function PlayerCounter() {
       socket.off('player-count', (data) => setPlayerCount(data.count));
     };
   }, [socket]);
-
-  const [playerCount, setPlayerCount] = useState(0);
 
   return <p className='opacity-75'>{playerCount} players ready!</p>;
 }
