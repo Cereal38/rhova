@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
 import { useSocket } from '@/hooks/use-socket';
-import WsCallback from './models/ws-callback';
+import WsCallback from '../models/ws-callback';
 import { Spinner } from '@/components/ui/spinner';
 import { routes } from '@/lib/routes';
 

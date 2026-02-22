@@ -1,6 +1,6 @@
 'use client';
 
-import WsCallback from '@/app/models/ws-callback';
+import WsCallback from '@/models/ws-callback';
 import { Card } from '@/components/ui/card';
 import { useSocket } from '@/hooks/use-socket';
 import { routes } from '@/lib/routes';

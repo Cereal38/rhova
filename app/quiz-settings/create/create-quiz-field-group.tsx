@@ -1,6 +1,6 @@
 'use client';
 
-import Quiz from '@/app/models/quiz';
+import Quiz from '@/models/quiz';
 import {
   Field,
   FieldDescription,

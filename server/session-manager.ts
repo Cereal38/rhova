@@ -1,4 +1,4 @@
-import Quiz from '@/app/models/quiz';
+import Quiz from '@/models/quiz';
 import type { Session, Player } from './types';
 
 const sessions = new Map<string, Session>();

@@ -1,4 +1,4 @@
-import Quiz from '@/app/models/quiz';
+import Quiz from '@/models/quiz';
 
 export interface Player {
   socketId: string;

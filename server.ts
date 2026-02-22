@@ -16,8 +16,8 @@ import {
   nextQuestion,
   getFinalLeaderboard,
 } from './server/session-manager';
-import type Quiz from '@/app/models/quiz';
-import WsCallback from './app/models/ws-callback';
+import type Quiz from '@/models/quiz';
+import WsCallback from './models/ws-callback';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';

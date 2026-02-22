@@ -1,6 +1,6 @@
 'use client';
 
-import WsCallback from '@/app/models/ws-callback';
+import WsCallback from '@/models/ws-callback';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { useSocket } from '@/hooks/use-socket';
