@@ -18,6 +18,7 @@ import {
 } from './server/session-manager';
 import type Quiz from '@/models/quiz';
 import WsCallback from './models/ws-callback';
+import WsQuestion from './models/ws-question';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
@@ -123,6 +124,25 @@ app.prepare().then(() => {
       io.to(roomCode).emit('show-question', question);
       callback({ success: true });
     });
+
+    // ─── All: Get the current question ───
+    socket.on(
+      'get-question',
+      (roomCode: string, callback: (res: WsCallback<WsQuestion>) => void) => {
+        const question: WsQuestion | null = getCurrentQuestion(roomCode);
+
+        if (!question) {
+          callback({
+            success: false,
+            error:
+              'Could not find the question. Is the code valid and the session active?',
+          });
+          return;
+        }
+
+        callback({ success: true, payload: question });
+      },
+    );
 
     // ─── Student: Submit an answer ───
     socket.on(

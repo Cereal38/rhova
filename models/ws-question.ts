@@ -1,6 +1,6 @@
-import Question from './question';
-
-export default interface WsQuestion extends Question {
+export default interface WsQuestion {
   questionIndex: number;
   totalQuestions: number;
+  question: string;
+  answers: string[];
 }

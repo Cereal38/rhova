@@ -1,5 +1,6 @@
 import Quiz from '@/models/quiz';
 import type { Session, Player } from './types';
+import WsQuestion from '@/models/ws-question';
 
 const sessions = new Map<string, Session>();
 
@@ -92,7 +93,7 @@ export function startQuiz(roomCode: string, socketId: string): boolean {
   return true;
 }
 
-export function getCurrentQuestion(roomCode: string) {
+export function getCurrentQuestion(roomCode: string): WsQuestion | null {
   const session = sessions.get(roomCode);
   if (!session || session.phase !== 'question') return null;
 
