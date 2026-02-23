@@ -6,12 +6,10 @@ import WsQuestion from '@/models/ws-question';
 import { notFound, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export default function QuestionNumber() {
+export default function QuestionTitle() {
   const { socket } = useSocket();
   const { roomCode } = useParams();
-  const [questionNumber, setQuestionNumber] = useState<number | undefined>(
-    undefined,
-  );
+  const [question, setQuestion] = useState<WsQuestion | undefined>(undefined);
   const [roomNotFound, setRoomNotFound] = useState(false);
 
   useEffect(() => {
@@ -24,7 +22,7 @@ export default function QuestionNumber() {
         return;
       }
 
-      setQuestionNumber(res.payload.questionIndex + 1);
+      setQuestion(res.payload);
     };
 
     socket.emit('get-question', roomCode, handler);
@@ -34,5 +32,14 @@ export default function QuestionNumber() {
     notFound();
   }
 
-  return <>{questionNumber}</>;
+  return (
+    <>
+      {!!question && (
+        <div>
+          <h2>Question {question.questionIndex + 1}</h2>
+          <h1>{question.question}</h1>
+        </div>
+      )}
+    </>
+  );
 }

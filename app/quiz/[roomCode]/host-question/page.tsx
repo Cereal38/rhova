@@ -1,11 +1,9 @@
-import QuestionNumber from './question-number';
+import QuestionTitle from './question-title';
 
 export default function HostQuestionPage() {
   return (
     <main>
-      <h1>
-        Question <QuestionNumber />
-      </h1>
+      <QuestionTitle />
     </main>
   );
 }
