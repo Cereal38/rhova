@@ -3,6 +3,7 @@ import type { Session, Player } from './types';
 import WsQuestion from '@/models/ws-question';
 
 const sessions = new Map<string, Session>();
+const pendingDisconnectSessions = new Map<string, NodeJS.Timeout>();
 
 // --- Room code generation ---
 
@@ -49,6 +50,23 @@ export function getSession(roomCode: string): Session | undefined {
 
 export function deleteSession(roomCode: string): void {
   sessions.delete(roomCode);
+}
+
+export function addPendingDisconnectSession(
+  roomCode: string,
+  timeout: NodeJS.Timeout,
+) {
+  pendingDisconnectSessions.set(roomCode, timeout);
+}
+
+export function getPendingDisconnectSession(
+  roomCode: string,
+): NodeJS.Timeout | undefined {
+  return pendingDisconnectSessions.get(roomCode);
+}
+
+export function deletePendingDisconnectSession(roomCode: string) {
+  pendingDisconnectSessions.delete(roomCode);
 }
 
 // --- Player management ---

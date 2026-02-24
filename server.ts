@@ -15,6 +15,9 @@ import {
   revealResults,
   nextQuestion,
   getFinalLeaderboard,
+  addPendingDisconnectSession,
+  getPendingDisconnectSession,
+  deletePendingDisconnectSession,
 } from './server/session-manager';
 import type Quiz from '@/models/quiz';
 import WsCallback from './models/ws-callback';
@@ -243,10 +246,19 @@ app.prepare().then(() => {
       if (!roomCode) return;
 
       if (role === 'host') {
-        // Host left — end the session, notify all players
-        io.to(roomCode).emit('session-ended', { reason: 'Host disconnected' });
-        deleteSession(roomCode);
-        console.log(`Session ${roomCode} deleted (host left)`);
+        // Waiting for the host to reconnect. Kill the session after a certain time
+        io.to(roomCode).emit('session-pending');
+
+        const timeout = setTimeout(() => {
+          // Host left — end the session, notify all players
+          io.to(roomCode).emit('session-ended', {
+            reason: 'Host disconnected',
+          });
+          deleteSession(roomCode);
+          console.log(`Session ${roomCode} deleted (host left)`);
+        }, 30_000);
+
+        addPendingDisconnectSession(roomCode, timeout);
       } else if (role === 'player') {
         removePlayer(roomCode, socket.id);
         io.to(roomCode).emit('player-count', {
@@ -254,6 +266,36 @@ app.prepare().then(() => {
         });
       }
     });
+
+    // ─── Reconnection handling ───
+    socket.on(
+      'rejoin-session',
+      (roomCode: string, hostToken: string, callback) => {
+        const session = getSession(roomCode);
+        if (!session || session.hostToken !== hostToken) {
+          return callback({ success: false, error: 'Invalid session' });
+        }
+
+        // Cancel the pending deletion
+        const timeout = getPendingDisconnectSession(roomCode);
+        if (timeout) {
+          clearTimeout(timeout);
+          deletePendingDisconnectSession(roomCode);
+        }
+
+        // Reassign host identity
+        session.hostSocketId = socket.id;
+        socket.join(roomCode);
+        socket.data.roomCode = roomCode;
+        socket.data.role = 'host';
+
+        // Tell players we're back
+        io.to(roomCode).emit('session-resume');
+
+        // Return current state so the host can render the right page
+        callback({ success: true, phase: session.phase, roomCode });
+      },
+    );
   });
 
   httpServer.listen(port, () => {
