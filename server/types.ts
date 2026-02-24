@@ -17,4 +17,5 @@ export interface Session {
   currentQuestionIndex: number;
   phase: SessionPhase;
   answers: Map<string, string>; // socketId → selected answer
+  hostToken: string;
 }

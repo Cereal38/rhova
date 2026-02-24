@@ -40,12 +40,17 @@ app.prepare().then(() => {
     // ─── Host: Create a session ───
     socket.on(
       'create-session',
-      (quiz: Quiz, callback: (res: { roomCode: string }) => void) => {
-        const session = createSession(quiz, socket.id);
+      (
+        quiz: Quiz,
+        hostToken: string,
+        callback: (res: { roomCode: string }) => void,
+      ) => {
+        const session = createSession(quiz, socket.id, hostToken);
         socket.join(session.roomCode);
         socket.data.roomCode = session.roomCode;
         socket.data.role = 'host';
 
+        console.log(`Host token: ${session.hostToken}`);
         console.log(`Session created: ${session.roomCode}`);
         callback({ roomCode: session.roomCode });
       },

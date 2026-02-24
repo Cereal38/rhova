@@ -26,7 +26,11 @@ function generateUniqueRoomCode(): string {
 
 // --- Session lifecycle ---
 
-export function createSession(quiz: Quiz, hostSocketId: string): Session {
+export function createSession(
+  quiz: Quiz,
+  hostSocketId: string,
+  hostToken: string,
+): Session {
   const roomCode = generateUniqueRoomCode();
 
   const session: Session = {
@@ -38,6 +42,7 @@ export function createSession(quiz: Quiz, hostSocketId: string): Session {
     currentQuestionIndex: 0,
     phase: 'lobby',
     answers: new Map(),
+    hostToken,
   };
 
   sessions.set(roomCode, session);
