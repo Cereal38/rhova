@@ -15,6 +15,7 @@ import { quizFormatValidator } from '@/validators/quiz-format-validator';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function StartQuizForm() {
   const { socket, isConnected } = useSocket();
@@ -75,10 +76,22 @@ export default function StartQuizForm() {
 
     const quizData: Quiz = quizFormatValidation.data;
 
-    socket.emit('create-session', quizData, (res: { roomCode: string }) => {
-      console.log('Session created: ', res.roomCode);
-      router.push(routes.hostWaitingRoom(res.roomCode));
-    });
+    // Check if the host has a token stored in the localstorage, else create one and store it
+    let hostToken: string | null = localStorage.getItem('hostToken');
+    if (!hostToken) {
+      hostToken = uuidv4();
+      localStorage.setItem('hostToken', hostToken);
+    }
+
+    socket.emit(
+      'create-session',
+      quizData,
+      hostToken,
+      (res: { roomCode: string }) => {
+        console.log('Session created: ', res.roomCode);
+        router.push(routes.hostWaitingRoom(res.roomCode));
+      },
+    );
   };
 
   const handleError = (message: string) => {
