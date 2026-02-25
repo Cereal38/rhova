@@ -1,20 +1,15 @@
-import HostQuizTopbar from '@/components/host-quiz-topbar';
 import type { Metadata } from 'next';
+import QuizHostLayoutClient from './layout-client';
 
 export const metadata: Metadata = {
   title: 'Rhova',
-  description: 'Create or start a quiz in minutes',
+  description: 'Play a quiz together',
 };
 
-export default function QuizHostLayout({
-  children,
-}: Readonly<{
+interface Props {
   children: React.ReactNode;
-}>) {
-  return (
-    <>
-      <HostQuizTopbar />
-      {children}
-    </>
-  );
+}
+
+export default function QuizHostLayout({ children }: Props) {
+  return <QuizHostLayoutClient>{children}</QuizHostLayoutClient>;
 }
