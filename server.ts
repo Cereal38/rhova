@@ -26,6 +26,7 @@ import WsQuestion from './models/ws-question';
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
 const port = 3000;
+const sessionTimeoutMs = 5 * 60 * 1000;
 
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
@@ -261,7 +262,7 @@ app.prepare().then(() => {
           });
           deleteSession(roomCode);
           console.log(`Session ${roomCode} deleted (host left)`);
-        }, 30_000);
+        }, sessionTimeoutMs);
 
         addPendingDisconnectSession(roomCode, timeout);
       } else if (role === 'player') {
