@@ -1,5 +1,6 @@
 'use client';
 
+import AnswerButton from '@/components/answer-button';
 import { useSocket } from '@/hooks/use-socket';
 import WsCallback from '@/models/ws-callback';
 import WsQuestion from '@/models/ws-question';
@@ -35,11 +36,9 @@ export default function PossibleAnswers() {
 
   return (
     <div>
-      <li>
-        {question?.answers.map((answer) => (
-          <ul key={answer}>{answer}</ul>
-        ))}
-      </li>
+      {question?.answers.map((answer) => (
+        <AnswerButton key={answer}>{answer}</AnswerButton>
+      ))}
     </div>
   );
 }
