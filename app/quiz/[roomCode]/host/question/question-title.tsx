@@ -12,7 +12,7 @@ export default function QuestionTitle() {
   const [question, setQuestion] = useState<WsQuestion | undefined>(undefined);
   const [roomNotFound, setRoomNotFound] = useState(false);
   const [playerCount, setPlayerCount] = useState<number | undefined>(undefined);
-  const [answerCount, setAnswerCount] = useState<number | undefined>(undefined);
+  const [answerCount, setAnswerCount] = useState<number>(0);
 
   useEffect(() => {
     if (!socket) return;
@@ -33,6 +33,7 @@ export default function QuestionTitle() {
     };
 
     const answerCountHandler = (count: number) => {
+      console.log(count);
       setAnswerCount(count);
     };
 
