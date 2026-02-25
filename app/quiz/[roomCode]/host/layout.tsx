@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: 'Create or start a quiz in minutes',
 };
 
-export default function RootLayout({
+export default function QuizHostLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
