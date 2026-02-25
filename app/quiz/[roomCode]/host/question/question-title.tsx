@@ -19,7 +19,6 @@ export default function QuestionTitle() {
 
     const getQuestionHandler = (res: WsCallback<WsQuestion>) => {
       if (!res.success || !res.payload) {
-        console.error('Could not find the question for the given roomCode');
         setRoomNotFound(true);
         return;
       }
@@ -27,22 +26,22 @@ export default function QuestionTitle() {
       setQuestion(res.payload);
     };
 
-    const playerCountHandler = (res: WsCallback<number>) => {
+    const getPlayerCountHandler = (res: WsCallback<number>) => {
       setPlayerCount(res.payload);
       console.log(res);
     };
 
-    const answerCountHandler = (count: number) => {
+    const getAnswerCountHandler = (count: number) => {
       console.log(count);
       setAnswerCount(count);
     };
 
     socket.emit('get-question', roomCode, getQuestionHandler);
-    socket.emit('get-player-count', roomCode, playerCountHandler);
-    socket.on('answer-count', answerCountHandler);
+    socket.emit('get-player-count', roomCode, getPlayerCountHandler);
+    socket.on('answer-count', getAnswerCountHandler);
 
     return () => {
-      socket.off('answer-count', answerCountHandler);
+      socket.off('answer-count', getAnswerCountHandler);
     };
   }, [socket, roomCode]);
 
@@ -53,12 +52,11 @@ export default function QuestionTitle() {
   return (
     <>
       {!!question && (
-        <div>
-          <h2>Question {question.questionIndex + 1}</h2>
-          <span>
+        <div className='flex flex-col items-center'>
+          <h2 className='text-xl'>Question {question.questionIndex + 1}</h2>
+          <span className='opacity-75'>
             {answerCount}/{playerCount} players answered
           </span>
-          {/* <h1>{question.question}</h1> */}
         </div>
       )}
     </>

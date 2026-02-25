@@ -1,3 +1,4 @@
+import PossibleAnswers from './possible-answers';
 import QuestionTitle from './question-title';
 
 export default function HostQuestionPage() {
@@ -5,6 +6,7 @@ export default function HostQuestionPage() {
     <main>
       <div className='flex flex-col'>
         <QuestionTitle />
+        <PossibleAnswers />
       </div>
     </main>
   );
