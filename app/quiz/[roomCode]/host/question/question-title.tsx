@@ -11,9 +11,8 @@ export default function QuestionTitle() {
   const { roomCode } = useParams();
   const [question, setQuestion] = useState<WsQuestion | undefined>(undefined);
   const [roomNotFound, setRoomNotFound] = useState(false);
-  const [totalPlayerCount, setTotalPlayerCount] = useState<number | undefined>(
-    undefined,
-  );
+  const [playerCount, setPlayerCount] = useState<number | undefined>(undefined);
+  const [answerCount, setAnswerCount] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     if (!socket) return;
@@ -29,13 +28,21 @@ export default function QuestionTitle() {
     };
 
     const playerCountHandler = (res: WsCallback<number>) => {
-      setTotalPlayerCount(res.payload);
+      setPlayerCount(res.payload);
       console.log(res);
     };
 
-    socket.emit('get-question', roomCode, getQuestionHandler);
+    const answerCountHandler = (count: number) => {
+      setAnswerCount(count);
+    };
 
+    socket.emit('get-question', roomCode, getQuestionHandler);
     socket.emit('get-player-count', roomCode, playerCountHandler);
+    socket.on('answer-count', answerCountHandler);
+
+    return () => {
+      socket.off('answer-count', answerCountHandler);
+    };
   }, [socket, roomCode]);
 
   if (roomNotFound) {
@@ -48,7 +55,7 @@ export default function QuestionTitle() {
         <div>
           <h2>Question {question.questionIndex + 1}</h2>
           <span>
-            {0}/{totalPlayerCount} players answered
+            {answerCount}/{playerCount} players answered
           </span>
           {/* <h1>{question.question}</h1> */}
         </div>
