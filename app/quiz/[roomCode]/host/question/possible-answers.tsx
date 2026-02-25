@@ -36,8 +36,10 @@ export default function PossibleAnswers() {
 
   return (
     <div>
-      {question?.answers.map((answer) => (
-        <AnswerButton key={answer}>{answer}</AnswerButton>
+      {question?.answers.map((answer, index) => (
+        <AnswerButton key={answer} number={index + 1}>
+          {answer}
+        </AnswerButton>
       ))}
     </div>
   );
