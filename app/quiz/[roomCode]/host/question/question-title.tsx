@@ -11,11 +11,14 @@ export default function QuestionTitle() {
   const { roomCode } = useParams();
   const [question, setQuestion] = useState<WsQuestion | undefined>(undefined);
   const [roomNotFound, setRoomNotFound] = useState(false);
+  const [totalPlayerCount, setTotalPlayerCount] = useState<number | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     if (!socket) return;
 
-    const handler = (res: WsCallback<WsQuestion>) => {
+    const getQuestionHandler = (res: WsCallback<WsQuestion>) => {
       if (!res.success || !res.payload) {
         console.error('Could not find the question for the given roomCode');
         setRoomNotFound(true);
@@ -25,8 +28,15 @@ export default function QuestionTitle() {
       setQuestion(res.payload);
     };
 
-    socket.emit('get-question', roomCode, handler);
-  }, [socket]);
+    const playerCountHandler = (res: WsCallback<number>) => {
+      setTotalPlayerCount(res.payload);
+      console.log(res);
+    };
+
+    socket.emit('get-question', roomCode, getQuestionHandler);
+
+    socket.emit('get-player-count', roomCode, playerCountHandler);
+  }, [socket, roomCode]);
 
   if (roomNotFound) {
     notFound();
@@ -37,7 +47,10 @@ export default function QuestionTitle() {
       {!!question && (
         <div>
           <h2>Question {question.questionIndex + 1}</h2>
-          <h1>{question.question}</h1>
+          <span>
+            {0}/{totalPlayerCount} players answered
+          </span>
+          {/* <h1>{question.question}</h1> */}
         </div>
       )}
     </>

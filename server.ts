@@ -153,6 +153,16 @@ app.prepare().then(() => {
       },
     );
 
+    // ─── All: Get the current number of players in the game ───
+    socket.on(
+      'get-player-count',
+      (roomCode: string, callback: (res: WsCallback<number>) => void) => {
+        const count = getPlayerCount(roomCode);
+
+        callback({ success: true, payload: count });
+      },
+    );
+
     // ─── Student: Submit an answer ───
     socket.on(
       'submit-answer',
