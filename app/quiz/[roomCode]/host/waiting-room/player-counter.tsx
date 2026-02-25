@@ -10,10 +10,13 @@ export default function PlayerCounter() {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on('player-count', (data) => setPlayerCount(data.count));
+    const playerCountHandler = (data: { count: number }) =>
+      setPlayerCount(data.count);
+
+    socket.on('player-count', playerCountHandler);
 
     return () => {
-      socket.off('player-count', (data) => setPlayerCount(data.count));
+      socket.off('player-count', playerCountHandler);
     };
   }, [socket]);
 
