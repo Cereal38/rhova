@@ -3,6 +3,8 @@ import ParallelStrokes from './parallel-strokes';
 interface Props {
   children: React.ReactNode;
   number: number; // That app has multiple design to differenciate answers. Number value handle it
+  clickable?: boolean;
+  wrongAnswer?: boolean;
 }
 
 const colorByNumber: Record<number, string> = {
@@ -12,10 +14,15 @@ const colorByNumber: Record<number, string> = {
   4: 'bg-[var(--answer-color-4)] hover:bg-[var(--answer-color-4)]',
 };
 
-export default function AnswerButton({ children, number }: Props) {
+export default function AnswerButton({
+  children,
+  number,
+  clickable = false,
+  wrongAnswer = false,
+}: Props) {
   return (
     <div
-      className={`flex items-center gap-4 p-12 w-full rounded-xl text-white cursor-pointer ${colorByNumber[number]}`}
+      className={`flex items-center gap-6 p-12 w-full rounded-xl text-white ${colorByNumber[number]} ${clickable && !wrongAnswer && 'cursor-pointer hover:opacity-75'} ${wrongAnswer && 'opacity-25'}`}
     >
       <ParallelStrokes size={32} count={number} color='white' />
       <span className='text-3xl font-bold'>{children}</span>
