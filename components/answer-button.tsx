@@ -17,7 +17,7 @@ export default function AnswerButton({ children, number }: Props) {
     <div
       className={`flex items-center gap-4 p-12 w-full rounded-xl text-white cursor-pointer ${colorByNumber[number]}`}
     >
-      <ParallelStrokes size={32} color='white' />
+      <ParallelStrokes size={32} count={number} color='white' />
       <span className='text-3xl font-bold'>{children}</span>
     </div>
   );

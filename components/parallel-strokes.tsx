@@ -2,6 +2,7 @@ interface Props {
   size?: number;
   color?: string;
   strokeWidth?: number;
+  count?: number;
   className?: string;
 }
 
@@ -9,44 +10,40 @@ export default function ParallelStrokes({
   size = 24,
   color = 'currentColor',
   strokeWidth = 4,
+  count = 3,
   className,
 }: Props) {
+  const padding = 4;
+  const tilt = 6;
+  const gap = 7.5;
+  const y1 = 28;
+  const y2 = 4;
+  const totalWidth = 2 * padding + tilt + (count - 1) * gap;
+
   return (
     <svg
       width={size}
       height={size}
-      viewBox='0 0 32 32'
-      fill='none'
+      viewBox={`0 0 ${totalWidth} 32`}
+      fill="none"
       className={className}
-      aria-hidden='true'
+      aria-hidden="true"
     >
-      <line
-        x1='4'
-        y1='28'
-        x2='10'
-        y2='4'
-        stroke={color}
-        strokeWidth={strokeWidth}
-        strokeLinecap='round'
-      />
-      <line
-        x1='11.5'
-        y1='28'
-        x2='17.5'
-        y2='4'
-        stroke={color}
-        strokeWidth={strokeWidth}
-        strokeLinecap='round'
-      />
-      <line
-        x1='19'
-        y1='28'
-        x2='25'
-        y2='4'
-        stroke={color}
-        strokeWidth={strokeWidth}
-        strokeLinecap='round'
-      />
+      {Array.from({ length: count }, (_, i) => {
+        const x1 = padding + i * gap;
+        return (
+          <line
+            key={i}
+            x1={x1}
+            y1={y1}
+            x2={x1 + tilt}
+            y2={y2}
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+          />
+        );
+      })}
     </svg>
   );
 }
