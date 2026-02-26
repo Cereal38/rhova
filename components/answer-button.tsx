@@ -1,5 +1,3 @@
-import { Button } from './ui/button';
-
 type Props = {
   children: React.ReactNode;
   number: number; // Tha app has multiple design to differenciate answers. Number value handle it
@@ -14,8 +12,10 @@ const colorByNumber: Record<number, string> = {
 
 export default function AnswerButton({ children, number }: Props) {
   return (
-    <Button className={colorByNumber[number]}>
+    <div
+      className={`flex items-center p-8 w-full rounded-xl text-white cursor-pointer ${colorByNumber[number]}`}
+    >
       {children}
-    </Button>
+    </div>
   );
 }

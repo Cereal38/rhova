@@ -35,7 +35,7 @@ export default function PossibleAnswers() {
   }
 
   return (
-    <div>
+    <div className='grid grid-cols-2 gap-4'>
       {question?.answers.map((answer, index) => (
         <AnswerButton key={answer} number={index + 1}>
           {answer}

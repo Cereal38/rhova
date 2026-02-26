@@ -13,9 +13,11 @@ export default function QuizHostLayoutClient({ children }: Props) {
   useHostRejoin(roomCode);
 
   return (
-    <>
+    <div className='flex flex-col h-screen'>
       <HostQuizTopbar />
-      {children}
-    </>
+      <div className='flex-1 m-auto max-w-[1000px] overflow-hidden mb-12'>
+        {children}
+      </div>
+    </div>
   );
 }
