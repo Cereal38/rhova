@@ -1,3 +1,5 @@
+import ParallelStrokes from './parallel-strokes';
+
 interface Props {
   children: React.ReactNode;
   number: number; // That app has multiple design to differenciate answers. Number value handle it
@@ -13,9 +15,10 @@ const colorByNumber: Record<number, string> = {
 export default function AnswerButton({ children, number }: Props) {
   return (
     <div
-      className={`flex items-center p-8 w-full rounded-xl text-white cursor-pointer ${colorByNumber[number]}`}
+      className={`flex items-center gap-4 p-12 w-full rounded-xl text-white cursor-pointer ${colorByNumber[number]}`}
     >
-      {children}
+      <ParallelStrokes size={32} color='white' />
+      <span className='text-3xl font-bold'>{children}</span>
     </div>
   );
 }
