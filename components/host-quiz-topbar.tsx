@@ -9,7 +9,7 @@ export default function HostQuizTopbar() {
         <ClickableLogo />
       </span>
       <div className='flex'>
-        <Button variant='ghost' className='font-bold h-8'>
+        <Button asChild variant='ghost' className='font-bold h-8'>
           <Link href='/quiz-settings/start'>Start a quiz</Link>
         </Button>
         <Button variant='ghost' className='font-bold h-8'>

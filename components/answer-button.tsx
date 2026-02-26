@@ -1,7 +1,7 @@
-type Props = {
+interface Props {
   children: React.ReactNode;
-  number: number; // Tha app has multiple design to differenciate answers. Number value handle it
-};
+  number: number; // That app has multiple design to differenciate answers. Number value handle it
+}
 
 const colorByNumber: Record<number, string> = {
   1: 'bg-[var(--answer-color-1)] hover:bg-[var(--answer-color-1)]',

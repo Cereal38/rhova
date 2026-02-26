@@ -11,8 +11,8 @@ export default function PossibleAnswers() {
   const { socket } = useSocket();
   const { roomCode } = useParams();
 
-  const [question, setQuestion] = useState<WsQuestion | undefined>(undefined);
-  const [roomNotFound, setRoomNotFound] = useState<boolean>(false);
+  const [question, setQuestion] = useState<WsQuestion>();
+  const [roomNotFound, setRoomNotFound] = useState(false);
 
   useEffect(() => {
     if (!socket) return;
