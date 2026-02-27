@@ -13,7 +13,7 @@ export default function QuizHostLayoutClient({ children }: Props) {
   useHostRejoin(roomCode);
 
   return (
-    <div className='flex flex-col h-screen'>
+    <div className='flex flex-col h-dvh'>
       <HostQuizTopbar />
       <div className='flex-1'>{children}</div>
     </div>
