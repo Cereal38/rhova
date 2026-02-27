@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import ParallelStrokes from './parallel-strokes';
 
 interface Props {
@@ -22,7 +23,12 @@ export default function AnswerButton({
 }: Props) {
   return (
     <div
-      className={`flex items-center gap-6 p-12 w-full rounded-xl text-white ${colorByNumber[number]} ${clickable && !wrongAnswer && 'cursor-pointer hover:opacity-75'} ${wrongAnswer && 'opacity-25'}`}
+      className={cn(
+        'flex items-center gap-6 p-12 w-full rounded-xl text-white',
+        colorByNumber[number],
+        clickable && !wrongAnswer && 'cursor-pointer hover:opacity-75',
+        wrongAnswer && 'opacity-25',
+      )}
     >
       <ParallelStrokes size={32} count={number} color='white' />
       <span className='text-3xl font-bold'>{children}</span>
