@@ -51,28 +51,30 @@ export default function HostQuestionPage() {
   }
 
   return (
-    <main className='flex-1 flex flex-col justify-between'>
-      <div>
+    <main className='h-full m-auto w-[90%] overflow-hidden py-12'>
+      <div className='h-full flex flex-col justify-between'>
+        <div>
+          {!!question && (
+            <div className='h-full flex flex-col items-center justify-center'>
+              <h2 className='text-xl'>Question {question.questionIndex + 1}</h2>
+              <span className='opacity-75'>
+                {answerCount}/{playerCount} players answered
+              </span>
+            </div>
+          )}
+        </div>
         {!!question && (
-          <div className='h-full flex flex-col items-center justify-center'>
-            <h2 className='text-xl'>Question {question.questionIndex + 1}</h2>
-            <span className='opacity-75'>
-              {answerCount}/{playerCount} players answered
-            </span>
+          <div className='flex-1 flex items-center justify-center'>
+            <h1 className='text-5xl text-center'>{question?.question}</h1>
           </div>
         )}
-      </div>
-      {!!question && (
-        <div className='flex-1 flex items-center justify-center'>
-          <h1 className='text-5xl text-center'>{question?.question}</h1>
+        <div className='grid grid-cols-2 gap-4'>
+          {question?.answers.map((answer, index) => (
+            <AnswerButton key={answer} number={index + 1}>
+              {answer}
+            </AnswerButton>
+          ))}
         </div>
-      )}
-      <div className='grid grid-cols-2 gap-4'>
-        {question?.answers.map((answer, index) => (
-          <AnswerButton key={answer} number={index + 1} clickable wrongAnswer>
-            {answer}
-          </AnswerButton>
-        ))}
       </div>
     </main>
   );

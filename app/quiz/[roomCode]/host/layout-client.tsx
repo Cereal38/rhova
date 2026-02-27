@@ -15,9 +15,7 @@ export default function QuizHostLayoutClient({ children }: Props) {
   return (
     <div className='flex flex-col h-screen'>
       <HostQuizTopbar />
-      <div className='flex-1 flex m-auto w-[90%] overflow-hidden my-12'>
-        {children}
-      </div>
+      <div className='flex-1'>{children}</div>
     </div>
   );
 }
