@@ -111,7 +111,7 @@ export default function StartQuizForm() {
         <Input id='quiz' type='file' onChange={fileInputChangeHandler} />
         {error && <FieldError>{error}</FieldError>}
       </Field>
-      <Button disabled={!fileInput} type='submit'>
+      <Button disabled={!fileInput} type='submit' className='cursor-pointer'>
         Start the quiz
       </Button>
     </form>
