@@ -1,5 +1,6 @@
 'use client';
 
+import AnswerButton from '@/components/answer-button';
 import { useSocket } from '@/hooks/use-socket';
 import WsCallback from '@/models/ws-callback';
 import WsQuestion from '@/models/ws-question';
@@ -32,8 +33,19 @@ export default function PlayerQuestionPage() {
   }
 
   return (
-    <main className='h-full'>
-      {question && <h1>Question {question.questionIndex + 1}</h1>}
+    <main className='h-full flex flex-col p-8'>
+      {question && (
+        <>
+          <h1 className='flex-1 flex items-center justify-center text-5xl'>
+            Question {question.questionIndex + 1}
+          </h1>
+          <div className='grid grid-cols-2 gap-4'>
+            {question.answers.map((answer, index) => (
+              <AnswerButton key={answer} number={index + 1} iconOnly={true} />
+            ))}
+          </div>
+        </>
+      )}
     </main>
   );
 }

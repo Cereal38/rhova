@@ -3,7 +3,6 @@ interface Props {
   color?: string;
   strokeWidth?: number;
   count?: number;
-  className?: string;
 }
 
 export default function ParallelStrokes({
@@ -11,7 +10,6 @@ export default function ParallelStrokes({
   color = 'currentColor',
   strokeWidth = 4,
   count = 3,
-  className,
 }: Props) {
   const padding = 4;
   const tilt = 6;
@@ -25,9 +23,8 @@ export default function ParallelStrokes({
       width={size}
       height={size}
       viewBox={`0 0 ${totalWidth} 32`}
-      fill="none"
-      className={className}
-      aria-hidden="true"
+      fill='none'
+      aria-hidden='true'
     >
       {Array.from({ length: count }, (_, i) => {
         const x1 = padding + i * gap;
@@ -40,7 +37,7 @@ export default function ParallelStrokes({
             y2={y2}
             stroke={color}
             strokeWidth={strokeWidth}
-            strokeLinecap="round"
+            strokeLinecap='round'
           />
         );
       })}

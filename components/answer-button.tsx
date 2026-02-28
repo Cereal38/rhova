@@ -2,10 +2,11 @@ import { cn } from '@/lib/utils';
 import ParallelStrokes from './parallel-strokes';
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   number: number; // That app has multiple design to differenciate answers. Number value handle it
   clickable?: boolean;
   wrongAnswer?: boolean;
+  iconOnly?: boolean; // Should we display the answer text or only the icon ?
 }
 
 const colorByNumber: Record<number, string> = {
@@ -20,6 +21,7 @@ export default function AnswerButton({
   number,
   clickable = false,
   wrongAnswer = false,
+  iconOnly = false,
 }: Props) {
   return (
     <div
@@ -28,10 +30,11 @@ export default function AnswerButton({
         colorByNumber[number],
         clickable && !wrongAnswer && 'cursor-pointer hover:opacity-75',
         wrongAnswer && 'opacity-25',
+        iconOnly && 'justify-center',
       )}
     >
       <ParallelStrokes size={32} count={number} color='white' />
-      <span className='text-3xl font-bold'>{children}</span>
+      {!iconOnly && <span className='text-3xl font-bold'>{children}</span>}
     </div>
   );
 }
