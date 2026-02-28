@@ -11,10 +11,13 @@ import { useEffect, useState } from 'react';
 export default function PlayerQuestionPage() {
   const { roomCode } = useParams();
   const { socket } = useSocket();
-  const router = useRouter();
 
   const [question, setQuestion] = useState<WsQuestion>();
   const [roomNotFound, setRoomNotFound] = useState(false);
+  const [chosenAnswer, setChosenAnswer] = useState<{
+    answer: string;
+    answerNumber: number;
+  }>();
 
   useEffect(() => {
     if (!socket) return;
@@ -34,15 +37,14 @@ export default function PlayerQuestionPage() {
     notFound();
   }
 
-  const submitAnswerHandler = (answer: string) => {
+  const submitAnswerHandler = (answer: string, answerNumber: number) => {
     if (!socket || !roomCode) return;
 
     socket.emit('submit-answer', roomCode, answer, (res: WsCallback) => {
       console.log(answer, res);
       if (!res.success) return;
 
-      // TODO: Redirect to the correct page
-      router.push(routes.home());
+      setChosenAnswer({ answer, answerNumber });
     });
   };
 
@@ -53,17 +55,30 @@ export default function PlayerQuestionPage() {
           <h1 className='flex-1 flex items-center justify-center text-5xl'>
             Question {question.questionIndex + 1}
           </h1>
-          <div className='grid grid-cols-2 gap-4'>
-            {question.answers.map((answer, index) => (
+          {/* If the user select an answer, change the display to show his selection */}
+          {chosenAnswer ? (
+            <div className='flex flex-col gap-4 items-center'>
               <AnswerButton
-                key={answer}
-                number={index + 1}
+                number={chosenAnswer.answerNumber}
                 iconOnly={true}
-                clickable={true}
-                onClick={() => submitAnswerHandler(answer)}
               />
-            ))}
-          </div>
+              <span className='opacity-75 text-center'>
+                Your answer has been registered. Waiting for the host.
+              </span>
+            </div>
+          ) : (
+            <div className='grid grid-cols-2 gap-4'>
+              {question.answers.map((answer, index) => (
+                <AnswerButton
+                  key={answer}
+                  number={index + 1}
+                  iconOnly={true}
+                  clickable={true}
+                  onClick={() => submitAnswerHandler(answer, index + 1)}
+                />
+              ))}
+            </div>
+          )}
         </>
       )}
     </main>
