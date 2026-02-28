@@ -68,7 +68,7 @@ export default function HostQuestionPage() {
             <div className='flex-1 flex items-center justify-center relative'>
               <h1 className='text-5xl text-center'>{question.question}</h1>
               <Button
-                className='absolute right-0 cursor-pointer translate-y-[8px]'
+                className='absolute right-0 cursor-pointer translate-y-[8px] h-14 w-14'
                 variant='ghost'
                 size='icon'
               >
