@@ -1,9 +1,11 @@
 'use client';
 
 import AnswerButton from '@/components/answer-button';
+import { Button } from '@/components/ui/button';
 import { useSocket } from '@/hooks/use-socket';
 import WsCallback from '@/models/ws-callback';
 import WsQuestion from '@/models/ws-question';
+import { ArrowRight } from 'lucide-react';
 import { notFound, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -54,17 +56,24 @@ export default function HostQuestionPage() {
         {!!question && (
           <>
             <div>
-              <div className='flex flex-col items-center'>
+              <div className='flex flex-col items-center gap-1'>
                 <h2 className='text-xl'>
                   Question {question.questionIndex + 1}
                 </h2>
-                <span className='opacity-75'>
+                <span className='opacity-75 -translate-y-[2px]'>
                   {answerCount}/{playerCount} players answered
                 </span>
               </div>
             </div>
-            <div className='flex-1 flex items-center justify-center'>
+            <div className='flex-1 flex items-center justify-center relative'>
               <h1 className='text-5xl text-center'>{question.question}</h1>
+              <Button
+                className='absolute right-0 cursor-pointer translate-y-[8px]'
+                variant='ghost'
+                size='icon'
+              >
+                <ArrowRight className='h-8! w-8!' />
+              </Button>
             </div>
             <div className='grid grid-cols-2 gap-4'>
               {question?.answers.map((answer, index) => (
