@@ -38,13 +38,17 @@ export default function PlayerQuestionPage() {
   }
 
   const submitAnswerHandler = (answer: string, answerNumber: number) => {
-    if (!socket || !roomCode) return;
+    setChosenAnswer({ answer, answerNumber });
+
+    if (!socket || !roomCode) {
+      setChosenAnswer(undefined);
+      return;
+    }
 
     socket.emit('submit-answer', roomCode, answer, (res: WsCallback) => {
-      console.log(answer, res);
-      if (!res.success) return;
-
-      setChosenAnswer({ answer, answerNumber });
+      if (!res.success) {
+        setChosenAnswer(undefined);
+      }
     });
   };
 
