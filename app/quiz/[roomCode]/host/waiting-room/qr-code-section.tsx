@@ -11,7 +11,7 @@ export default function QrCodeSection() {
       <h2 className='text-xl'>Scan the QR Code</h2>
       <QRCodeSVG
         size={200}
-        value={`http://192.168.1.113:3000/quiz/${roomCode}/player-waiting-room`}
+        value={`http://192.168.1.113:3000/quiz/${roomCode}/player/waiting-room`}
       />
     </div>
   );

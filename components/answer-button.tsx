@@ -7,6 +7,7 @@ interface Props {
   clickable?: boolean;
   wrongAnswer?: boolean;
   iconOnly?: boolean; // Should we display the answer text or only the icon ?
+  onClick?: () => void;
 }
 
 const colorByNumber: Record<number, string> = {
@@ -22,9 +23,11 @@ export default function AnswerButton({
   clickable = false,
   wrongAnswer = false,
   iconOnly = false,
+  onClick,
 }: Props) {
   return (
     <div
+      onClick={onClick}
       className={cn(
         'flex items-center gap-6 p-12 w-full rounded-xl text-white',
         colorByNumber[number],

@@ -166,10 +166,16 @@ app.prepare().then(() => {
     // ─── Student: Submit an answer ───
     socket.on(
       'submit-answer',
-      (answer: string, callback: (res: { success: boolean }) => void) => {
-        const roomCode = socket.data.roomCode;
+      (
+        roomCode: string,
+        answer: string,
+        callback: (res: WsCallback) => void,
+      ) => {
         if (!roomCode) {
-          callback({ success: false });
+          callback({
+            success: false,
+            error: `Could not find the room with the room code ${roomCode}`,
+          });
           return;
         }
 

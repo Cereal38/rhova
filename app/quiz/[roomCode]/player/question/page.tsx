@@ -2,14 +2,16 @@
 
 import AnswerButton from '@/components/answer-button';
 import { useSocket } from '@/hooks/use-socket';
+import { routes } from '@/lib/routes';
 import WsCallback from '@/models/ws-callback';
 import WsQuestion from '@/models/ws-question';
-import { notFound, useParams } from 'next/navigation';
+import { notFound, useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function PlayerQuestionPage() {
   const { roomCode } = useParams();
   const { socket } = useSocket();
+  const router = useRouter();
 
   const [question, setQuestion] = useState<WsQuestion>();
   const [roomNotFound, setRoomNotFound] = useState(false);
@@ -32,6 +34,18 @@ export default function PlayerQuestionPage() {
     notFound();
   }
 
+  const submitAnswerHandler = (answer: string) => {
+    if (!socket || !roomCode) return;
+
+    socket.emit('submit-answer', roomCode, answer, (res: WsCallback) => {
+      console.log(answer, res);
+      if (!res.success) return;
+
+      // TODO: Redirect to the correct page
+      router.push(routes.home());
+    });
+  };
+
   return (
     <main className='h-full flex flex-col p-8'>
       {question && (
@@ -41,7 +55,13 @@ export default function PlayerQuestionPage() {
           </h1>
           <div className='grid grid-cols-2 gap-4'>
             {question.answers.map((answer, index) => (
-              <AnswerButton key={answer} number={index + 1} iconOnly={true} />
+              <AnswerButton
+                key={answer}
+                number={index + 1}
+                iconOnly={true}
+                clickable={true}
+                onClick={() => submitAnswerHandler(answer)}
+              />
             ))}
           </div>
         </>
