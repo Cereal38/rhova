@@ -148,16 +148,10 @@ export function submitAnswer(
   return true;
 }
 
-export function getAnswerCount(roomCode: string): {
-  count: number;
-  total: number;
-} {
+export function getAnswerCount(roomCode: string): number {
   const session = sessions.get(roomCode);
-  if (!session) return { count: 0, total: 0 };
-  return {
-    count: session.answers.size,
-    total: session.players.size,
-  };
+  if (!session) return 0;
+  return session.answers.size;
 }
 
 export function revealResults(roomCode: string, socketId: string) {

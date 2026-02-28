@@ -29,11 +29,9 @@ export default function HostQuestionPage() {
 
     const getPlayerCountHandler = (res: WsCallback<number>) => {
       setPlayerCount(res.payload);
-      console.log(res);
     };
 
     const getAnswerCountHandler = (count: number) => {
-      console.log(count);
       setAnswerCount(count);
     };
 
