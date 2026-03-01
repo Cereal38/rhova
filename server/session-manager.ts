@@ -43,6 +43,7 @@ export function createSession(
     phase: 'lobby',
     answers: new Map(),
     hostToken,
+    shuffledAnswers: null,
   };
 
   sessions.set(roomCode, session);
@@ -113,6 +114,7 @@ export function startQuiz(roomCode: string, socketId: string): boolean {
   session.phase = 'question';
   session.currentQuestionIndex = 0;
   session.answers.clear();
+  session.shuffledAnswers = null;
   return true;
 }
 
@@ -123,12 +125,15 @@ export function getCurrentQuestion(roomCode: string): WsQuestion | null {
   const question = session.quiz.questions[session.currentQuestionIndex];
   if (!question) return null;
 
-  const allAnswers = [question.correctAnswer, ...question.wrongAnswers];
-  shuffleArray(allAnswers);
+  if (!session.shuffledAnswers) {
+    const allAnswers = [question.correctAnswer, ...question.wrongAnswers];
+    shuffleArray(allAnswers);
+    session.shuffledAnswers = allAnswers;
+  }
 
   return {
     question: question.question,
-    answers: allAnswers,
+    answers: session.shuffledAnswers,
     questionIndex: session.currentQuestionIndex,
     totalQuestions: session.quiz.questions.length,
   };
@@ -199,6 +204,7 @@ export function nextQuestion(
 
   session.currentQuestionIndex++;
   session.answers.clear();
+  session.shuffledAnswers = null;
 
   if (session.currentQuestionIndex >= session.quiz.questions.length) {
     session.phase = 'finished';

@@ -18,4 +18,5 @@ export interface Session {
   phase: SessionPhase;
   answers: Map<string, string>; // socketId → selected answer
   hostToken: string;
+  shuffledAnswers: string[] | null; // cached shuffled answers for the current question
 }

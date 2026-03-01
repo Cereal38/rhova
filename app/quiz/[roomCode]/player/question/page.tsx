@@ -116,7 +116,9 @@ export default function PlayerQuestionPage() {
           {playerResult && (
             <div className='flex flex-col gap-4 items-center'>
               <AnswerButton
-                number={question.answers.indexOf(playerResult.correctAnswer)}
+                number={
+                  question.answers.indexOf(playerResult.correctAnswer) + 1
+                }
                 iconOnly={true}
               />
               <span className='opacity-75 text-center'>
