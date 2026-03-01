@@ -230,7 +230,7 @@ app.prepare().then(() => {
         for (const [playerSocketId, wasCorrect] of Object.entries(
           results.playerResults,
         )) {
-          io.to(playerSocketId).emit('your-result', {
+          io.to(playerSocketId).emit('player-result', {
             correctAnswer: results.correctAnswer,
             wasCorrect,
           });
@@ -241,7 +241,7 @@ app.prepare().then(() => {
         if (session) {
           for (const [playerSocketId] of session.players) {
             if (!(playerSocketId in results.playerResults)) {
-              io.to(playerSocketId).emit('your-result', {
+              io.to(playerSocketId).emit('player-result', {
                 correctAnswer: results.correctAnswer,
                 wasCorrect: false,
               });
