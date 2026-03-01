@@ -22,6 +22,7 @@ import {
 import type Quiz from '@/models/quiz';
 import WsCallback from './models/ws-callback';
 import WsQuestion from './models/ws-question';
+import WsQuestionResult from './models/ws-question-result';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
@@ -198,7 +199,10 @@ app.prepare().then(() => {
     // ─── Host: Reveal results for current question ───
     socket.on(
       'reveal-results',
-      (roomCode: string, callback: (res: WsCallback) => void) => {
+      (
+        roomCode: string,
+        callback: (res: WsCallback<WsQuestionResult>) => void,
+      ) => {
         if (!roomCode) {
           callback({ success: false, error: 'No roomCode specified' });
           return;
@@ -218,7 +222,7 @@ app.prepare().then(() => {
         // Send leaderboard + correct answer to host
         io.to(socket.id).emit('question-results', {
           correctAnswer: results.correctAnswer,
-          leaderboard: results.leaderboard,
+          // leaderboard: results.leaderboard,
         });
 
         // Send per-player result to each student (did they get it right?)
@@ -244,7 +248,13 @@ app.prepare().then(() => {
           }
         }
 
-        callback({ success: true });
+        callback({
+          success: true,
+          payload: {
+            correctAnswer: results.correctAnswer,
+            // leaderboard: results.leaderboard,
+          },
+        });
       },
     );
 
