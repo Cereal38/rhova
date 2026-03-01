@@ -30,7 +30,20 @@ export default function PlayerQuestionPage() {
       setQuestion(res.payload);
     };
 
+    const showQuestionHandler = (wsQuestion: WsQuestion) => {
+      if (!wsQuestion) {
+        console.error('An error occured while fetching the question');
+        return;
+      }
+
+      setQuestion(wsQuestion);
+    };
+
     socket.emit('get-question', roomCode, getQuestionHandler);
+    socket.on('show-question', showQuestionHandler);
+    return () => {
+      socket.off('showQuestion', showQuestionHandler);
+    };
   }, [socket, roomCode]);
 
   if (roomNotFound) {
