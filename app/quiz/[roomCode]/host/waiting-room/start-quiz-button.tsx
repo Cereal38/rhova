@@ -45,7 +45,7 @@ export default function StartQuizButton() {
         {loading && <Spinner />}
         Start the quiz
       </Button>
-      {error && <p className='text-destructive text-sm'>{error}</p>}
+      {error && <p className='w-full text-destructive text-sm'>{error}</p>}
     </div>
   );
 }

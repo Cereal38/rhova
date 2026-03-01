@@ -22,8 +22,8 @@ export default function StartQuizForm() {
   const { socket, isConnected } = useSocket();
   const router = useRouter();
 
-  const [fileInput, setFileInput] = useState<File | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [fileInput, setFileInput] = useState<File>();
+  const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(false);
 
   const fileInputChangeHandler = (
@@ -104,7 +104,7 @@ export default function StartQuizForm() {
 
   const handleError = (message: string) => {
     setError(message);
-    setFileInput(null);
+    setFileInput(undefined);
   };
 
   return (
