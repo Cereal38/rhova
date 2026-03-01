@@ -30,8 +30,8 @@ export default function StartQuizButton() {
         router.push(routes.hostQuestion(roomCode as string));
       } else {
         setError(res.error ?? 'Failed to start the quiz');
+        setLoading(false);
       }
-      setLoading(false);
     });
   };
 

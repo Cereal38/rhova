@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function StartQuizForm() {
   const { socket, isConnected } = useSocket();
@@ -23,6 +24,7 @@ export default function StartQuizForm() {
 
   const [fileInput, setFileInput] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const fileInputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -38,14 +40,17 @@ export default function StartQuizForm() {
     event: React.SubmitEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
+    setLoading(true);
 
     if (!fileInput) {
       console.error('No file selected');
+      setLoading(false);
       return;
     }
 
     if (!socket || !isConnected) {
       console.error('No socket or connection.');
+      setLoading(false);
       return;
     }
 
@@ -55,6 +60,7 @@ export default function StartQuizForm() {
       text = await fileInput.text();
     } catch (err) {
       handleError('Failed to read the file');
+      setLoading(false);
       return;
     }
 
@@ -64,6 +70,7 @@ export default function StartQuizForm() {
       parsedData = JSON.parse(text);
     } catch (err) {
       handleError('Invalid quiz config. Did you selected a .rhova file?');
+      setLoading(false);
       return;
     }
 
@@ -71,6 +78,7 @@ export default function StartQuizForm() {
     const quizFormatValidation = quizFormatValidator.safeParse(parsedData);
     if (!quizFormatValidation.success) {
       handleError('Invalid quiz config. Did you selected a .rhova file?');
+      setLoading(false);
       return;
     }
 
@@ -111,7 +119,12 @@ export default function StartQuizForm() {
         <Input id='quiz' type='file' onChange={fileInputChangeHandler} />
         {error && <FieldError>{error}</FieldError>}
       </Field>
-      <Button disabled={!fileInput} type='submit' className='cursor-pointer'>
+      <Button
+        disabled={!fileInput || loading}
+        type='submit'
+        className='cursor-pointer'
+      >
+        {loading && <Spinner />}
         Start the quiz
       </Button>
     </form>
