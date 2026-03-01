@@ -259,27 +259,65 @@ app.prepare().then(() => {
     );
 
     // ─── Host: Advance to next question ───
-    socket.on('next-question', () => {
-      const roomCode = socket.data.roomCode;
-      if (!roomCode) return;
+    socket.on(
+      'next-question',
+      (
+        roomCode: string,
+        callback: (
+          res: WsCallback<{
+            isQuizFinished: boolean;
+            question: WsQuestion | null;
+          }>,
+        ) => void,
+      ) => {
+        if (!roomCode) {
+          callback({ success: false, error: 'No roomCode specified' });
+          return;
+        }
 
-      const result = nextQuestion(roomCode, socket.id);
-      if (!result) return;
+        const result = nextQuestion(roomCode, socket.id);
+        if (!result) {
+          callback({
+            success: false,
+            error: "Can't get results for the current question",
+          });
+          return;
+        }
 
-      if (result === 'question') {
-        const question = getCurrentQuestion(roomCode);
-        if (question) {
+        if (result === 'question') {
+          const question = getCurrentQuestion(roomCode);
+
+          if (!question) {
+            callback({
+              success: false,
+              error: "Can't get the next question",
+            });
+            return;
+          }
+
           console.log(
             `Next question in ${roomCode}: ${question.questionIndex + 1}/${question.totalQuestions}`,
           );
           io.to(roomCode).emit('show-question', question);
+          callback({
+            success: true,
+            payload: {
+              isQuizFinished: false,
+              question: question,
+            },
+          });
+        } else if (result === 'finished') {
+          const leaderboard = getFinalLeaderboard(roomCode);
+          console.log(`Quiz finished in ${roomCode}`);
+          // io.to(roomCode).emit('quiz-finished', { leaderboard });
+          io.to(roomCode).emit('quiz-finished');
+          callback({
+            success: true,
+            payload: { isQuizFinished: false, question: null },
+          });
         }
-      } else if (result === 'finished') {
-        const leaderboard = getFinalLeaderboard(roomCode);
-        console.log(`Quiz finished in ${roomCode}`);
-        io.to(roomCode).emit('quiz-finished', { leaderboard });
-      }
-    });
+      },
+    );
 
     // ─── Disconnect handling ───
     socket.on('disconnect', () => {
