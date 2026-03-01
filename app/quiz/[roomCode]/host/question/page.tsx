@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useSocket } from '@/hooks/use-socket';
 import WsCallback from '@/models/ws-callback';
 import WsQuestion from '@/models/ws-question';
+import WsQuestionResult from '@/models/ws-question-result';
 import { ArrowRight } from 'lucide-react';
 import { notFound, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -16,7 +17,7 @@ export default function HostQuestionPage() {
   const [roomNotFound, setRoomNotFound] = useState(false);
   const [playerCount, setPlayerCount] = useState<number>();
   const [answerCount, setAnswerCount] = useState<number>(0);
-  const [resultsRevealed, setResultsRevealed] = useState(false);
+  const [questionResults, setQuestionResults] = useState<WsQuestionResult>();
 
   useEffect(() => {
     if (!socket) return;
@@ -57,19 +58,23 @@ export default function HostQuestionPage() {
       return;
     }
 
-    socket.emit('reveal-results', roomCode, (res: WsCallback) => {
-      if (!res.success) {
-        console.error(
-          'An error occured while trying to reveal results: ',
-          res.error,
-        );
-        return;
-      }
+    socket.emit(
+      'reveal-results',
+      roomCode,
+      (res: WsCallback<WsQuestionResult>) => {
+        if (!res.success || !res.payload) {
+          console.error(
+            'An error occured while trying to reveal results: ',
+            res.error,
+          );
+          return;
+        }
 
-      console.log('Results revealed');
+        console.log('Results revealed');
 
-      setResultsRevealed(true);
-    });
+        setQuestionResults(res.payload);
+      },
+    );
   };
 
   return (
