@@ -23,6 +23,7 @@ import type Quiz from '@/models/quiz';
 import WsCallback from './models/ws-callback';
 import WsQuestion from './models/ws-question';
 import WsQuestionResult from './models/ws-question-result';
+import WsNextQuestion from './models/ws-next-question';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
@@ -263,12 +264,7 @@ app.prepare().then(() => {
       'next-question',
       (
         roomCode: string,
-        callback: (
-          res: WsCallback<{
-            isQuizFinished: boolean;
-            question: WsQuestion | null;
-          }>,
-        ) => void,
+        callback: (res: WsCallback<WsNextQuestion>) => void,
       ) => {
         if (!roomCode) {
           callback({ success: false, error: 'No roomCode specified' });
