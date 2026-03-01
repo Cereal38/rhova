@@ -2,8 +2,8 @@
 
 import AnswerButton from '@/components/answer-button';
 import { useSocket } from '@/hooks/use-socket';
-import { routes } from '@/lib/routes';
 import WsCallback from '@/models/ws-callback';
+import WsPlayerResult from '@/models/ws-player-result';
 import WsQuestion from '@/models/ws-question';
 import { notFound, useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -12,12 +12,13 @@ export default function PlayerQuestionPage() {
   const { roomCode } = useParams();
   const { socket } = useSocket();
 
-  const [question, setQuestion] = useState<WsQuestion>();
   const [roomNotFound, setRoomNotFound] = useState(false);
+  const [question, setQuestion] = useState<WsQuestion>();
   const [chosenAnswer, setChosenAnswer] = useState<{
     answer: string;
     answerNumber: number;
   }>();
+  const [playerResult, setPlayerResult] = useState<WsPlayerResult>();
 
   useEffect(() => {
     if (!socket) return;
@@ -32,17 +33,30 @@ export default function PlayerQuestionPage() {
 
     const showQuestionHandler = (wsQuestion: WsQuestion) => {
       if (!wsQuestion) {
-        console.error('An error occured while fetching the question');
+        console.error('An error occurred while fetching the question');
         return;
       }
 
       setQuestion(wsQuestion);
+      setChosenAnswer(undefined);
+      setPlayerResult(undefined);
+    };
+
+    const playerResultHandler = (result: WsPlayerResult) => {
+      if (!result) {
+        console.error('An error occurred while while fetching question result');
+        return;
+      }
+
+      setPlayerResult(result);
     };
 
     socket.emit('get-question', roomCode, getQuestionHandler);
     socket.on('show-question', showQuestionHandler);
+    socket.on('player-result', playerResultHandler);
     return () => {
       socket.off('showQuestion', showQuestionHandler);
+      socket.off('player-result', playerResultHandler);
     };
   }, [socket, roomCode]);
 
@@ -72,18 +86,8 @@ export default function PlayerQuestionPage() {
           <h1 className='flex-1 flex items-center justify-center text-5xl'>
             Question {question.questionIndex + 1}
           </h1>
-          {/* If the user select an answer, change the display to show his selection */}
-          {chosenAnswer ? (
-            <div className='flex flex-col gap-4 items-center'>
-              <AnswerButton
-                number={chosenAnswer.answerNumber}
-                iconOnly={true}
-              />
-              <span className='opacity-75 text-center'>
-                Your answer has been registered. Waiting for the host.
-              </span>
-            </div>
-          ) : (
+          {/* Case 1 - Initial state, display the answers */}
+          {!chosenAnswer && !playerResult && (
             <div className='grid grid-cols-2 gap-4'>
               {question.answers.map((answer, index) => (
                 <AnswerButton
@@ -94,6 +98,30 @@ export default function PlayerQuestionPage() {
                   onClick={() => submitAnswerHandler(answer, index + 1)}
                 />
               ))}
+            </div>
+          )}
+          {/* Case 2 - The user answered, display his answer */}
+          {chosenAnswer && !playerResult && (
+            <div className='flex flex-col gap-4 items-center'>
+              <AnswerButton
+                number={chosenAnswer.answerNumber}
+                iconOnly={true}
+              />
+              <span className='opacity-75 text-center'>
+                Your answer has been registered. Waiting for the host.
+              </span>
+            </div>
+          )}
+          {/* Case 3 - Results has been published. Display if the user was correct */}
+          {playerResult && (
+            <div className='flex flex-col gap-4 items-center'>
+              <AnswerButton
+                number={question.answers.indexOf(playerResult.correctAnswer)}
+                iconOnly={true}
+              />
+              <span className='opacity-75 text-center'>
+                "{playerResult.correctAnswer}" was the correct answer
+              </span>
             </div>
           )}
         </>
