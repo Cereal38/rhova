@@ -105,7 +105,14 @@ export default function HostQuestionPage() {
             </div>
             <div className='grid grid-cols-2 gap-4'>
               {question?.answers.map((answer, index) => (
-                <AnswerButton key={answer} number={index + 1}>
+                <AnswerButton
+                  key={answer}
+                  number={index + 1}
+                  // If results has been displayed, set wrongAnswer to all non correct answers
+                  wrongAnswer={
+                    questionResults && answer != questionResults?.correctAnswer
+                  }
+                >
                   {answer}
                 </AnswerButton>
               ))}
