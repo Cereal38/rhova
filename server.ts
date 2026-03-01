@@ -309,7 +309,7 @@ app.prepare().then(() => {
           io.to(roomCode).emit('quiz-finished');
           callback({
             success: true,
-            payload: { isQuizFinished: false, question: null },
+            payload: { isQuizFinished: true, question: null },
           });
         }
       },

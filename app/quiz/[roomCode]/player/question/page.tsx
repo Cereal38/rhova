@@ -51,12 +51,18 @@ export default function PlayerQuestionPage() {
       setPlayerResult(result);
     };
 
+    const quizFinishHandler = () => {
+      alert('Quiz is finished!');
+    };
+
     socket.emit('get-question', roomCode, getQuestionHandler);
     socket.on('show-question', showQuestionHandler);
     socket.on('player-result', playerResultHandler);
+    socket.on('quiz-finished', quizFinishHandler);
     return () => {
       socket.off('showQuestion', showQuestionHandler);
       socket.off('player-result', playerResultHandler);
+      socket.off('quiz-finished', quizFinishHandler);
     };
   }, [socket, roomCode]);
 
