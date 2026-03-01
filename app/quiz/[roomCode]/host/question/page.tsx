@@ -4,6 +4,7 @@ import AnswerButton from '@/components/answer-button';
 import { Button } from '@/components/ui/button';
 import { useSocket } from '@/hooks/use-socket';
 import WsCallback from '@/models/ws-callback';
+import WsNextQuestion from '@/models/ws-next-question';
 import WsQuestion from '@/models/ws-question';
 import WsQuestionResult from '@/models/ws-question-result';
 import { ArrowRight } from 'lucide-react';
@@ -52,7 +53,15 @@ export default function HostQuestionPage() {
     notFound();
   }
 
-  const revealResultsHandler = () => {
+  const nextButtonHandler = () => {
+    if (!questionResults) {
+      revealResults();
+    } else {
+      nextQuestion();
+    }
+  };
+
+  const revealResults = () => {
     if (!socket || !roomCode) {
       console.error('Trying to reveal results but no socket or roomCode found');
       return;
@@ -73,6 +82,34 @@ export default function HostQuestionPage() {
         console.log('Results revealed');
 
         setQuestionResults(res.payload);
+      },
+    );
+  };
+
+  const nextQuestion = () => {
+    if (!socket || !roomCode) {
+      console.error('Trying to reveal results but no socket or roomCode found');
+      return;
+    }
+
+    socket.emit(
+      'next-question',
+      roomCode,
+      (res: WsCallback<WsNextQuestion>) => {
+        if (!res.success || !res.payload) {
+          console.error('An error occurred while fetching the next question');
+          return;
+        }
+
+        if (res.payload.isQuizFinished) {
+          alert('The quiz is finished!');
+          return;
+        }
+
+        // The quiz isn't finished, show the next question
+        setQuestion(res.payload.question!);
+        setAnswerCount(0);
+        setQuestionResults(undefined);
       },
     );
   };
@@ -98,7 +135,7 @@ export default function HostQuestionPage() {
                 className='absolute right-0 cursor-pointer translate-y-[8px] h-14 w-14'
                 variant='ghost'
                 size='icon'
-                onClick={() => revealResultsHandler()}
+                onClick={() => nextButtonHandler()}
               >
                 <ArrowRight className='h-8! w-8!' />
               </Button>
