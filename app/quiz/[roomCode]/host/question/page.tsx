@@ -16,6 +16,7 @@ export default function HostQuestionPage() {
   const [roomNotFound, setRoomNotFound] = useState(false);
   const [playerCount, setPlayerCount] = useState<number>();
   const [answerCount, setAnswerCount] = useState<number>(0);
+  const [resultsRevealed, setResultsRevealed] = useState(false);
 
   useEffect(() => {
     if (!socket) return;
@@ -50,6 +51,27 @@ export default function HostQuestionPage() {
     notFound();
   }
 
+  const revealResultsHandler = () => {
+    if (!socket || !roomCode) {
+      console.error('Trying to reveal results but no socket or roomCode found');
+      return;
+    }
+
+    socket.emit('reveal-results', roomCode, (res: WsCallback) => {
+      if (!res.success) {
+        console.error(
+          'An error occured while trying to reveal results: ',
+          res.error,
+        );
+        return;
+      }
+
+      console.log('Results revealed');
+
+      setResultsRevealed(true);
+    });
+  };
+
   return (
     <main className='h-full mx-auto w-[90%] overflow-y-auto py-12'>
       <div className='h-full flex flex-col justify-between'>
@@ -71,6 +93,7 @@ export default function HostQuestionPage() {
                 className='absolute right-0 cursor-pointer translate-y-[8px] h-14 w-14'
                 variant='ghost'
                 size='icon'
+                onClick={() => revealResultsHandler()}
               >
                 <ArrowRight className='h-8! w-8!' />
               </Button>

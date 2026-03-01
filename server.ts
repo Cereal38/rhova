@@ -196,44 +196,57 @@ app.prepare().then(() => {
     );
 
     // ─── Host: Reveal results for current question ───
-    socket.on('reveal-results', () => {
-      const roomCode = socket.data.roomCode;
-      if (!roomCode) return;
+    socket.on(
+      'reveal-results',
+      (roomCode: string, callback: (res: WsCallback) => void) => {
+        if (!roomCode) {
+          callback({ success: false, error: 'No roomCode specified' });
+          return;
+        }
 
-      const results = revealResults(roomCode, socket.id);
-      if (!results) return;
+        const results = revealResults(roomCode, socket.id);
+        if (!results) {
+          callback({
+            success: false,
+            error: "Can't get results for the current question",
+          });
+          return;
+        }
 
-      console.log(`Results revealed in ${roomCode}`);
+        console.log(`Results revealed in ${roomCode}`);
 
-      // Send leaderboard + correct answer to host
-      io.to(socket.id).emit('question-results', {
-        correctAnswer: results.correctAnswer,
-        leaderboard: results.leaderboard,
-      });
-
-      // Send per-player result to each student (did they get it right?)
-      for (const [playerSocketId, wasCorrect] of Object.entries(
-        results.playerResults,
-      )) {
-        io.to(playerSocketId).emit('your-result', {
+        // Send leaderboard + correct answer to host
+        io.to(socket.id).emit('question-results', {
           correctAnswer: results.correctAnswer,
-          wasCorrect,
+          leaderboard: results.leaderboard,
         });
-      }
 
-      // Players who didn't answer also get the correct answer
-      const session = getSession(roomCode);
-      if (session) {
-        for (const [playerSocketId] of session.players) {
-          if (!(playerSocketId in results.playerResults)) {
-            io.to(playerSocketId).emit('your-result', {
-              correctAnswer: results.correctAnswer,
-              wasCorrect: false,
-            });
+        // Send per-player result to each student (did they get it right?)
+        for (const [playerSocketId, wasCorrect] of Object.entries(
+          results.playerResults,
+        )) {
+          io.to(playerSocketId).emit('your-result', {
+            correctAnswer: results.correctAnswer,
+            wasCorrect,
+          });
+        }
+
+        // Players who didn't answer also get the correct answer
+        const session = getSession(roomCode);
+        if (session) {
+          for (const [playerSocketId] of session.players) {
+            if (!(playerSocketId in results.playerResults)) {
+              io.to(playerSocketId).emit('your-result', {
+                correctAnswer: results.correctAnswer,
+                wasCorrect: false,
+              });
+            }
           }
         }
-      }
-    });
+
+        callback({ success: true });
+      },
+    );
 
     // ─── Host: Advance to next question ───
     socket.on('next-question', () => {
