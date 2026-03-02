@@ -3,7 +3,9 @@
 import AnswerButton from '@/components/answer-button';
 import { useSocket } from '@/hooks/use-socket';
 import WsCallback from '@/models/ws-callback';
+import WsLeaderboardItem from '@/models/ws-leaderboard-item';
 import WsPlayerResult from '@/models/ws-player-result';
+import { WsPlayerScore } from '@/models/ws-player-score';
 import WsQuestion from '@/models/ws-question';
 import { notFound, useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -19,6 +21,7 @@ export default function PlayerQuestionPage() {
     answerNumber: number;
   }>();
   const [playerResult, setPlayerResult] = useState<WsPlayerResult>();
+  const [playerFinalScore, setPlayerFinalScore] = useState<WsPlayerScore>();
 
   useEffect(() => {
     if (!socket) return;
@@ -51,8 +54,9 @@ export default function PlayerQuestionPage() {
       setPlayerResult(result);
     };
 
-    const quizFinishHandler = () => {
+    const quizFinishHandler = (playerScore: WsPlayerScore) => {
       alert('Quiz is finished!');
+      setPlayerFinalScore(playerScore);
     };
 
     socket.emit('get-question', roomCode, getQuestionHandler);
@@ -131,6 +135,12 @@ export default function PlayerQuestionPage() {
                 "{playerResult.correctAnswer}" was the correct answer
               </span>
             </div>
+          )}
+          {/* Case 4 - The quiz is finished, dsplay his score to the player */}
+          {playerFinalScore && (
+            <span className='text-xl'>
+              {playerFinalScore.score}/{playerFinalScore.total}
+            </span>
           )}
         </>
       )}
