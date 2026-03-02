@@ -306,7 +306,6 @@ app.prepare().then(() => {
         } else if (result === 'finished') {
           const leaderboard = getFinalLeaderboard(roomCode);
           console.log(`Quiz finished in ${roomCode}`);
-          io.to(roomCode).emit('quiz-finished', { leaderboard });
           callback({
             success: true,
             payload: {
@@ -315,6 +314,21 @@ app.prepare().then(() => {
               leaderboard: leaderboard,
             },
           });
+
+          // Notify all players the quiz is finished and give them their score
+          const session = getSession(roomCode);
+          if (!session) {
+            console.error(
+              "An error occurred while notifying players for quiz-finished. Can't get session.",
+            );
+            return;
+          }
+          for (const [playerSocketId, player] of session.players) {
+            io.to(playerSocketId).emit('quiz-finished', {
+              score: player.score,
+              total: session.quiz.questions.length,
+            });
+          }
         }
       },
     );
