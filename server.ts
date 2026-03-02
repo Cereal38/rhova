@@ -300,16 +300,20 @@ app.prepare().then(() => {
             payload: {
               isQuizFinished: false,
               question: question,
+              leaderboard: null,
             },
           });
         } else if (result === 'finished') {
           const leaderboard = getFinalLeaderboard(roomCode);
           console.log(`Quiz finished in ${roomCode}`);
-          // io.to(roomCode).emit('quiz-finished', { leaderboard });
-          io.to(roomCode).emit('quiz-finished');
+          io.to(roomCode).emit('quiz-finished', { leaderboard });
           callback({
             success: true,
-            payload: { isQuizFinished: true, question: null },
+            payload: {
+              isQuizFinished: true,
+              question: null,
+              leaderboard: leaderboard,
+            },
           });
         }
       },
