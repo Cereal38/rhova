@@ -136,7 +136,7 @@ export default function PlayerQuestionPage() {
               </span>
             </div>
           )}
-          {/* Case 4 - The quiz is finished, dsplay his score to the player */}
+          {/* Case 4 - The quiz is finished, display his score to the player */}
           {playerFinalScore && (
             <span className='text-xl'>
               {playerFinalScore.score}/{playerFinalScore.total}
