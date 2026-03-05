@@ -1,6 +1,12 @@
 'use client';
 
-import { Dialog } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { useSocket } from '@/hooks/use-socket';
 import { useEffect, useState } from 'react';
 
@@ -24,7 +30,18 @@ export default function SessionPendingDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <span>Host is currently offline, wait him to reconnect...</span>
+      <DialogContent
+        showCloseButton={false}
+        onInteractOutside={(e) => e.preventDefault()}
+        onEscapeKeyDown={(e) => e.preventDefault()}
+      >
+        <DialogHeader>
+          <DialogTitle>Host Disconnected</DialogTitle>
+          <DialogDescription>
+            Host is currently offline, wait for him to reconnect...
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
     </Dialog>
   );
 }
