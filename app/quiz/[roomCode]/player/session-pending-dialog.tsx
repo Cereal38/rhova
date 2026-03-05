@@ -22,9 +22,15 @@ export default function SessionPendingDialog() {
       setOpen(true);
     };
 
+    const sessionResumeHandler = () => {
+      setOpen(false);
+    };
+
     socket.on('session-pending', sessionPendingHandler);
+    socket.on('session-resume', sessionResumeHandler);
     return () => {
       socket.off('session-pending', sessionPendingHandler);
+      socket.off('session-resume', sessionResumeHandler);
     };
   }, [socket]);
 
