@@ -4,7 +4,7 @@ interface Props {
   answerNumber: number;
 }
 
-export default function AnswerSubmittedContent({ answerNumber }: Props) {
+export default function AnswerSubmittedStepContent({ answerNumber }: Props) {
   return (
     <main className='h-full flex flex-col p-8'>
       <h1 className='flex-1 flex items-center justify-center text-5xl'>
