@@ -14,6 +14,13 @@ import AnswerSubmittedStepContent from './answer-submitted-step-content';
 import ResultStepContent from './result-step-content';
 import QuizFinishedStepContent from './quiz-finished-step-content';
 
+enum Step {
+  'question',
+  'answerSubmitted',
+  'result',
+  'quizFinished',
+}
+
 export default function PlayerQuestionPage() {
   const { roomCode } = useParams();
   const { socket } = useSocket();
@@ -26,6 +33,7 @@ export default function PlayerQuestionPage() {
   }>();
   const [playerResult, setPlayerResult] = useState<WsPlayerResult>();
   const [playerFinalScore, setPlayerFinalScore] = useState<WsPlayerScore>();
+  const [step, setStep] = useState<Step>(Step.question);
 
   useEffect(() => {
     if (!socket) return;
@@ -36,6 +44,7 @@ export default function PlayerQuestionPage() {
       }
 
       setQuestion(res.payload);
+      setStep(Step.question);
     };
 
     const showQuestionHandler = (wsQuestion: WsQuestion) => {
@@ -47,6 +56,7 @@ export default function PlayerQuestionPage() {
       setQuestion(wsQuestion);
       setChosenAnswer(undefined);
       setPlayerResult(undefined);
+      setStep(Step.question);
     };
 
     const playerResultHandler = (result: WsPlayerResult) => {
@@ -56,11 +66,13 @@ export default function PlayerQuestionPage() {
       }
 
       setPlayerResult(result);
+      setStep(Step.result);
     };
 
     const quizFinishHandler = (playerScore: WsPlayerScore) => {
-      alert('Quiz is finished!');
+      console.log('player score', playerScore);
       setPlayerFinalScore(playerScore);
+      setStep(Step.quizFinished);
     };
 
     socket.emit('get-question', roomCode, getQuestionHandler);
@@ -90,25 +102,25 @@ export default function PlayerQuestionPage() {
       if (!res.success) {
         setChosenAnswer(undefined);
       }
+      setStep(Step.answerSubmitted);
     });
   };
 
-  if (!chosenAnswer && !playerResult) {
-    return (
-      <QuestionStepContent
-        question={question}
-        onSubmitAnswer={submitAnswerHandler}
-      />
-    );
-  } else if (chosenAnswer && !playerResult) {
-    return (
-      <AnswerSubmittedStepContent answerNumber={chosenAnswer.answerNumber} />
-    );
-  } else if (playerResult) {
-    return (
-      <ResultStepContent question={question} playerResult={playerResult} />
-    );
-  } else if (playerFinalScore) {
-    return <QuizFinishedStepContent playerFinalScore={playerFinalScore} />;
+  switch (step) {
+    case Step.question:
+      return (
+        <QuestionStepContent
+          question={question}
+          onSubmitAnswer={submitAnswerHandler}
+        />
+      );
+    case Step.answerSubmitted:
+      return (
+        <AnswerSubmittedStepContent answerNumber={chosenAnswer?.answerNumber} />
+      );
+    case Step.result:
+      <ResultStepContent question={question} playerResult={playerResult} />;
+    case Step.quizFinished:
+      return <QuizFinishedStepContent playerFinalScore={playerFinalScore} />;
   }
 }

@@ -1,7 +1,7 @@
 import AnswerButton from '@/components/answer-button';
 
 interface Props {
-  answerNumber: number;
+  answerNumber?: number;
 }
 
 export default function AnswerSubmittedStepContent({ answerNumber }: Props) {
@@ -11,7 +11,7 @@ export default function AnswerSubmittedStepContent({ answerNumber }: Props) {
         Answer submitted
       </h1>
       <div className='flex flex-col gap-4 items-center'>
-        <AnswerButton number={answerNumber} iconOnly={true} />
+        {answerNumber && <AnswerButton number={answerNumber} iconOnly={true} />}
         <span className='opacity-75 text-center'>
           Your answer has been registered. Waiting for the host.
         </span>

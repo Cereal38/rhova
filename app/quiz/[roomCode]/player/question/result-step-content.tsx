@@ -4,13 +4,13 @@ import WsQuestion from '@/models/ws-question';
 
 interface Props {
   question?: WsQuestion;
-  playerResult: WsPlayerResult;
+  playerResult?: WsPlayerResult;
 }
 
 export default function ResultStepContent({ question, playerResult }: Props) {
   return (
     <main className='h-full flex flex-col p-8'>
-      {question && (
+      {question && playerResult && (
         <>
           <h1 className='flex-1 flex items-center justify-center text-5xl'>
             {playerResult.wasCorrect ? 'Correct!' : 'Wrong!'}
