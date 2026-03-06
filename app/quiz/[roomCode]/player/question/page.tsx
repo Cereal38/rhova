@@ -9,6 +9,10 @@ import { WsPlayerScore } from '@/models/ws-player-score';
 import WsQuestion from '@/models/ws-question';
 import { notFound, useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import QuestionStepContent from './question-step-content';
+import AnswerSubmittedStepContent from './answer-submitted-step-content';
+import ResultStepContent from './result-step-content';
+import QuizFinishedStepContent from './quiz-finished-step-content';
 
 export default function PlayerQuestionPage() {
   const { roomCode } = useParams();
@@ -89,61 +93,22 @@ export default function PlayerQuestionPage() {
     });
   };
 
-  return (
-    <main className='h-full flex flex-col p-8'>
-      {question && (
-        <>
-          <h1 className='flex-1 flex items-center justify-center text-5xl'>
-            Question {question.questionIndex + 1}
-          </h1>
-          {/* Case 1 - Initial state, display the answers */}
-          {!chosenAnswer && !playerResult && (
-            <div className='grid grid-cols-2 gap-4'>
-              {question.answers.map((answer, index) => (
-                <AnswerButton
-                  key={answer}
-                  number={index + 1}
-                  iconOnly={true}
-                  clickable={true}
-                  onClick={() => submitAnswerHandler(answer, index + 1)}
-                />
-              ))}
-            </div>
-          )}
-          {/* Case 2 - The user answered, display his answer */}
-          {chosenAnswer && !playerResult && (
-            <div className='flex flex-col gap-4 items-center'>
-              <AnswerButton
-                number={chosenAnswer.answerNumber}
-                iconOnly={true}
-              />
-              <span className='opacity-75 text-center'>
-                Your answer has been registered. Waiting for the host.
-              </span>
-            </div>
-          )}
-          {/* Case 3 - Results has been published. Display if the user was correct */}
-          {playerResult && (
-            <div className='flex flex-col gap-4 items-center'>
-              <AnswerButton
-                number={
-                  question.answers.indexOf(playerResult.correctAnswer) + 1
-                }
-                iconOnly={true}
-              />
-              <span className='opacity-75 text-center'>
-                "{playerResult.correctAnswer}" was the correct answer
-              </span>
-            </div>
-          )}
-          {/* Case 4 - The quiz is finished, display his score to the player */}
-          {playerFinalScore && (
-            <span className='text-xl'>
-              {playerFinalScore.score}/{playerFinalScore.total}
-            </span>
-          )}
-        </>
-      )}
-    </main>
-  );
+  if (!chosenAnswer && !playerResult) {
+    return (
+      <QuestionStepContent
+        question={question}
+        onSubmitAnswer={submitAnswerHandler}
+      />
+    );
+  } else if (chosenAnswer && !playerResult) {
+    return (
+      <AnswerSubmittedStepContent answerNumber={chosenAnswer.answerNumber} />
+    );
+  } else if (playerResult) {
+    return (
+      <ResultStepContent question={question} playerResult={playerResult} />
+    );
+  } else if (playerFinalScore) {
+    return <QuizFinishedStepContent playerFinalScore={playerFinalScore} />;
+  }
 }
