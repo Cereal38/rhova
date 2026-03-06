@@ -119,7 +119,9 @@ export default function PlayerQuestionPage() {
         <AnswerSubmittedStepContent answerNumber={chosenAnswer?.answerNumber} />
       );
     case Step.result:
-      <ResultStepContent question={question} playerResult={playerResult} />;
+      return (
+        <ResultStepContent question={question} playerResult={playerResult} />
+      );
     case Step.quizFinished:
       return <QuizFinishedStepContent playerFinalScore={playerFinalScore} />;
   }
