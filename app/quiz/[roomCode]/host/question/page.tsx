@@ -132,7 +132,7 @@ export default function HostQuestionPage() {
 
   switch (step) {
     // TODO: Move the content of this step to a dedicated component
-    case Step.quizFinished:
+    case Step.quiz:
       return (
         <main className='h-full mx-auto w-[90%] overflow-y-auto py-12'>
           <div className='h-full flex flex-col justify-between'>
@@ -179,7 +179,7 @@ export default function HostQuestionPage() {
           </div>
         </main>
       );
-    case Step.quiz:
-      <QuizFinishedStepContent leaderboard={leaderboard} />;
+    case Step.quizFinished:
+      return <QuizFinishedStepContent leaderboard={leaderboard} />;
   }
 }
