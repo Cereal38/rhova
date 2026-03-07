@@ -4,13 +4,15 @@ import WsLeaderboardItem from '@/models/ws-leaderboard-item';
 import { useEffect, useState } from 'react';
 
 interface Props {
-  leaderboard: WsLeaderboardItem[];
+  leaderboard?: WsLeaderboardItem[];
 }
 
 export default function QuizFinishedStepContent({ leaderboard }: Props) {
   const [averageScore, setAverageScore] = useState<number>();
 
   useEffect(() => {
+    if (!leaderboard) return;
+
     const totalScore = leaderboard.reduce(
       (acc, player) => acc + player.score,
       0,

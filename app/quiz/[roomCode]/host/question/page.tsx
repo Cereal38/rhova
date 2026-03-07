@@ -4,12 +4,19 @@ import AnswerButton from '@/components/answer-button';
 import { Button } from '@/components/ui/button';
 import { useSocket } from '@/hooks/use-socket';
 import WsCallback from '@/models/ws-callback';
+import WsLeaderboardItem from '@/models/ws-leaderboard-item';
 import WsNextQuestion from '@/models/ws-next-question';
 import WsQuestion from '@/models/ws-question';
 import WsQuestionResult from '@/models/ws-question-result';
 import { ArrowRight } from 'lucide-react';
 import { notFound, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import QuizFinishedStepContent from './quiz-finished-step-content';
+
+enum Step {
+  'quiz',
+  'quizFinished',
+}
 
 export default function HostQuestionPage() {
   const { socket } = useSocket();
@@ -19,6 +26,8 @@ export default function HostQuestionPage() {
   const [playerCount, setPlayerCount] = useState<number>();
   const [answerCount, setAnswerCount] = useState<number>(0);
   const [questionResults, setQuestionResults] = useState<WsQuestionResult>();
+  const [step, setStep] = useState<Step>(Step.quiz);
+  const [leaderboard, setLeaderboard] = useState<WsLeaderboardItem[]>();
 
   useEffect(() => {
     if (!socket) return;
@@ -101,8 +110,15 @@ export default function HostQuestionPage() {
           return;
         }
 
+        // The quiz is finished, display the player scores
         if (res.payload.isQuizFinished) {
-          alert('The quiz is finished!');
+          if (!res.payload.leaderboard) {
+            console.error('The leaderboard could not be found');
+            return;
+          }
+
+          setStep(Step.quizFinished);
+          setLeaderboard(res.payload.leaderboard);
           return;
         }
 
@@ -114,49 +130,56 @@ export default function HostQuestionPage() {
     );
   };
 
-  return (
-    <main className='h-full mx-auto w-[90%] overflow-y-auto py-12'>
-      <div className='h-full flex flex-col justify-between'>
-        {!!question && (
-          <>
-            <div>
-              <div className='flex flex-col items-center gap-1'>
-                <h2 className='text-xl'>
-                  Question {question.questionIndex + 1}
-                </h2>
-                <span className='opacity-75 -translate-y-[2px]'>
-                  {answerCount}/{playerCount} players answered
-                </span>
-              </div>
-            </div>
-            <div className='flex-1 flex items-center justify-center relative'>
-              <h1 className='text-5xl text-center'>{question.question}</h1>
-              <Button
-                className='absolute right-0 cursor-pointer translate-y-[8px] h-14 w-14'
-                variant='ghost'
-                size='icon'
-                onClick={() => nextButtonHandler()}
-              >
-                <ArrowRight className='h-8! w-8!' />
-              </Button>
-            </div>
-            <div className='grid grid-cols-2 gap-4'>
-              {question?.answers.map((answer, index) => (
-                <AnswerButton
-                  key={answer}
-                  number={index + 1}
-                  // If results has been displayed, set wrongAnswer to all non correct answers
-                  wrongAnswer={
-                    questionResults && answer != questionResults?.correctAnswer
-                  }
-                >
-                  {answer}
-                </AnswerButton>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-    </main>
-  );
+  switch (step) {
+    // TODO: Move the content of this step to a dedicated component
+    case Step.quizFinished:
+      return (
+        <main className='h-full mx-auto w-[90%] overflow-y-auto py-12'>
+          <div className='h-full flex flex-col justify-between'>
+            {!!question && (
+              <>
+                <div>
+                  <div className='flex flex-col items-center gap-1'>
+                    <h2 className='text-xl'>
+                      Question {question.questionIndex + 1}
+                    </h2>
+                    <span className='opacity-75 -translate-y-[2px]'>
+                      {answerCount}/{playerCount} players answered
+                    </span>
+                  </div>
+                </div>
+                <div className='flex-1 flex items-center justify-center relative'>
+                  <h1 className='text-5xl text-center'>{question.question}</h1>
+                  <Button
+                    className='absolute right-0 cursor-pointer translate-y-[8px] h-14 w-14'
+                    variant='ghost'
+                    size='icon'
+                    onClick={() => nextButtonHandler()}
+                  >
+                    <ArrowRight className='h-8! w-8!' />
+                  </Button>
+                </div>
+                <div className='grid grid-cols-2 gap-4'>
+                  {question?.answers.map((answer, index) => (
+                    <AnswerButton
+                      key={answer}
+                      number={index + 1}
+                      // If results has been displayed, set wrongAnswer to all non correct answers
+                      wrongAnswer={
+                        questionResults &&
+                        answer != questionResults?.correctAnswer
+                      }
+                    >
+                      {answer}
+                    </AnswerButton>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </main>
+      );
+    case Step.quiz:
+      <QuizFinishedStepContent leaderboard={leaderboard} />;
+  }
 }
