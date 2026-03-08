@@ -10,8 +10,8 @@ export default function CustomSpinner({ size = 10 }: { size?: number }) {
     <>
       <style>{`
         @keyframes spinner-bounce {
-          0%, 80%, 100% { transform: scale(0.4); opacity: 0.4; }
-          40% { transform: scale(1); opacity: 1; }
+          50% { transform: translateY(-9px); }
+          0%, 100% { transform: translateY(9px); }
         }
       `}</style>
       <div className='flex items-center gap-2'>
