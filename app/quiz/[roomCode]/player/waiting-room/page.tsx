@@ -2,6 +2,7 @@
 
 import WsCallback from '@/models/ws-callback';
 import { Card } from '@/components/ui/card';
+import { Spinner } from '@/components/ui/spinner';
 import { useSocket } from '@/hooks/use-socket';
 import { routes } from '@/lib/routes';
 import { notFound, useParams, useRouter } from 'next/navigation';
@@ -50,9 +51,17 @@ export default function PlayerWaitingRoom() {
         className='pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover'
       />
       <main className='flex min-h-dvh w-full max-w-3xl flex-col items-center justify-center gap-8 px-4'>
-        <Card className='p-8 flex flex-col items-center gap-2'>
-          <p className='font-bold text-xl md:text-8xl'>You are in!</p>
-          <p className='opacity-75'>Waiting for the host to start the quiz</p>
+        <Card className='w-full max-w-sm p-10 flex flex-col items-center gap-6'>
+          <div className='flex flex-col items-center gap-1'>
+            <h1 className='font-bold text-3xl'>You&apos;re in!</h1>
+            <p className='text-sm text-muted-foreground'>
+              Room {roomCode}
+            </p>
+          </div>
+          <div className='flex items-center gap-2 text-muted-foreground'>
+            <Spinner className='size-4' />
+            <p className='text-sm'>Waiting for the host to start...</p>
+          </div>
         </Card>
       </main>
     </div>
