@@ -7,6 +7,7 @@ import { useSocket } from '@/hooks/use-socket';
 import { routes } from '@/lib/routes';
 import { notFound, useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import CustomSpinner from '@/components/custom-spinner';
 
 export default function PlayerWaitingRoom() {
   const router = useRouter();
@@ -51,17 +52,12 @@ export default function PlayerWaitingRoom() {
         className='pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover'
       />
       <main className='flex min-h-dvh w-full max-w-3xl flex-col items-center justify-center gap-8 px-4'>
-        <Card className='w-full max-w-sm p-10 flex flex-col items-center gap-6'>
+        <Card className='w-full max-w-sm p-10 flex flex-col items-center gap-8'>
           <div className='flex flex-col items-center gap-1'>
             <h1 className='font-bold text-3xl'>You&apos;re in!</h1>
-            <p className='text-sm text-muted-foreground'>
-              Room {roomCode}
-            </p>
+            <p className=''>Waiting for the host to start...</p>
           </div>
-          <div className='flex items-center gap-2 text-muted-foreground'>
-            <Spinner className='size-4' />
-            <p className='text-sm'>Waiting for the host to start...</p>
-          </div>
+          <CustomSpinner size={16} />
         </Card>
       </main>
     </div>
