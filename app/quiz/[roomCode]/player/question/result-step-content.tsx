@@ -2,6 +2,7 @@ import AnswerButton from '@/components/answer-button';
 import { cn } from '@/lib/utils';
 import WsPlayerResult from '@/models/ws-player-result';
 import WsQuestion from '@/models/ws-question';
+import { useConfetti } from '@/hooks/use-confetti';
 
 interface Props {
   question?: WsQuestion;
@@ -14,6 +15,8 @@ const bgColor: Record<string, string> = {
 };
 
 export default function ResultStepContent({ question, playerResult }: Props) {
+  useConfetti(playerResult?.wasCorrect ?? false);
+
   return (
     <main
       className={cn(
