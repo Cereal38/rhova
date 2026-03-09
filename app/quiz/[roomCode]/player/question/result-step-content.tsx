@@ -1,4 +1,5 @@
 import AnswerButton from '@/components/answer-button';
+import { cn } from '@/lib/utils';
 import WsPlayerResult from '@/models/ws-player-result';
 import WsQuestion from '@/models/ws-question';
 
@@ -7,9 +8,19 @@ interface Props {
   playerResult?: WsPlayerResult;
 }
 
+const bgColor: Record<string, string> = {
+  correct: 'bg-[var(--answer-correct)]',
+  wrong: 'bg-[var(--answer-wrong)]',
+};
+
 export default function ResultStepContent({ question, playerResult }: Props) {
   return (
-    <main className='h-full flex flex-col p-8'>
+    <main
+      className={cn(
+        'h-full flex flex-col p-8',
+        bgColor[playerResult?.wasCorrect ? 'correct' : 'wrong'],
+      )}
+    >
       {question && playerResult && (
         <>
           <h1 className='flex-1 flex items-center justify-center text-5xl'>
