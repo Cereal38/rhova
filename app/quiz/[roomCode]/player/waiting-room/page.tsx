@@ -2,12 +2,12 @@
 
 import WsCallback from '@/models/ws-callback';
 import { Card } from '@/components/ui/card';
-import { Spinner } from '@/components/ui/spinner';
 import { useSocket } from '@/hooks/use-socket';
 import { routes } from '@/lib/routes';
 import { notFound, useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import CustomSpinner from '@/components/custom-spinner';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function PlayerWaitingRoom() {
   const router = useRouter();
@@ -19,7 +19,14 @@ export default function PlayerWaitingRoom() {
   useEffect(() => {
     if (!socket || !isConnected) return;
 
-    socket.emit('join-session', roomCode, (res: WsCallback) => {
+    // Check if the player has a token stored in the localstorage, else create one and store it
+    let playerToken: string | null = localStorage.getItem('playerToken');
+    if (!playerToken) {
+      playerToken = uuidv4();
+      localStorage.setItem('playerToken', playerToken);
+    }
+
+    socket.emit('join-session', roomCode, playerToken, (res: WsCallback) => {
       if (!res.success) {
         console.error("Can't join this room: ", res.error);
         setRoomNotFound(true);

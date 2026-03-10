@@ -53,6 +53,8 @@ export default function RoomCodeForm() {
           return;
         }
         setError(undefined);
+
+        // Naivgate to the waiting room
         router.push(routes.playerWaitingRoom(roomCodeInput));
       }, remainingTime);
     });

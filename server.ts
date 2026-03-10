@@ -24,6 +24,7 @@ import WsCallback from './models/ws-callback';
 import WsQuestion from './models/ws-question';
 import WsQuestionResult from './models/ws-question-result';
 import WsNextQuestion from './models/ws-next-question';
+import { Player } from './server/types';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
@@ -82,7 +83,11 @@ app.prepare().then(() => {
     // ─── Student: Join a session ───
     socket.on(
       'join-session',
-      (roomCode: string, callback: (res: WsCallback) => void) => {
+      (
+        roomCode: string,
+        playerToken: string,
+        callback: (res: WsCallback) => void,
+      ) => {
         const session = getSession(roomCode);
 
         if (!session) {
@@ -95,7 +100,7 @@ app.prepare().then(() => {
           return;
         }
 
-        const player = addPlayer(roomCode, socket.id);
+        const player = addPlayer(roomCode, socket.id, playerToken);
         if (!player) {
           callback({ success: false, error: 'Could not join session' });
           return;
@@ -356,11 +361,6 @@ app.prepare().then(() => {
         }, sessionTimeoutMs);
 
         addPendingDisconnectSession(roomCode, timeout);
-      } else if (role === 'player') {
-        removePlayer(roomCode, socket.id);
-        io.to(roomCode).emit('player-count', {
-          count: getPlayerCount(roomCode),
-        });
       }
     });
 
@@ -390,6 +390,53 @@ app.prepare().then(() => {
         io.to(roomCode).emit('session-resume');
 
         // Return current state so the host can render the right page
+        callback({ success: true, phase: session.phase, roomCode });
+      },
+    );
+
+    socket.on(
+      'player-rejoin-session',
+      (roomCode: string, playerToken: string, callback) => {
+        const session = getSession(roomCode);
+        if (!session) {
+          return callback({ success: false, error: 'Invalid session' });
+        }
+
+        // Find the correct player from session
+        let playerKey: string | null = null;
+        let player: Player | null = null;
+        for (const [key, p] of session.players.entries()) {
+          if (p.token === playerToken) {
+            playerKey = key;
+            player = p;
+          }
+        }
+        if (!playerKey || !player) {
+          callback({
+            success: false,
+            error: "Cant't find the player with the given token",
+          });
+          return;
+        }
+
+        // Reassign the player to the new socketId
+        player.socketId = socket.id;
+        session.players.delete(playerKey);
+        session.players.set(socket.id, player);
+
+        // Rejoin the session
+        socket.join(roomCode);
+        socket.data.roomCode = roomCode;
+        socket.data.role = 'player';
+
+        // Rekey the current answer for the player if exists
+        const existingAnswer = session.answers.get(playerKey);
+        if (existingAnswer !== undefined) {
+          session.answers.delete(playerKey);
+          session.answers.set(socket.id, existingAnswer);
+        }
+
+        // Return current state so the player can render the right page
         callback({ success: true, phase: session.phase, roomCode });
       },
     );

@@ -77,7 +77,11 @@ export function deletePendingDisconnectSession(roomCode: string) {
 
 // --- Player management ---
 
-export function addPlayer(roomCode: string, socketId: string): Player | null {
+export function addPlayer(
+  roomCode: string,
+  socketId: string,
+  playerToken: string,
+): Player | null {
   const session = sessions.get(roomCode);
   if (!session || session.phase !== 'lobby') return null;
 
@@ -86,6 +90,7 @@ export function addPlayer(roomCode: string, socketId: string): Player | null {
     socketId,
     playerNumber: session.playerCounter,
     score: 0,
+    token: playerToken,
   };
   session.players.set(socketId, player);
   return player;

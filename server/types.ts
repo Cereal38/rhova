@@ -4,6 +4,7 @@ export interface Player {
   socketId: string;
   playerNumber: number;
   score: number;
+  token: string;
 }
 
 export type SessionPhase = 'lobby' | 'question' | 'results' | 'finished';

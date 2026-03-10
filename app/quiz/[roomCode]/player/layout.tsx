@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import SessionPendingDialog from './session-pending-dialog';
+import QuizPlayerLayoutClient from './layout-client';
 
 export const metadata: Metadata = {
   title: 'Rhova',
@@ -11,10 +11,5 @@ interface Props {
 }
 
 export default function QuizPlayerLayout({ children }: Props) {
-  return (
-    <div className='h-dvh'>
-      {children}
-      <SessionPendingDialog />
-    </div>
-  );
+  return <QuizPlayerLayoutClient>{children}</QuizPlayerLayoutClient>;
 }
