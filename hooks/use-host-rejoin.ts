@@ -16,17 +16,22 @@ export function useHostRejoin(roomCode: string) {
       const hostToken = localStorage.getItem('hostToken');
       if (!hostToken) return;
 
-      socket.emit('rejoin-session', roomCode, hostToken, (res: WsCallback) => {
-        if (!res.success) {
-          console.error(
-            `Can't join the session with roomCode ${roomCode}. Maybe the session expired.`,
-          );
-          router.push('/');
-          return;
-        }
+      socket.emit(
+        'host-rejoin-session',
+        roomCode,
+        hostToken,
+        (res: WsCallback) => {
+          if (!res.success) {
+            console.error(
+              `Can't join the session with roomCode ${roomCode}. Maybe the session expired.`,
+            );
+            router.push('/');
+            return;
+          }
 
-        // TODO: Redirect to the correct page using res.phase
-      });
+          // TODO: Redirect to the correct page using res.phase
+        },
+      );
     };
 
     socket.on('connect', onConnect);

@@ -366,7 +366,7 @@ app.prepare().then(() => {
 
     // ─── Reconnection handling ───
     socket.on(
-      'rejoin-session',
+      'host-rejoin-session',
       (roomCode: string, hostToken: string, callback) => {
         const session = getSession(roomCode);
         if (!session || session.hostToken !== hostToken) {
