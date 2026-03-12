@@ -71,11 +71,79 @@ app.prepare().then(() => {
           return;
         }
 
+        // TODO: 'lobby' should be provided by an enum
         if (session.phase !== 'lobby') {
           callback({ success: false, error: 'Quiz has already started' });
           return;
         }
 
+        callback({ success: true });
+      },
+    );
+
+    // ─── Student: Join a session or reconnect ───
+    socket.on(
+      'player-connect',
+      (
+        roomCode: string,
+        playerToken: string,
+        callback: (res: WsCallback) => void,
+      ) => {
+        const session = getSession(roomCode);
+
+        if (!session) {
+          return callback({ success: false, error: 'Session not found' });
+        }
+
+        // If the token already belongs to a player in the session, reconnect the user
+        let existingKey: string | null = null;
+        let existingPlayer: Player | null = null;
+        for (const [key, p] of session.players.entries()) {
+          if (p.token === playerToken) {
+            existingKey = key;
+            existingPlayer = p;
+            break; // We found the existing player, don't look further
+          }
+        }
+
+        if (existingPlayer && existingKey) {
+          existingPlayer.socketId = socket.id;
+          session.players.delete(existingKey);
+          session.players.set(socket.id, existingPlayer);
+
+          socket.join(roomCode);
+          socket.data.roomCode = roomCode;
+          // TODO: 'player' should be provided by an enum
+          socket.data.role = 'player';
+
+          // Rekey answer if one exists
+          const existingAnswer = session.answers.get(existingKey);
+          if (existingAnswer !== undefined) {
+            session.answers.delete(existingKey);
+            session.answers.set(socket.id, existingAnswer);
+          }
+
+          console.log(
+            `Player ${existingPlayer.playerNumber} rejoined ${roomCode}`,
+          );
+          // TODO: Should return the current game state, so the user can navigate to the correct page
+          return callback({ success: true });
+        }
+
+        // First join
+        if (session.phase !== 'lobby') {
+          return callback({ success: false, error: 'Could not join session' });
+        }
+
+        const player = addPlayer(roomCode, socket.id, playerToken);
+        if (!player) {
+          return callback({ success: false, error: 'Could not join session' });
+        }
+
+        socket.join(roomCode);
+        socket.data.roomCode = roomCode;
+        socket.data.role = 'player';
+        console.log(`Player ${player.playerNumber} joined ${roomCode}`);
         callback({ success: true });
       },
     );
