@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import SessionPendingDialog from './session-pending-dialog';
-import { usePlayerRejoin } from '@/hooks/use-player-rejoin';
+import { usePlayerConnect } from '@/hooks/use-player-connect';
 
 interface Props {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ interface Props {
 
 export default function QuizPlayerLayoutClient({ children }: Props) {
   const { roomCode } = useParams<{ roomCode: string }>();
-  usePlayerRejoin(roomCode);
+  usePlayerConnect(roomCode);
 
   return (
     <div className='h-dvh'>

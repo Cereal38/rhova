@@ -3,9 +3,10 @@
 import { useRouter } from 'next/navigation';
 import { useSocket } from './use-socket';
 import { useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import WsCallback from '@/models/ws-callback';
 
-export function usePlayerRejoin(roomCode: string) {
+export function usePlayerConnect(roomCode: string) {
   const { socket } = useSocket();
   const router = useRouter();
 
@@ -13,17 +14,20 @@ export function usePlayerRejoin(roomCode: string) {
     if (!socket) return;
 
     const onConnect = () => {
-      const playerToken = localStorage.getItem('playerToken');
-      if (!playerToken) return;
+      let playerToken = localStorage.getItem('playerToken');
+      if (!playerToken) {
+        playerToken = uuidv4();
+        localStorage.setItem('playerToken', playerToken);
+      }
 
       socket.emit(
-        'player-rejoin-session',
+        'player-connect',
         roomCode,
         playerToken,
         (res: WsCallback) => {
           if (!res.success) {
             console.error(
-              `Can't join the session with roomCode ${roomCode}. Maybe the session expired.`,
+              `Can't connect to session ${roomCode}. ${res.error}.`,
             );
             router.push('/');
             return;
