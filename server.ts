@@ -54,7 +54,7 @@ app.prepare().then(() => {
         const session = createSession(quiz, socket.id, hostToken);
         socket.join(session.roomCode);
         socket.data.roomCode = session.roomCode;
-        socket.data.role = UserRole.host;
+        socket.data.role = UserRole.Host;
 
         console.log(`Host token: ${session.hostToken}`);
         console.log(`Session created: ${session.roomCode}`);
@@ -114,7 +114,7 @@ app.prepare().then(() => {
 
           socket.join(roomCode);
           socket.data.roomCode = roomCode;
-          socket.data.role = UserRole.player;
+          socket.data.role = UserRole.Player;
 
           // Rekey answer if one exists
           const existingAnswer = session.answers.get(existingKey);
@@ -142,7 +142,7 @@ app.prepare().then(() => {
 
         socket.join(roomCode);
         socket.data.roomCode = roomCode;
-        socket.data.role = UserRole.player;
+        socket.data.role = UserRole.Player;
         console.log(`Player ${player.playerNumber} joined ${roomCode}`);
 
         // Notify everyone in the room (including host) of new player count
@@ -381,7 +381,7 @@ app.prepare().then(() => {
 
       if (!roomCode) return;
 
-      if (role === UserRole.host) {
+      if (role === UserRole.Host) {
         // Waiting for the host to reconnect. Kill the session after a certain time
         io.to(roomCode).emit(EventName.SessionPending);
 
@@ -418,7 +418,7 @@ app.prepare().then(() => {
         session.hostSocketId = socket.id;
         socket.join(roomCode);
         socket.data.roomCode = roomCode;
-        socket.data.role = UserRole.host;
+        socket.data.role = UserRole.Host;
 
         // Tell players we're back
         io.to(roomCode).emit(EventName.SessionResume);

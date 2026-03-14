@@ -1,4 +1,4 @@
 export enum UserRole {
-  'player',
-  'host',
+  Player = 'player',
+  Host = 'host',
 }
