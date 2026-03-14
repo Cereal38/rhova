@@ -1,12 +1,11 @@
 'use client';
 
-import WsCallback from '@/models/interfaces/ws-callback';
 import { Card } from '@/components/ui/card';
 import { useSocket } from '@/hooks/use-socket';
 import { routes } from '@/lib/routes';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import CustomSpinner from '@/components/custom-spinner';
+import CustomLoader from '@/components/custom-spinner';
 import { EventName } from '@/models/enums/event-name';
 
 export default function PlayerWaitingRoom() {
@@ -42,7 +41,7 @@ export default function PlayerWaitingRoom() {
             <h1 className='font-bold text-3xl'>You&apos;re in!</h1>
             <p className=''>Waiting for the host to start...</p>
           </div>
-          <CustomSpinner size={16} />
+          <CustomLoader size={16} />
         </Card>
       </main>
     </div>

@@ -1,4 +1,4 @@
-export default function CustomSpinner({ size = 10 }: { size?: number }) {
+export default function CustomLoader({ size = 10 }: { size?: number }) {
   const colors = [
     'var(--answer-color-1)',
     'var(--answer-color-2)',
