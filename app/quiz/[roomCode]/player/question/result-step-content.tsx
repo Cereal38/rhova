@@ -10,7 +10,7 @@ export default function ResultStepContent({ playerResult }: Props) {
   useConfetti(playerResult?.wasCorrect ?? false);
 
   return (
-    <main className='h-full flex flex-col p-8'>
+    <main className='h-full flex'>
       {playerResult && (
         <>
           <div className='flex-1 flex flex-col gap-6 items-center justify-center'>
@@ -20,10 +20,12 @@ export default function ResultStepContent({ playerResult }: Props) {
               <CircleX className='h-32! w-32! text-red-600' />
             )}
             <div className='flex flex-col items-center gap-2'>
-              <h2 className='text-4xl font-bold'>
+              <h2 className='text-4xl font-bold text-center'>
                 {playerResult.wasCorrect ? 'Correct!' : 'Wrong!'}
               </h2>
-              <span>"{playerResult.correctAnswer}" was the correct answer</span>
+              <span className='text-center'>
+                "{playerResult.correctAnswer}" was the correct answer
+              </span>
             </div>
           </div>
         </>
