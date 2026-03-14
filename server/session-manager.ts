@@ -1,6 +1,7 @@
 import Quiz from '@/models/interfaces/quiz';
 import type { Session, Player } from './types';
 import WsQuestion from '@/models/interfaces/ws-question';
+import { SessionPhase } from '@/models/enums/session-phase';
 
 const sessions = new Map<string, Session>();
 const pendingDisconnectSessions = new Map<string, NodeJS.Timeout>();
@@ -40,7 +41,7 @@ export function createSession(
     players: new Map(),
     playerCounter: 0,
     currentQuestionIndex: 0,
-    phase: 'lobby',
+    phase: SessionPhase.Lobby,
     answers: new Map(),
     hostToken,
     shuffledAnswers: null,
@@ -83,7 +84,7 @@ export function addPlayer(
   playerToken: string,
 ): Player | null {
   const session = sessions.get(roomCode);
-  if (!session || session.phase !== 'lobby') return null;
+  if (!session || session.phase !== SessionPhase.Lobby) return null;
 
   session.playerCounter++;
   const player: Player = {
@@ -114,9 +115,9 @@ export function startQuiz(roomCode: string, socketId: string): boolean {
   const session = sessions.get(roomCode);
   if (!session) return false;
   if (session.hostSocketId !== socketId) return false;
-  if (session.phase !== 'lobby') return false;
+  if (session.phase !== SessionPhase.Lobby) return false;
 
-  session.phase = 'question';
+  session.phase = SessionPhase.Question;
   session.currentQuestionIndex = 0;
   session.answers.clear();
   session.shuffledAnswers = null;
@@ -125,7 +126,7 @@ export function startQuiz(roomCode: string, socketId: string): boolean {
 
 export function getCurrentQuestion(roomCode: string): WsQuestion | null {
   const session = sessions.get(roomCode);
-  if (!session || session.phase !== 'question') return null;
+  if (!session || session.phase !== SessionPhase.Question) return null;
 
   const question = session.quiz.questions[session.currentQuestionIndex];
   if (!question) return null;
@@ -150,7 +151,7 @@ export function submitAnswer(
   answer: string,
 ): boolean {
   const session = sessions.get(roomCode);
-  if (!session || session.phase !== 'question') return false;
+  if (!session || session.phase !== SessionPhase.Question) return false;
   if (!session.players.has(socketId)) return false;
   if (session.answers.has(socketId)) return false;
 
@@ -168,7 +169,7 @@ export function revealResults(roomCode: string, socketId: string) {
   const session = sessions.get(roomCode);
   if (!session) return null;
   if (session.hostSocketId !== socketId) return null;
-  if (session.phase !== 'question') return null;
+  if (session.phase !== SessionPhase.Question) return null;
 
   const question = session.quiz.questions[session.currentQuestionIndex];
   if (!question) return null;
@@ -180,7 +181,7 @@ export function revealResults(roomCode: string, socketId: string) {
     }
   }
 
-  session.phase = 'results';
+  session.phase = SessionPhase.Result;
 
   const leaderboard = Array.from(session.players.values())
     .map((p) => ({ playerNumber: p.playerNumber, score: p.score }))
@@ -201,23 +202,23 @@ export function revealResults(roomCode: string, socketId: string) {
 export function nextQuestion(
   roomCode: string,
   socketId: string,
-): 'question' | 'finished' | null {
+): SessionPhase.Question | SessionPhase.Finished | null {
   const session = sessions.get(roomCode);
   if (!session) return null;
   if (session.hostSocketId !== socketId) return null;
-  if (session.phase !== 'results') return null;
+  if (session.phase !== SessionPhase.Result) return null;
 
   session.currentQuestionIndex++;
   session.answers.clear();
   session.shuffledAnswers = null;
 
   if (session.currentQuestionIndex >= session.quiz.questions.length) {
-    session.phase = 'finished';
-    return 'finished';
+    session.phase = SessionPhase.Finished;
+    return SessionPhase.Finished;
   }
 
-  session.phase = 'question';
-  return 'question';
+  session.phase = SessionPhase.Question;
+  return SessionPhase.Question;
 }
 
 export function getFinalLeaderboard(roomCode: string) {

@@ -1,3 +1,4 @@
+import { SessionPhase } from '@/models/enums/session-phase';
 import Quiz from '@/models/interfaces/quiz';
 
 export interface Player {
@@ -6,8 +7,6 @@ export interface Player {
   score: number;
   token: string;
 }
-
-export type SessionPhase = 'lobby' | 'question' | 'results' | 'finished';
 
 export interface Session {
   roomCode: string;

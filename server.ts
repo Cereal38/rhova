@@ -26,6 +26,7 @@ import WsNextQuestion from './models/interfaces/ws-next-question';
 import { Player } from './server/types';
 import { UserRole } from './models/enums/user-role';
 import { EventName } from './models/enums/event-name';
+import { SessionPhase } from './models/enums/session-phase';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
@@ -72,8 +73,7 @@ app.prepare().then(() => {
           return;
         }
 
-        // TODO: 'lobby' should be provided by an enum
-        if (session.phase !== 'lobby') {
+        if (session.phase !== SessionPhase.Lobby) {
           callback({ success: false, error: 'Quiz has already started' });
           return;
         }
@@ -131,7 +131,7 @@ app.prepare().then(() => {
         }
 
         // This is the first connection of this player to the room
-        if (session.phase !== 'lobby') {
+        if (session.phase !== SessionPhase.Lobby) {
           return callback({ success: false, error: 'Could not join session' });
         }
 
@@ -319,7 +319,7 @@ app.prepare().then(() => {
           return;
         }
 
-        if (result === 'question') {
+        if (result === SessionPhase.Question) {
           const question = getCurrentQuestion(roomCode);
 
           if (!question) {
@@ -342,7 +342,7 @@ app.prepare().then(() => {
               leaderboard: null,
             },
           });
-        } else if (result === 'finished') {
+        } else if (result === SessionPhase.Finished) {
           const leaderboard = getFinalLeaderboard(roomCode);
           console.log(`Quiz finished in ${roomCode}`);
           callback({
