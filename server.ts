@@ -130,7 +130,7 @@ app.prepare().then(() => {
           return callback({ success: true });
         }
 
-        // First join
+        // This is the first connection of this player to the room
         if (session.phase !== 'lobby') {
           return callback({ success: false, error: 'Could not join session' });
         }
@@ -144,7 +144,13 @@ app.prepare().then(() => {
         socket.data.roomCode = roomCode;
         socket.data.role = 'player';
         console.log(`Player ${player.playerNumber} joined ${roomCode}`);
-        callback({ success: true });
+
+        // Notify everyone in the room (including host) of new player count
+        io.to(roomCode).emit('player-count', {
+          count: getPlayerCount(roomCode),
+        });
+
+        return callback({ success: true });
       },
     );
 
