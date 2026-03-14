@@ -1,6 +1,7 @@
 'use client';
 
 import { useSocket } from '@/hooks/use-socket';
+import { EventName } from '@/models/enums/event-name';
 import { useEffect, useState } from 'react';
 
 export default function PlayerCounter() {
@@ -13,10 +14,10 @@ export default function PlayerCounter() {
     const playerCountHandler = (data: { count: number }) =>
       setPlayerCount(data.count);
 
-    socket.on('player-count', playerCountHandler);
+    socket.on(EventName.PlayerCount, playerCountHandler);
 
     return () => {
-      socket.off('player-count', playerCountHandler);
+      socket.off(EventName.PlayerCount, playerCountHandler);
     };
   }, [socket]);
 

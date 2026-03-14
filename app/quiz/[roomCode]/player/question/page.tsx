@@ -13,6 +13,7 @@ import QuestionStepContent from './question-step-content';
 import AnswerSubmittedStepContent from './answer-submitted-step-content';
 import ResultStepContent from './result-step-content';
 import QuizFinishedStepContent from './quiz-finished-step-content';
+import { EventName } from '@/models/enums/event-name';
 
 enum Step {
   'question',
@@ -75,14 +76,14 @@ export default function PlayerQuestionPage() {
       setStep(Step.quizFinished);
     };
 
-    socket.emit('get-question', roomCode, getQuestionHandler);
-    socket.on('show-question', showQuestionHandler);
-    socket.on('player-result', playerResultHandler);
-    socket.on('quiz-finished', quizFinishHandler);
+    socket.emit(EventName.GetQuestion, roomCode, getQuestionHandler);
+    socket.on(EventName.ShowQuestion, showQuestionHandler);
+    socket.on(EventName.PlayerResult, playerResultHandler);
+    socket.on(EventName.QuizFinished, quizFinishHandler);
     return () => {
-      socket.off('showQuestion', showQuestionHandler);
-      socket.off('player-result', playerResultHandler);
-      socket.off('quiz-finished', quizFinishHandler);
+      socket.off(EventName.ShowQuestion, showQuestionHandler);
+      socket.off(EventName.PlayerResult, playerResultHandler);
+      socket.off(EventName.QuizFinished, quizFinishHandler);
     };
   }, [socket, roomCode]);
 
@@ -98,7 +99,7 @@ export default function PlayerQuestionPage() {
       return;
     }
 
-    socket.emit('submit-answer', roomCode, answer, (res: WsCallback) => {
+    socket.emit(EventName.SubmitAnswer, roomCode, answer, (res: WsCallback) => {
       if (!res.success) {
         setChosenAnswer(undefined);
       }

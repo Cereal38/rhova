@@ -12,6 +12,7 @@ import { ArrowRight } from 'lucide-react';
 import { notFound, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import QuizFinishedStepContent from './quiz-finished-step-content';
+import { EventName } from '@/models/enums/event-name';
 
 enum Step {
   'quiz',
@@ -49,12 +50,12 @@ export default function HostQuestionPage() {
       setAnswerCount(count);
     };
 
-    socket.emit('get-question', roomCode, getQuestionHandler);
-    socket.emit('get-player-count', roomCode, getPlayerCountHandler);
-    socket.on('answer-count', getAnswerCountHandler);
+    socket.emit(EventName.GetQuestion, roomCode, getQuestionHandler);
+    socket.emit(EventName.GetPlayerCount, roomCode, getPlayerCountHandler);
+    socket.on(EventName.AnswerCount, getAnswerCountHandler);
 
     return () => {
-      socket.off('answer-count', getAnswerCountHandler);
+      socket.off(EventName.AnswerCount, getAnswerCountHandler);
     };
   }, [socket, roomCode]);
 
@@ -77,7 +78,7 @@ export default function HostQuestionPage() {
     }
 
     socket.emit(
-      'reveal-results',
+      EventName.RevealResults,
       roomCode,
       (res: WsCallback<WsQuestionResult>) => {
         if (!res.success || !res.payload) {
@@ -102,7 +103,7 @@ export default function HostQuestionPage() {
     }
 
     socket.emit(
-      'next-question',
+      EventName.NextQuestion,
       roomCode,
       (res: WsCallback<WsNextQuestion>) => {
         if (!res.success || !res.payload) {

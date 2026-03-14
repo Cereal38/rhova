@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useSocket } from '@/hooks/use-socket';
+import { EventName } from '@/models/enums/event-name';
 import { useEffect, useState } from 'react';
 
 export default function SessionPendingDialog() {
@@ -26,11 +27,11 @@ export default function SessionPendingDialog() {
       setOpen(false);
     };
 
-    socket.on('session-pending', sessionPendingHandler);
-    socket.on('session-resume', sessionResumeHandler);
+    socket.on(EventName.SessionPending, sessionPendingHandler);
+    socket.on(EventName.SessionResume, sessionResumeHandler);
     return () => {
-      socket.off('session-pending', sessionPendingHandler);
-      socket.off('session-resume', sessionResumeHandler);
+      socket.off(EventName.SessionPending, sessionPendingHandler);
+      socket.off(EventName.SessionResume, sessionResumeHandler);
     };
   }, [socket]);
 

@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Spinner } from '@/components/ui/spinner';
+import { EventName } from '@/models/enums/event-name';
 
 export default function StartQuizForm() {
   const { socket, isConnected } = useSocket();
@@ -92,7 +93,7 @@ export default function StartQuizForm() {
     }
 
     socket.emit(
-      'create-session',
+      EventName.CreateSession,
       quizData,
       hostToken,
       (res: { roomCode: string }) => {

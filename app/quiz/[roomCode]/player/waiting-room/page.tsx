@@ -7,6 +7,7 @@ import { routes } from '@/lib/routes';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import CustomSpinner from '@/components/custom-spinner';
+import { EventName } from '@/models/enums/event-name';
 
 export default function PlayerWaitingRoom() {
   const router = useRouter();
@@ -21,9 +22,9 @@ export default function PlayerWaitingRoom() {
       router.push(routes.playerQuestion(roomCode as string));
     };
 
-    socket.on('show-question', onShowQuestion);
+    socket.on(EventName.ShowQuestion, onShowQuestion);
     return () => {
-      socket.off('show-question', onShowQuestion);
+      socket.off(EventName.ShowQuestion, onShowQuestion);
     };
   }, [socket, isConnected, roomCode, router]);
 

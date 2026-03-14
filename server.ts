@@ -25,6 +25,7 @@ import WsQuestionResult from './models/interfaces/ws-question-result';
 import WsNextQuestion from './models/interfaces/ws-next-question';
 import { Player } from './server/types';
 import { UserRole } from './models/enums/user-role';
+import { EventName } from './models/enums/event-name';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
@@ -43,7 +44,7 @@ app.prepare().then(() => {
 
     // ─── Host: Create a session ───
     socket.on(
-      'create-session',
+      EventName.CreateSession,
       (
         quiz: Quiz,
         hostToken: string,
@@ -62,7 +63,7 @@ app.prepare().then(() => {
 
     // ─── Student: Verify if a room code exists ───
     socket.on(
-      'check-code',
+      EventName.CheckCode,
       (roomCode: string, callback: (res: WsCallback) => void) => {
         const session = getSession(roomCode);
 
@@ -83,7 +84,7 @@ app.prepare().then(() => {
 
     // ─── Student: Join a session or reconnect ───
     socket.on(
-      'player-connect',
+      EventName.PlayerConnect,
       (
         roomCode: string,
         playerToken: string,
@@ -145,7 +146,7 @@ app.prepare().then(() => {
         console.log(`Player ${player.playerNumber} joined ${roomCode}`);
 
         // Notify everyone in the room (including host) of new player count
-        io.to(roomCode).emit('player-count', {
+        io.to(roomCode).emit(EventName.PlayerCount, {
           count: getPlayerCount(roomCode),
         });
 
@@ -154,7 +155,7 @@ app.prepare().then(() => {
     );
 
     // ─── Host: Start the quiz ───
-    socket.on('start-quiz', (callback: (res: WsCallback) => void) => {
+    socket.on(EventName.StartQuiz, (callback: (res: WsCallback) => void) => {
       const roomCode = socket.data.roomCode;
       if (!roomCode) return callback({ success: false, error: 'No room code' });
 
@@ -170,13 +171,13 @@ app.prepare().then(() => {
         });
 
       console.log(`Quiz started in ${roomCode}`);
-      io.to(roomCode).emit('show-question', question);
+      io.to(roomCode).emit(EventName.ShowQuestion, question);
       callback({ success: true });
     });
 
     // ─── All: Get the current question ───
     socket.on(
-      'get-question',
+      EventName.GetQuestion,
       (roomCode: string, callback: (res: WsCallback<WsQuestion>) => void) => {
         const question: WsQuestion | null = getCurrentQuestion(roomCode);
 
@@ -195,7 +196,7 @@ app.prepare().then(() => {
 
     // ─── All: Get the current number of players in the game ───
     socket.on(
-      'get-player-count',
+      EventName.GetPlayerCount,
       (roomCode: string, callback: (res: WsCallback<number>) => void) => {
         const count = getPlayerCount(roomCode);
 
@@ -205,7 +206,7 @@ app.prepare().then(() => {
 
     // ─── Student: Submit an answer ───
     socket.on(
-      'submit-answer',
+      EventName.SubmitAnswer,
       (
         roomCode: string,
         answer: string,
@@ -227,7 +228,7 @@ app.prepare().then(() => {
           const session = getSession(roomCode);
           if (session) {
             io.to(session.hostSocketId).emit(
-              'answer-count',
+              EventName.AnswerCount,
               getAnswerCount(roomCode),
             );
           }
@@ -237,7 +238,7 @@ app.prepare().then(() => {
 
     // ─── Host: Reveal results for current question ───
     socket.on(
-      'reveal-results',
+      EventName.RevealResults,
       (
         roomCode: string,
         callback: (res: WsCallback<WsQuestionResult>) => void,
@@ -259,7 +260,7 @@ app.prepare().then(() => {
         console.log(`Results revealed in ${roomCode}`);
 
         // Send leaderboard + correct answer to host
-        io.to(socket.id).emit('question-results', {
+        io.to(socket.id).emit(EventName.QuestionResults, {
           correctAnswer: results.correctAnswer,
           // leaderboard: results.leaderboard,
         });
@@ -268,7 +269,7 @@ app.prepare().then(() => {
         for (const [playerSocketId, wasCorrect] of Object.entries(
           results.playerResults,
         )) {
-          io.to(playerSocketId).emit('player-result', {
+          io.to(playerSocketId).emit(EventName.PlayerResult, {
             correctAnswer: results.correctAnswer,
             wasCorrect,
           });
@@ -279,7 +280,7 @@ app.prepare().then(() => {
         if (session) {
           for (const [playerSocketId] of session.players) {
             if (!(playerSocketId in results.playerResults)) {
-              io.to(playerSocketId).emit('player-result', {
+              io.to(playerSocketId).emit(EventName.PlayerResult, {
                 correctAnswer: results.correctAnswer,
                 wasCorrect: false,
               });
@@ -299,7 +300,7 @@ app.prepare().then(() => {
 
     // ─── Host: Advance to next question ───
     socket.on(
-      'next-question',
+      EventName.NextQuestion,
       (
         roomCode: string,
         callback: (res: WsCallback<WsNextQuestion>) => void,
@@ -332,7 +333,7 @@ app.prepare().then(() => {
           console.log(
             `Next question in ${roomCode}: ${question.questionIndex + 1}/${question.totalQuestions}`,
           );
-          io.to(roomCode).emit('show-question', question);
+          io.to(roomCode).emit(EventName.ShowQuestion, question);
           callback({
             success: true,
             payload: {
@@ -362,7 +363,7 @@ app.prepare().then(() => {
             return;
           }
           for (const [playerSocketId, player] of session.players) {
-            io.to(playerSocketId).emit('quiz-finished', {
+            io.to(playerSocketId).emit(EventName.QuizFinished, {
               score: player.score,
               total: session.quiz.questions.length,
             });
@@ -382,11 +383,11 @@ app.prepare().then(() => {
 
       if (role === UserRole.host) {
         // Waiting for the host to reconnect. Kill the session after a certain time
-        io.to(roomCode).emit('session-pending');
+        io.to(roomCode).emit(EventName.SessionPending);
 
         const timeout = setTimeout(() => {
           // Host left — end the session, notify all players
-          io.to(roomCode).emit('session-ended', {
+          io.to(roomCode).emit(EventName.SessionEnded, {
             reason: 'Host disconnected',
           });
           deleteSession(roomCode);
@@ -399,7 +400,7 @@ app.prepare().then(() => {
 
     // ─── Reconnection handling ───
     socket.on(
-      'host-rejoin-session',
+      EventName.HostRejoinSession,
       (roomCode: string, hostToken: string, callback) => {
         const session = getSession(roomCode);
         if (!session || session.hostToken !== hostToken) {
@@ -420,7 +421,7 @@ app.prepare().then(() => {
         socket.data.role = UserRole.host;
 
         // Tell players we're back
-        io.to(roomCode).emit('session-resume');
+        io.to(roomCode).emit(EventName.SessionResume);
 
         // Return current state so the host can render the right page
         callback({ success: true, phase: session.phase, roomCode });

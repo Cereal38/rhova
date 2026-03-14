@@ -9,6 +9,7 @@ import { useSocket } from '@/hooks/use-socket';
 import WsCallback from '../models/interfaces/ws-callback';
 import { Spinner } from '@/components/ui/spinner';
 import { routes } from '@/lib/routes';
+import { EventName } from '@/models/enums/event-name';
 
 export default function RoomCodeForm() {
   const { socket, isConnected } = useSocket();
@@ -41,7 +42,7 @@ export default function RoomCodeForm() {
       return;
     }
 
-    socket.emit('check-code', roomCodeInput, (res: WsCallback) => {
+    socket.emit(EventName.CheckCode, roomCodeInput, (res: WsCallback) => {
       // Artificially slow the request to improve UX and avoid join spamming
       const minimumWaitingTime = 600;
       const elapsedTime = Date.now() - startTime;

@@ -7,6 +7,7 @@ import { useSocket } from '@/hooks/use-socket';
 import { routes } from '@/lib/routes';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { EventName } from '@/models/enums/event-name';
 
 export default function StartQuizButton() {
   const { socket, isConnected } = useSocket();
@@ -25,7 +26,7 @@ export default function StartQuizButton() {
       return;
     }
 
-    socket.emit('start-quiz', (res: WsCallback) => {
+    socket.emit(EventName.StartQuiz, (res: WsCallback) => {
       if (res.success) {
         router.push(routes.hostQuestion(roomCode as string));
       } else {
