@@ -6,7 +6,6 @@ import {
   getSession,
   deleteSession,
   addPlayer,
-  removePlayer,
   getPlayerCount,
   startQuiz,
   getCurrentQuestion,
@@ -25,6 +24,7 @@ import WsQuestion from './models/ws-question';
 import WsQuestionResult from './models/ws-question-result';
 import WsNextQuestion from './models/ws-next-question';
 import { Player } from './server/types';
+import { UserRole } from './models/enums/user-role';
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
@@ -52,7 +52,7 @@ app.prepare().then(() => {
         const session = createSession(quiz, socket.id, hostToken);
         socket.join(session.roomCode);
         socket.data.roomCode = session.roomCode;
-        socket.data.role = 'host';
+        socket.data.role = UserRole.host;
 
         console.log(`Host token: ${session.hostToken}`);
         console.log(`Session created: ${session.roomCode}`);
@@ -113,8 +113,7 @@ app.prepare().then(() => {
 
           socket.join(roomCode);
           socket.data.roomCode = roomCode;
-          // TODO: 'player' should be provided by an enum
-          socket.data.role = 'player';
+          socket.data.role = UserRole.player;
 
           // Rekey answer if one exists
           const existingAnswer = session.answers.get(existingKey);
@@ -142,7 +141,7 @@ app.prepare().then(() => {
 
         socket.join(roomCode);
         socket.data.roomCode = roomCode;
-        socket.data.role = 'player';
+        socket.data.role = UserRole.player;
         console.log(`Player ${player.playerNumber} joined ${roomCode}`);
 
         // Notify everyone in the room (including host) of new player count
@@ -381,7 +380,7 @@ app.prepare().then(() => {
 
       if (!roomCode) return;
 
-      if (role === 'host') {
+      if (role === UserRole.host) {
         // Waiting for the host to reconnect. Kill the session after a certain time
         io.to(roomCode).emit('session-pending');
 
@@ -418,7 +417,7 @@ app.prepare().then(() => {
         session.hostSocketId = socket.id;
         socket.join(roomCode);
         socket.data.roomCode = roomCode;
-        socket.data.role = 'host';
+        socket.data.role = UserRole.host;
 
         // Tell players we're back
         io.to(roomCode).emit('session-resume');
