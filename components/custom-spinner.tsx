@@ -10,8 +10,8 @@ export default function CustomLoader({ size = 10 }: { size?: number }) {
     <>
       <style>{`
         @keyframes spinner-bounce {
-          50% { transform: translateY(-9px); }
-          0%, 100% { transform: translateY(9px); }
+          50% { transform: translateY(-9px) scale(1); }
+          0%, 100% { transform: translateY(9px) scale(0.6); }
         }
       `}</style>
       <div className='flex items-center gap-2'>
