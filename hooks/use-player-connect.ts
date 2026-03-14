@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useSocket } from './use-socket';
 import { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import WsCallback from '@/models/ws-callback';
+import WsCallback from '@/models/interfaces/ws-callback';
 
 export function usePlayerConnect(roomCode: string) {
   const { socket } = useSocket();

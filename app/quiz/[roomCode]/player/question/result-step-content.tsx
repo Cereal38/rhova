@@ -1,7 +1,7 @@
 import AnswerButton from '@/components/answer-button';
 import { cn } from '@/lib/utils';
-import WsPlayerResult from '@/models/ws-player-result';
-import WsQuestion from '@/models/ws-question';
+import WsPlayerResult from '@/models/interfaces/ws-player-result';
+import WsQuestion from '@/models/interfaces/ws-question';
 import { useConfetti } from '@/hooks/use-confetti';
 
 interface Props {

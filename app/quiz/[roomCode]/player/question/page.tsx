@@ -2,11 +2,11 @@
 
 import AnswerButton from '@/components/answer-button';
 import { useSocket } from '@/hooks/use-socket';
-import WsCallback from '@/models/ws-callback';
-import WsLeaderboardItem from '@/models/ws-leaderboard-item';
-import WsPlayerResult from '@/models/ws-player-result';
-import { WsPlayerScore } from '@/models/ws-player-score';
-import WsQuestion from '@/models/ws-question';
+import WsCallback from '@/models/interfaces/ws-callback';
+import WsLeaderboardItem from '@/models/interfaces/ws-leaderboard-item';
+import WsPlayerResult from '@/models/interfaces/ws-player-result';
+import { WsPlayerScore } from '@/models/interfaces/ws-player-score';
+import WsQuestion from '@/models/interfaces/ws-question';
 import { notFound, useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import QuestionStepContent from './question-step-content';

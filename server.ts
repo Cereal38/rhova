@@ -18,11 +18,11 @@ import {
   getPendingDisconnectSession,
   deletePendingDisconnectSession,
 } from './server/session-manager';
-import type Quiz from '@/models/quiz';
-import WsCallback from './models/ws-callback';
-import WsQuestion from './models/ws-question';
-import WsQuestionResult from './models/ws-question-result';
-import WsNextQuestion from './models/ws-next-question';
+import type Quiz from '@/models/interfaces/quiz';
+import WsCallback from './models/interfaces/ws-callback';
+import WsQuestion from './models/interfaces/ws-question';
+import WsQuestionResult from './models/interfaces/ws-question-result';
+import WsNextQuestion from './models/interfaces/ws-next-question';
 import { Player } from './server/types';
 import { UserRole } from './models/enums/user-role';
 

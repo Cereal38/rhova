@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useSocket } from './use-socket';
 import { useEffect } from 'react';
-import WsCallback from '@/models/ws-callback';
+import WsCallback from '@/models/interfaces/ws-callback';
 
 export function useHostRejoin(roomCode: string) {
   const { socket } = useSocket();

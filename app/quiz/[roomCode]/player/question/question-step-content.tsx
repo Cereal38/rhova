@@ -1,5 +1,5 @@
 import AnswerButton from '@/components/answer-button';
-import WsQuestion from '@/models/ws-question';
+import WsQuestion from '@/models/interfaces/ws-question';
 
 interface Props {
   question?: WsQuestion;

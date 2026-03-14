@@ -1,6 +1,6 @@
 'use client';
 
-import Quiz from '@/models/quiz';
+import Quiz from '@/models/interfaces/quiz';
 import { Button } from '@/components/ui/button';
 import {
   Field,

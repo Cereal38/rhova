@@ -1,4 +1,4 @@
-import { WsPlayerScore } from '@/models/ws-player-score';
+import { WsPlayerScore } from '@/models/interfaces/ws-player-score';
 
 interface Props {
   playerFinalScore?: WsPlayerScore;

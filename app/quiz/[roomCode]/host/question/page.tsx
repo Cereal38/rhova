@@ -3,11 +3,11 @@
 import AnswerButton from '@/components/answer-button';
 import { Button } from '@/components/ui/button';
 import { useSocket } from '@/hooks/use-socket';
-import WsCallback from '@/models/ws-callback';
-import WsLeaderboardItem from '@/models/ws-leaderboard-item';
-import WsNextQuestion from '@/models/ws-next-question';
-import WsQuestion from '@/models/ws-question';
-import WsQuestionResult from '@/models/ws-question-result';
+import WsCallback from '@/models/interfaces/ws-callback';
+import WsLeaderboardItem from '@/models/interfaces/ws-leaderboard-item';
+import WsNextQuestion from '@/models/interfaces/ws-next-question';
+import WsQuestion from '@/models/interfaces/ws-question';
+import WsQuestionResult from '@/models/interfaces/ws-question-result';
 import { ArrowRight } from 'lucide-react';
 import { notFound, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';

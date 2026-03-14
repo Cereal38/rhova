@@ -1,6 +1,6 @@
 'useClient';
 
-import WsLeaderboardItem from '@/models/ws-leaderboard-item';
+import WsLeaderboardItem from '@/models/interfaces/ws-leaderboard-item';
 import { useEffect, useState } from 'react';
 
 interface Props {

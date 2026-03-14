@@ -1,6 +1,6 @@
-import Quiz from '@/models/quiz';
+import Quiz from '@/models/interfaces/quiz';
 import type { Session, Player } from './types';
-import WsQuestion from '@/models/ws-question';
+import WsQuestion from '@/models/interfaces/ws-question';
 
 const sessions = new Map<string, Session>();
 const pendingDisconnectSessions = new Map<string, NodeJS.Timeout>();
