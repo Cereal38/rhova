@@ -1,13 +1,11 @@
 'use client';
 
-import AnswerButton from '@/components/answer-button';
 import { useSocket } from '@/hooks/use-socket';
 import WsCallback from '@/models/interfaces/ws-callback';
-import WsLeaderboardItem from '@/models/interfaces/ws-leaderboard-item';
 import WsPlayerResult from '@/models/interfaces/ws-player-result';
 import { WsPlayerScore } from '@/models/interfaces/ws-player-score';
 import WsQuestion from '@/models/interfaces/ws-question';
-import { notFound, useParams, useRouter } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import QuestionStepContent from './question-step-content';
 import AnswerSubmittedStepContent from './answer-submitted-step-content';
@@ -120,9 +118,7 @@ export default function PlayerQuestionPage() {
         <AnswerSubmittedStepContent answerNumber={chosenAnswer?.answerNumber} />
       );
     case Step.result:
-      return (
-        <ResultStepContent question={question} playerResult={playerResult} />
-      );
+      return <ResultStepContent playerResult={playerResult} />;
     case Step.quizFinished:
       return <QuizFinishedStepContent playerFinalScore={playerFinalScore} />;
   }
