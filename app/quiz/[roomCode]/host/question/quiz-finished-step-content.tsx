@@ -29,7 +29,7 @@ export default function QuizFinishedStepContent({
     );
     const numberOfPlayers = leaderboard.length;
 
-    setAverageScore(parseFloat((totalScore / numberOfPlayers).toFixed(1)));
+    setAverageScore(parseFloat((totalScore / numberOfPlayers).toFixed(1)) || 0);
   }, [leaderboard]);
 
   return (
