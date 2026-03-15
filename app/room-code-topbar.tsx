@@ -1,6 +1,7 @@
 import ClickableLogo from '@/components/clickable-logo';
 import { Button } from '../components/ui/button';
 import Link from 'next/link';
+import { routes } from '@/lib/routes';
 
 // TODO: Try to do only 1 dynamic topbar for the whole project
 export default function RoomCodeTopbar() {
@@ -11,10 +12,10 @@ export default function RoomCodeTopbar() {
       </span>
       <div className='flex'>
         <Button asChild variant='ghost' className='font-bold h-8'>
-          <Link href='/quiz-settings/start'>Start a quiz</Link>
+          <Link href={routes.quizSettingsStart()}>Start a quiz</Link>
         </Button>
         <Button asChild className='font-bold h-8 ml-4'>
-          <Link href='/quiz-settings/create'>Create a quiz</Link>
+          <Link href={routes.quizSettingsCreate()}>Create a quiz</Link>
         </Button>
       </div>
     </header>

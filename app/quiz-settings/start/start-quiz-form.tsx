@@ -115,7 +115,7 @@ export default function StartQuizForm() {
         <FieldDescription>
           To start a quiz, select a .rhova file from your system. If you don't
           have one, you can create one from the "
-          <Link href='/quiz-settings/create'>create a quiz</Link>" page
+          <Link href={routes.quizSettingsCreate()}>create a quiz</Link>" page
         </FieldDescription>
         <Input id='quiz' type='file' onChange={fileInputChangeHandler} />
         {error && <FieldError>{error}</FieldError>}
