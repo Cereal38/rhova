@@ -1,5 +1,9 @@
 {
   "common": {
-    "join": "Rejoindre"
+    "join": "Rejoindre",
+    "joining": "Connexion..."
+  },
+  "home": {
+    "room-code": "Code de la salle"
   }
 }

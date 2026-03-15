@@ -10,9 +10,11 @@ import WsCallback from '../models/interfaces/ws-callback';
 import { Spinner } from '@/components/ui/spinner';
 import { routes } from '@/lib/routes';
 import { EventName } from '@/models/enums/event-name';
+import { useTranslations } from 'next-intl';
 
 export default function RoomCodeForm() {
   const { socket, isConnected } = useSocket();
+  const translate = useTranslations();
   const router = useRouter();
   const [roomCodeInput, setRoomCodeInput] = useState<string>('');
   const [error, setError] = useState<string | undefined>(undefined);
@@ -71,7 +73,7 @@ export default function RoomCodeForm() {
           autoCorrect='off'
           spellCheck={false}
           maxLength={6}
-          placeholder='Enter room code'
+          placeholder={translate('home.room-code')}
           className='h-16 text-center font-mono tracking-[0.25em] uppercase'
           aria-invalid={!!error}
           value={roomCodeInput}
@@ -85,10 +87,10 @@ export default function RoomCodeForm() {
       >
         {loading ? (
           <>
-            <Spinner /> Joining...
+            <Spinner /> {translate('common.joining')}
           </>
         ) : (
-          'Enter'
+          translate('common.join')
         )}
       </Button>
       {error && <FieldError>{error}</FieldError>}

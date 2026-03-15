@@ -1,5 +1,9 @@
 {
   "common": {
-    "join": "Join"
+    "join": "Join",
+    "joining": "Joining..."
+  },
+  "home": {
+    "room-code": "Room code"
   }
 }
