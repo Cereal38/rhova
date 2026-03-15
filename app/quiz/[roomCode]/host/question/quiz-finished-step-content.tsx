@@ -24,7 +24,8 @@ export default function QuizFinishedStepContent({
     );
     const numberOfPlayers = leaderboard.length;
 
-    setAverageScore(totalScore / numberOfPlayers);
+    // Round to 1 decimal
+    setAverageScore(parseFloat((totalScore / numberOfPlayers).toFixed(1)));
   }, [leaderboard]);
 
   return (
