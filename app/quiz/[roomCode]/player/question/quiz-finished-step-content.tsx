@@ -1,3 +1,5 @@
+import ScoreChart from '@/components/score-chart';
+import { Button } from '@/components/ui/button';
 import { WsPlayerScore } from '@/models/interfaces/ws-player-score';
 
 interface Props {
@@ -6,15 +8,24 @@ interface Props {
 
 export default function QuizFinishedStepContent({ playerFinalScore }: Props) {
   return (
-    <main className='h-full flex flex-col p-8'>
-      <h1 className='flex-1 flex items-center justify-center text-5xl'>
-        Quiz finished!
-      </h1>
-      <div className='flex flex-col gap-4 items-center'>
-        <span className='text-xl'>
-          {playerFinalScore?.score}/{playerFinalScore?.total}
-        </span>
-      </div>
+    <main className='h-full flex flex-col justify-between p-8'>
+      {playerFinalScore && (
+        <>
+          <div className='flex-1 flex flex-col justify-center items-center gap-8'>
+            <ScoreChart
+              score={playerFinalScore.score}
+              max={playerFinalScore?.total}
+            />
+            <div className='flex flex-col gap-2'>
+              <h2 className='text-center text-3xl'>Quiz finished!</h2>
+              <span className='text-center'>
+                Click on the home button to play a new quiz
+              </span>
+            </div>
+          </div>
+          <Button>Back to home</Button>
+        </>
+      )}
     </main>
   );
 }
