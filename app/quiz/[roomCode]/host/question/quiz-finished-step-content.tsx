@@ -1,7 +1,10 @@
 'useClient';
 
 import ScoreChart from '@/components/score-chart';
+import { Button } from '@/components/ui/button';
+import { routes } from '@/lib/routes';
 import WsLeaderboardItem from '@/models/interfaces/ws-leaderboard-item';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 interface Props {
@@ -40,6 +43,9 @@ export default function QuizFinishedStepContent({
               {numberOfQuestions}.
             </p>
           </div>
+          <Button asChild className='mt-4 cursor-pointer'>
+            <Link href={routes.quizSettingsStart()}>Start a new quiz</Link>
+          </Button>
         </div>
       )}
     </main>
