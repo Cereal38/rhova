@@ -13,7 +13,7 @@ export default function QrCodeSection() {
       <h2 className='text-xl'>{t('host-waiting-room.scan-qr-code')}</h2>
       <QRCodeSVG
         size={200}
-        value={`http://192.168.1.113:3000/quiz/${roomCode}/player/waiting-room`}
+        value={`${window.location.origin}/quiz/${roomCode}/player/waiting-room`}
       />
     </div>
   );
