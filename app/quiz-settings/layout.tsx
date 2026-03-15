@@ -1,10 +1,14 @@
 import type { Metadata } from 'next';
 import QuizSettingsTopbar from './quiz-settings-topbar';
+import { getTranslations } from 'next-intl/server';
 
-export const metadata: Metadata = {
-  title: 'Rhova',
-  description: 'Create or start a quiz in minutes',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations();
+  return {
+    title: 'Rhova',
+    description: t('metadata.quiz-settings-description'),
+  };
+}
 
 export default function RootLayout({
   children,

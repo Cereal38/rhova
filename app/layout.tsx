@@ -1,11 +1,15 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { NextIntlClientProvider } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
-export const metadata: Metadata = {
-  title: 'Rhova',
-  description: 'Enter the room code and enjoy a quiz together',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations();
+  return {
+    title: 'Rhova',
+    description: t('metadata.home-description'),
+  };
+}
 
 interface Props {
   children: React.ReactNode;

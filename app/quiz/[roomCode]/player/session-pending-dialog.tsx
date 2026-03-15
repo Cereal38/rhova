@@ -10,9 +10,11 @@ import {
 import { useSocket } from '@/hooks/use-socket';
 import { EventName } from '@/models/enums/event-name';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function SessionPendingDialog() {
   const { socket } = useSocket();
+  const t = useTranslations();
 
   const [open, setOpen] = useState(false);
 
@@ -43,10 +45,8 @@ export default function SessionPendingDialog() {
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle>Host Disconnected</DialogTitle>
-          <DialogDescription>
-            Host is currently offline, wait for him to reconnect...
-          </DialogDescription>
+          <DialogTitle>{t('session-pending.title')}</DialogTitle>
+          <DialogDescription>{t('session-pending.description')}</DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>

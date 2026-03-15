@@ -3,8 +3,11 @@ import PlayerCounter from './player-counter';
 import RoomCodeSection from './room-code-section';
 import QrCodeSection from './qr-code-section';
 import StartQuizButton from './start-quiz-button';
+import { getTranslations } from 'next-intl/server';
 
-export default function HostWaitingRoomPage() {
+export default async function HostWaitingRoomPage() {
+  const t = await getTranslations();
+
   return (
     <div className='relative flex min-h-dvh items-center justify-center overflow-hidden font-sans'>
       <object
@@ -24,7 +27,7 @@ export default function HostWaitingRoomPage() {
 
             <div className='flex flex-col items-center gap-4'>
               <div className='flex-1 w-[2px] bg-black'></div>
-              <span>OR</span>
+              <span>{t('common.or')}</span>
               <div className='flex-1 w-[2px] bg-black'></div>
             </div>
 

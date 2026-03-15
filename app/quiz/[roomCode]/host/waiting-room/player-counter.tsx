@@ -3,10 +3,12 @@
 import { useSocket } from '@/hooks/use-socket';
 import { EventName } from '@/models/enums/event-name';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function PlayerCounter() {
   const { socket } = useSocket();
   const [playerCount, setPlayerCount] = useState(0);
+  const t = useTranslations();
 
   useEffect(() => {
     if (!socket) return;
@@ -21,5 +23,7 @@ export default function PlayerCounter() {
     };
   }, [socket]);
 
-  return <p className='opacity-75'>{playerCount} players ready!</p>;
+  return (
+    <p className='opacity-75'>{t('host-waiting-room.player-count', { count: playerCount })}</p>
+  );
 }

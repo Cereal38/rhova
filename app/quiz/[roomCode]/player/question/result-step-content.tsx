@@ -1,6 +1,7 @@
 import WsPlayerResult from '@/models/interfaces/ws-player-result';
 import { useConfetti } from '@/hooks/use-confetti';
 import { CircleCheck, CircleX } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   playerResult?: WsPlayerResult;
@@ -8,6 +9,7 @@ interface Props {
 
 export default function ResultStepContent({ playerResult }: Props) {
   useConfetti(playerResult?.wasCorrect ?? false);
+  const t = useTranslations();
 
   return (
     <main className='h-full flex'>
@@ -21,10 +23,12 @@ export default function ResultStepContent({ playerResult }: Props) {
             )}
             <div className='flex flex-col items-center gap-2'>
               <h2 className='text-4xl font-bold text-center'>
-                {playerResult.wasCorrect ? 'Correct!' : 'Wrong!'}
+                {playerResult.wasCorrect ? t('player-question.correct') : t('player-question.wrong')}
               </h2>
               <span className='text-center'>
-                "{playerResult.correctAnswer}" was the correct answer
+                {t('player-question.correct-answer-hint', {
+                  answer: playerResult.correctAnswer,
+                })}
               </span>
             </div>
           </div>

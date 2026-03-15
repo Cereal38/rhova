@@ -18,10 +18,12 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Spinner } from '@/components/ui/spinner';
 import { EventName } from '@/models/enums/event-name';
+import { useTranslations } from 'next-intl';
 
 export default function StartQuizForm() {
   const { socket, isConnected } = useSocket();
   const router = useRouter();
+  const t = useTranslations();
 
   const [fileInput, setFileInput] = useState<File>();
   const [error, setError] = useState<string>();
@@ -55,37 +57,33 @@ export default function StartQuizForm() {
       return;
     }
 
-    // Read the content of the file and extract the raw content from it
     let text: string;
     try {
       text = await fileInput.text();
     } catch (err) {
-      handleError('Failed to read the file');
+      handleError(t('start-quiz.error-read-file'));
       setLoading(false);
       return;
     }
 
-    // Parse the content of the file to obtain a valid json object
     let parsedData: unknown;
     try {
       parsedData = JSON.parse(text);
     } catch (err) {
-      handleError('Invalid quiz config. Did you selected a .rhova file?');
+      handleError(t('start-quiz.error-invalid-config'));
       setLoading(false);
       return;
     }
 
-    // Validate if the format of the json is a correct Quiz object
     const quizFormatValidation = quizFormatValidator.safeParse(parsedData);
     if (!quizFormatValidation.success) {
-      handleError('Invalid quiz config. Did you selected a .rhova file?');
+      handleError(t('start-quiz.error-invalid-config'));
       setLoading(false);
       return;
     }
 
     const quizData: Quiz = quizFormatValidation.data;
 
-    // Check if the host has a token stored in the localstorage, else create one and store it
     let hostToken: string | null = localStorage.getItem('hostToken');
     if (!hostToken) {
       hostToken = uuidv4();
@@ -111,11 +109,13 @@ export default function StartQuizForm() {
   return (
     <form className='flex flex-col gap-4' onSubmit={startQuizHandler}>
       <Field className='pt-4'>
-        <FieldLabel htmlFor='quiz'>File</FieldLabel>
+        <FieldLabel htmlFor='quiz'>{t('start-quiz.file-label')}</FieldLabel>
         <FieldDescription>
-          To start a quiz, select a .rhova file from your system. If you don't
-          have one, you can create one from the "
-          <Link href={routes.quizSettingsCreate()}>create a quiz</Link>" page
+          {t.rich('start-quiz.file-description', {
+            link: (chunks) => (
+              <Link href={routes.quizSettingsCreate()}>{chunks}</Link>
+            ),
+          })}
         </FieldDescription>
         <Input id='quiz' type='file' onChange={fileInputChangeHandler} />
         {error && <FieldError>{error}</FieldError>}
@@ -126,7 +126,7 @@ export default function StartQuizForm() {
         className='cursor-pointer'
       >
         {loading && <Spinner />}
-        Start the quiz
+        {t('common.start-the-quiz')}
       </Button>
     </form>
   );

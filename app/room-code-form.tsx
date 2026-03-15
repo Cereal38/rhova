@@ -14,7 +14,7 @@ import { useTranslations } from 'next-intl';
 
 export default function RoomCodeForm() {
   const { socket, isConnected } = useSocket();
-  const translate = useTranslations();
+  const t = useTranslations();
   const router = useRouter();
   const [roomCodeInput, setRoomCodeInput] = useState<string>('');
   const [error, setError] = useState<string | undefined>(undefined);
@@ -39,7 +39,7 @@ export default function RoomCodeForm() {
     const startTime = Date.now();
 
     if (!socket || !isConnected) {
-      setError('Error connecting to the server');
+      setError(t('home.error-connection'));
       setLoading(false);
       return;
     }
@@ -73,7 +73,7 @@ export default function RoomCodeForm() {
           autoCorrect='off'
           spellCheck={false}
           maxLength={6}
-          placeholder={translate('home.room-code')}
+          placeholder={t('home.room-code')}
           className='h-16 text-center font-mono tracking-[0.25em] uppercase'
           aria-invalid={!!error}
           value={roomCodeInput}
@@ -87,10 +87,10 @@ export default function RoomCodeForm() {
       >
         {loading ? (
           <>
-            <Spinner /> {translate('common.joining')}
+            <Spinner /> {t('common.joining')}
           </>
         ) : (
-          translate('common.join')
+          t('common.join')
         )}
       </Button>
       {error && <FieldError>{error}</FieldError>}

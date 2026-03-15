@@ -8,6 +8,7 @@ import { routes } from '@/lib/routes';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { EventName } from '@/models/enums/event-name';
+import { useTranslations } from 'next-intl';
 
 export default function StartQuizButton() {
   const { socket, isConnected } = useSocket();
@@ -15,13 +16,14 @@ export default function StartQuizButton() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const t = useTranslations();
 
   const handleStartQuiz = () => {
     setLoading(true);
     console.log('Starting the quiz...');
 
     if (!socket || !isConnected) {
-      setError('Impossible to start the quiz');
+      setError(t('host-waiting-room.error-impossible-start'));
       setLoading(false);
       return;
     }
@@ -30,7 +32,7 @@ export default function StartQuizButton() {
       if (res.success) {
         router.push(routes.hostQuestion(roomCode as string));
       } else {
-        setError(res.error ?? 'Failed to start the quiz');
+        setError(res.error ?? t('host-waiting-room.error-failed-start'));
         setLoading(false);
       }
     });
@@ -44,7 +46,7 @@ export default function StartQuizButton() {
         disabled={loading}
       >
         {loading && <Spinner />}
-        Start the quiz
+        {t('common.start-the-quiz')}
       </Button>
       {error && <p className='w-full text-destructive text-sm'>{error}</p>}
     </div>

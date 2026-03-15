@@ -13,6 +13,7 @@ import { notFound, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import QuizFinishedStepContent from './quiz-finished-step-content';
 import { EventName } from '@/models/enums/event-name';
+import { useTranslations } from 'next-intl';
 
 enum Step {
   'quiz',
@@ -29,6 +30,7 @@ export default function HostQuestionPage() {
   const [questionResults, setQuestionResults] = useState<WsQuestionResult>();
   const [step, setStep] = useState<Step>(Step.quiz);
   const [leaderboard, setLeaderboard] = useState<WsLeaderboardItem[]>();
+  const t = useTranslations();
 
   useEffect(() => {
     if (!socket) return;
@@ -111,7 +113,6 @@ export default function HostQuestionPage() {
           return;
         }
 
-        // The quiz is finished, display the player scores
         if (res.payload.isQuizFinished) {
           if (!res.payload.leaderboard) {
             console.error('The leaderboard could not be found');
@@ -123,7 +124,6 @@ export default function HostQuestionPage() {
           return;
         }
 
-        // The quiz isn't finished, show the next question
         setQuestion(res.payload.question!);
         setAnswerCount(0);
         setQuestionResults(undefined);
@@ -142,10 +142,15 @@ export default function HostQuestionPage() {
                 <div>
                   <div className='flex flex-col items-center gap-1'>
                     <h2 className='text-xl'>
-                      Question {question.questionIndex + 1}
+                      {t('host-question.question-number', {
+                        number: question.questionIndex + 1,
+                      })}
                     </h2>
                     <span className='opacity-75 -translate-y-[2px]'>
-                      {answerCount}/{playerCount} players answered
+                      {t('host-question.players-answered', {
+                        answerCount,
+                        playerCount: playerCount ?? 0,
+                      })}
                     </span>
                   </div>
                 </div>
@@ -165,7 +170,6 @@ export default function HostQuestionPage() {
                     <AnswerButton
                       key={answer}
                       number={index + 1}
-                      // If results has been displayed, set wrongAnswer to all non correct answers
                       wrongAnswer={
                         questionResults &&
                         answer != questionResults?.correctAnswer

@@ -1,9 +1,88 @@
 {
   "common": {
     "join": "Rejoindre",
-    "joining": "Connexion..."
+    "joining": "Connexion...",
+    "start-a-quiz": "Lancer un quiz",
+    "create-a-quiz": "Créer un quiz",
+    "start-the-quiz": "Lancer le quiz",
+    "home": "Accueil",
+    "back": "Retour",
+    "or": "OU",
+    "loading": "Chargement"
+  },
+  "metadata": {
+    "home-description": "Entrez le code de la salle et profitez d'un quiz ensemble",
+    "quiz-settings-description": "Créez ou lancez un quiz en quelques minutes",
+    "quiz-play-description": "Jouez à un quiz ensemble"
   },
   "home": {
-    "room-code": "Code de la salle"
+    "room-code": "Code de la salle",
+    "error-connection": "Erreur de connexion au serveur"
+  },
+  "start-quiz": {
+    "title": "Lancer un quiz",
+    "file-label": "Fichier",
+    "file-description": "Pour lancer un quiz, sélectionnez un fichier .rhova depuis votre système. Si vous n'en avez pas, vous pouvez en créer un depuis la page « <link>créer un quiz</link> »",
+    "error-read-file": "Impossible de lire le fichier",
+    "error-invalid-config": "Configuration de quiz invalide. Avez-vous sélectionné un fichier .rhova ?"
+  },
+  "create-quiz": {
+    "title": "Créer un quiz",
+    "description": "Remplissez le formulaire ci-dessous pour créer votre quiz. Vous pourrez ensuite y jouer.",
+    "quiz-title-label": "Titre du quiz",
+    "quiz-title-description": "Quel sera le sujet de votre quiz ?",
+    "quiz-title-placeholder": "Terminologie de chimie",
+    "invalid-title": "Titre invalide",
+    "add-a-question": "Ajouter une question",
+    "create": "Créer",
+    "question-label": "Question {number}",
+    "question-description": "Voici la question qui sera affichée à l'écran",
+    "question-placeholder": "Formule moléculaire du dioxyde de carbone",
+    "correct-answer-label": "Bonne réponse",
+    "correct-answer-description": "Voici la bonne réponse à la question",
+    "correct-answer-placeholder": "CO2",
+    "wrong-answer-label": "Mauvaise réponse {number}",
+    "wrong-answer-description": "Voici une mauvaise réponse à la question",
+    "wrong-answer-1-placeholder": "O2",
+    "wrong-answer-2-placeholder": "H2O",
+    "wrong-answer-3-placeholder": "C2O"
+  },
+  "player-waiting-room": {
+    "title": "Vous êtes inscrit !",
+    "waiting": "En attente que l'hôte lance la partie..."
+  },
+  "player-question": {
+    "correct": "Correct !",
+    "wrong": "Faux !",
+    "correct-answer-hint": "« {answer} » était la bonne réponse",
+    "answer-submitted": "Réponse envoyée",
+    "answer-registered": "Votre réponse a été enregistrée. En attente de l'hôte."
+  },
+  "player-quiz-finished": {
+    "title": "Quiz terminé !",
+    "play-again": "Cliquez sur le bouton accueil ci-dessous pour rejouer"
+  },
+  "session-pending": {
+    "title": "Hôte déconnecté",
+    "description": "L'hôte est actuellement hors ligne, attendez sa reconnexion..."
+  },
+  "host-waiting-room": {
+    "player-count": "{count} joueurs prêts !",
+    "scan-qr-code": "Scannez le QR Code",
+    "room-code-instructions": "Allez sur <strong>Rhova.io</strong> et entrez le code de la salle",
+    "error-impossible-start": "Impossible de lancer le quiz",
+    "error-failed-start": "Échec du lancement du quiz"
+  },
+  "host-question": {
+    "question-number": "Question {number}",
+    "players-answered": "{answerCount}/{playerCount} joueurs ont répondu"
+  },
+  "host-quiz-finished": {
+    "title": "Quiz terminé !",
+    "average-score": "Le score moyen des joueurs est de {averageScore} sur {numberOfQuestions}.",
+    "start-new-quiz": "Lancer un nouveau quiz"
+  },
+  "not-found": {
+    "room-not-found": "Salle introuvable !"
   }
 }

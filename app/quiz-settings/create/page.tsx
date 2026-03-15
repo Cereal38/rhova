@@ -16,6 +16,7 @@ import AddQuestionFieldGroup from './add-question-field-group';
 import { Button } from '@/components/ui/button';
 import Quiz from '@/models/interfaces/quiz';
 import { createQuizBasicInfoValidator } from '@/validators/create-quiz-basic-info-validator';
+import { useTranslations } from 'next-intl';
 
 const enum Step {
   'BASIC_INFO',
@@ -32,13 +33,12 @@ export default function CreateQuizPage() {
     title: '',
     questions: [],
   });
+  const t = useTranslations();
 
-  // If there is a quiz in the localstorage, load it
   useEffect(() => {
     loadQuizFromLocalStorage();
   }, []);
 
-  // Save the quiz to localstorage after any update on it
   useEffect(() => {
     saveQuizToLocalStorage();
   }, [quizInput]);
@@ -77,7 +77,6 @@ export default function CreateQuizPage() {
 
     const formData = new FormData(form);
 
-    // BASIC_INFO -> ADD_QUESTION
     if (source === Step.BASIC_INFO && destination === Step.ADD_QUESTION) {
       const basicInfoValidation = createQuizBasicInfoValidator.safeParse({
         title: formData.get('title'),
@@ -86,7 +85,8 @@ export default function CreateQuizPage() {
       if (!basicInfoValidation.success) {
         setFormErrors({
           title:
-            basicInfoValidation.error.issues[0]?.message ?? 'Invalid title',
+            basicInfoValidation.error.issues[0]?.message ??
+            t('create-quiz.invalid-title'),
         });
         return;
       }
@@ -95,7 +95,6 @@ export default function CreateQuizPage() {
       setCurrentStep(Step.ADD_QUESTION);
     }
 
-    // ADD_QUESTION -> BASIC_INFO
     if (source === Step.ADD_QUESTION && destination === Step.BASIC_INFO) {
       setCurrentStep(Step.BASIC_INFO);
     }
@@ -105,11 +104,8 @@ export default function CreateQuizPage() {
     <main>
       <Card>
         <CardHeader>
-          <CardTitle>Create a quiz</CardTitle>
-          <CardDescription>
-            Fill the form below to create your quiz. You will then be able to
-            play it.
-          </CardDescription>
+          <CardTitle>{t('create-quiz.title')}</CardTitle>
+          <CardDescription>{t('create-quiz.description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form
@@ -135,7 +131,7 @@ export default function CreateQuizPage() {
                 variant='secondary'
                 onClick={() => transition(Step.BASIC_INFO)}
               >
-                Back
+                {t('common.back')}
               </Button>
             )}
             <div className='flex gap-4'>
@@ -146,11 +142,11 @@ export default function CreateQuizPage() {
                 }
                 onClick={() => transition(Step.ADD_QUESTION)}
               >
-                Add a question
+                {t('create-quiz.add-a-question')}
               </Button>
               {currentStep === Step.ADD_QUESTION && (
                 <Button form='create-quiz-form' type='submit'>
-                  Create
+                  {t('create-quiz.create')}
                 </Button>
               )}
             </div>

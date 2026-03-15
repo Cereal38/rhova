@@ -9,6 +9,7 @@ import {
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   errors: any; // TODO: Type this correctly
@@ -21,16 +22,18 @@ export default function CreateQuizFieldGroup({
   quizInput,
   onQuizInputChange,
 }: Props) {
+  const t = useTranslations();
+
   return (
     <FieldGroup>
       <Field>
-        <FieldLabel htmlFor='title'>Quiz title</FieldLabel>
-        <FieldDescription>What your quiz will be about?</FieldDescription>
+        <FieldLabel htmlFor='title'>{t('create-quiz.quiz-title-label')}</FieldLabel>
+        <FieldDescription>{t('create-quiz.quiz-title-description')}</FieldDescription>
         <Input
           id='title'
           name='title'
           autoComplete='off'
-          placeholder='Chemistry terminology'
+          placeholder={t('create-quiz.quiz-title-placeholder')}
           aria-invalid={!!errors?.title}
           value={quizInput.title}
           onChange={onQuizInputChange}
