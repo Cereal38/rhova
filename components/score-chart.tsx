@@ -17,12 +17,12 @@ export default function ScoreChart({ score, max }: Props) {
   const dasharray = `${length} ${circumference}`;
 
   return (
-    <div style={{ position: 'relative', width: size, height: size }}>
+    <div className='relative' style={{ width: size, height: size }}>
       <svg
         width={size}
         height={size}
         viewBox={`0 0 ${size} ${size}`}
-        style={{ transform: 'rotate(-90deg)' }}
+        className='-rotate-90'
       >
         <defs>
           <linearGradient id='scoreGradient'>
@@ -31,7 +31,6 @@ export default function ScoreChart({ score, max }: Props) {
           </linearGradient>
         </defs>
 
-        {/* background ring */}
         <circle
           r={normalizedRadius}
           cx={size / 2}
@@ -41,7 +40,6 @@ export default function ScoreChart({ score, max }: Props) {
           strokeWidth={stroke}
         />
 
-        {/* progress */}
         <circle
           r={normalizedRadius}
           cx={size / 2}
@@ -55,17 +53,7 @@ export default function ScoreChart({ score, max }: Props) {
         />
       </svg>
 
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontWeight: 700,
-          fontSize: 20,
-        }}
-      >
+      <div className='absolute inset-0 flex items-center justify-center text-xl font-bold'>
         {score}/{max}
       </div>
     </div>
