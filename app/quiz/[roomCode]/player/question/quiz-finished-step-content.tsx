@@ -1,6 +1,8 @@
 import ScoreChart from '@/components/score-chart';
 import { Button } from '@/components/ui/button';
+import { routes } from '@/lib/routes';
 import { WsPlayerScore } from '@/models/interfaces/ws-player-score';
+import Link from 'next/link';
 
 interface Props {
   playerFinalScore?: WsPlayerScore;
@@ -19,11 +21,13 @@ export default function QuizFinishedStepContent({ playerFinalScore }: Props) {
             <div className='flex flex-col gap-2'>
               <h2 className='text-center text-3xl'>Quiz finished!</h2>
               <span className='text-center'>
-                Click on the home button to play a new quiz
+                Click on the home button below to play a new quiz
               </span>
             </div>
           </div>
-          <Button>Back to home</Button>
+          <Button asChild>
+            <Link href={routes.home()}>Home</Link>
+          </Button>
         </>
       )}
     </main>
