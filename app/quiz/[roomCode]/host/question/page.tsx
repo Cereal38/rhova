@@ -181,6 +181,11 @@ export default function HostQuestionPage() {
         </main>
       );
     case Step.quizFinished:
-      return <QuizFinishedStepContent leaderboard={leaderboard} />;
+      return (
+        <QuizFinishedStepContent
+          leaderboard={leaderboard}
+          numberOfQuestions={question?.totalQuestions}
+        />
+      );
   }
 }
