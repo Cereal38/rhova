@@ -174,7 +174,12 @@ export function revealResults(roomCode: string, socketId: string) {
   const question = session.quiz.questions[session.currentQuestionIndex];
   if (!question) return null;
 
+  // The number of people who selected each answer
+  const answerCounts: Record<string, number> = {};
+
   for (const [playerSocketId, answer] of session.answers) {
+    answerCounts[answer] = (answerCounts[answer] ?? 0) + 1;
+
     if (answer === question.correctAnswer) {
       const player = session.players.get(playerSocketId);
       if (player) player.score += 1;
@@ -189,6 +194,7 @@ export function revealResults(roomCode: string, socketId: string) {
 
   return {
     correctAnswer: question.correctAnswer,
+    answerCounts,
     leaderboard,
     playerResults: Object.fromEntries(
       Array.from(session.answers).map(([sid, answer]) => [

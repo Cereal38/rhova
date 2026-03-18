@@ -292,6 +292,7 @@ app.prepare().then(() => {
           success: true,
           payload: {
             correctAnswer: results.correctAnswer,
+            answerCounts: results.answerCounts,
             // leaderboard: results.leaderboard,
           },
         });
