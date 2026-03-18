@@ -1,11 +1,7 @@
 import CustomLoader from '@/components/custom-spinner';
 import { useTranslations } from 'next-intl';
 
-interface Props {
-  answerNumber?: number;
-}
-
-export default function AnswerSubmittedStepContent({ answerNumber }: Props) {
+export default function AnswerSubmittedStepContent() {
   const t = useTranslations();
 
   return (
@@ -16,7 +12,9 @@ export default function AnswerSubmittedStepContent({ answerNumber }: Props) {
           <h2 className='text-4xl font-bold text-center'>
             {t('player-question.answer-submitted')}
           </h2>
-          <span className='text-center'>{t('player-question.answer-registered')}</span>
+          <span className='text-center'>
+            {t('player-question.answer-registered')}
+          </span>
         </div>
       </div>
     </main>
