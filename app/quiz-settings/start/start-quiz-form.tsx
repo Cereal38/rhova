@@ -63,6 +63,9 @@ export default function StartQuizForm() {
     } catch (err) {
       handleError(t('start-quiz.error-read-file'));
       setLoading(false);
+      console.error(
+        'An error occurred while reading the given file. Error: ' + err,
+      );
       return;
     }
 
@@ -72,6 +75,9 @@ export default function StartQuizForm() {
     } catch (err) {
       handleError(t('start-quiz.error-invalid-config'));
       setLoading(false);
+      console.error(
+        'An error occurred while parsing the given file. Error: ' + err,
+      );
       return;
     }
 
