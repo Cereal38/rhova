@@ -174,6 +174,9 @@ export default function HostQuestionPage() {
                         questionResults &&
                         answer != questionResults?.correctAnswer
                       }
+                      displayCount={questionResults !== undefined}
+                      answerCount={questionResults?.answerCounts[answer]}
+                      totalPlayer={playerCount}
                     >
                       {answer}
                     </AnswerButton>
