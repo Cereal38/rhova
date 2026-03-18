@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { getSocket } from '@/lib/socket';
-import type { Socket } from 'socket.io-client';
 
 export function useSocket() {
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
+  const [socket] = useState(getSocket());
+  const [isConnected, setIsConnected] = useState(() => getSocket().connected);
 
   useEffect(() => {
     const s = getSocket();
@@ -15,9 +14,6 @@ export function useSocket() {
     if (!s.connected) {
       s.connect();
     }
-
-    setSocket(s);
-    setIsConnected(s.connected);
 
     function onConnect() {
       setIsConnected(true);
