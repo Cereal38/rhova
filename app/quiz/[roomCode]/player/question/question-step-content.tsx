@@ -3,7 +3,7 @@ import WsQuestion from '@/models/interfaces/ws-question';
 
 interface Props {
   question?: WsQuestion;
-  onSubmitAnswer: (answer: string, answerNumber: number) => void;
+  onSubmitAnswer: (answer: string) => void;
 }
 
 export default function QuestionStepContent({
@@ -20,7 +20,7 @@ export default function QuestionStepContent({
               number={index + 1}
               iconOnly={true}
               clickable={true}
-              onClick={() => onSubmitAnswer(answer, index + 1)}
+              onClick={() => onSubmitAnswer(answer)}
             />
           ))}
         </div>

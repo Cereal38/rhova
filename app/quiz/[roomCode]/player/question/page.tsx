@@ -26,10 +26,6 @@ export default function PlayerQuestionPage() {
 
   const [roomNotFound, setRoomNotFound] = useState(false);
   const [question, setQuestion] = useState<WsQuestion>();
-  const [chosenAnswer, setChosenAnswer] = useState<{
-    answer: string;
-    answerNumber: number;
-  }>();
   const [playerResult, setPlayerResult] = useState<WsPlayerResult>();
   const [playerFinalScore, setPlayerFinalScore] = useState<WsPlayerScore>();
   const [step, setStep] = useState<Step>(Step.question);
@@ -53,7 +49,6 @@ export default function PlayerQuestionPage() {
       }
 
       setQuestion(wsQuestion);
-      setChosenAnswer(undefined);
       setPlayerResult(undefined);
       setStep(Step.question);
     };
@@ -89,17 +84,17 @@ export default function PlayerQuestionPage() {
     notFound();
   }
 
-  const submitAnswerHandler = (answer: string, answerNumber: number) => {
-    setChosenAnswer({ answer, answerNumber });
-
+  const submitAnswerHandler = (answer: string) => {
     if (!socket || !roomCode) {
-      setChosenAnswer(undefined);
       return;
     }
 
     socket.emit(EventName.SubmitAnswer, roomCode, answer, (res: WsCallback) => {
       if (!res.success) {
-        setChosenAnswer(undefined);
+        console.error(
+          'An error occurred while submitting the answer. Error: ' + res.error,
+        );
+        return;
       }
       setStep(Step.answerSubmitted);
     });
@@ -114,9 +109,7 @@ export default function PlayerQuestionPage() {
         />
       );
     case Step.answerSubmitted:
-      return (
-        <AnswerSubmittedStepContent answerNumber={chosenAnswer?.answerNumber} />
-      );
+      return <AnswerSubmittedStepContent />;
     case Step.result:
       return <ResultStepContent playerResult={playerResult} />;
     case Step.quizFinished:
