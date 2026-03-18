@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { routes } from '@/lib/routes';
 import WsLeaderboardItem from '@/models/interfaces/ws-leaderboard-item';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 
 interface Props {
@@ -17,19 +17,16 @@ export default function QuizFinishedStepContent({
   leaderboard,
   numberOfQuestions,
 }: Props) {
-  const [averageScore, setAverageScore] = useState<number>(0);
   const t = useTranslations();
-
-  useEffect(() => {
-    if (!leaderboard) return;
+  const averageScore = useMemo(() => {
+    if (!leaderboard || leaderboard.length === 0) return 0;
 
     const totalScore = leaderboard.reduce(
       (acc, player) => acc + player.score,
       0,
     );
-    const numberOfPlayers = leaderboard.length;
 
-    setAverageScore(parseFloat((totalScore / numberOfPlayers).toFixed(1)) || 0);
+    return parseFloat((totalScore / leaderboard.length).toFixed(1)) || 0;
   }, [leaderboard]);
 
   return (
@@ -43,7 +40,7 @@ export default function QuizFinishedStepContent({
             </h1>
             <p className='text-center'>
               {t('host-quiz-finished.average-score', {
-                averageScore,
+                averageScore: averageScore,
                 numberOfQuestions,
               })}
             </p>
