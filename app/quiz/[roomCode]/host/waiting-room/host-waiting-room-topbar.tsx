@@ -16,11 +16,6 @@ export default async function HostWaitingRoomTopbar() {
         <Button variant='ghost' className='font-bold h-8'>
           <Link href={routes.start()}>{t('common.start-a-quiz')}</Link>
         </Button>
-        <Button variant='ghost' className='font-bold h-8'>
-          <Link href={routes.quizSettingsCreate()}>
-            {t('common.create-a-quiz')}
-          </Link>
-        </Button>
         <Button className='font-bold ml-4 h-8'>
           <Link href={routes.home()}>{t('common.join')}</Link>
         </Button>
