@@ -6,7 +6,7 @@ export default function ClickableLogo() {
   return (
     <Link
       href={routes.home()}
-      className='text-white font-bold flex items-center gap-2'
+      className='text-white font-bold flex items-center gap-4'
     >
       <Image
         src='/logo.svg'
