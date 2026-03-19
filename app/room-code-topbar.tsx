@@ -14,7 +14,7 @@ export default async function RoomCodeTopbar() {
       </span>
       <div className='flex'>
         <Button asChild variant='ghost' className='font-bold h-8'>
-          <Link href={routes.quizSettingsStart()} className='text-white'>
+          <Link href={routes.start()} className='text-white'>
             {t('common.start-a-quiz')}
           </Link>
         </Button>

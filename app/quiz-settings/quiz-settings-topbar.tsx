@@ -14,9 +14,7 @@ export default async function QuizSettingsTopbar() {
       </span>
       <div className='flex'>
         <Button variant='ghost' className='font-bold h-8'>
-          <Link href={routes.quizSettingsStart()}>
-            {t('common.start-a-quiz')}
-          </Link>
+          <Link href={routes.start()}>{t('common.start-a-quiz')}</Link>
         </Button>
         <Button variant='ghost' className='font-bold h-8'>
           <Link href={routes.quizSettingsCreate()}>

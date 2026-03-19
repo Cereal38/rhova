@@ -17,10 +17,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className='relative min-h-dvh'>
+    <div className='relative min-h-dvh flex flex-col'>
       <GradientBackground />
       <QuizSettingsTopbar />
-      <main className='max-w-[600px] m-auto pt-4 px-4'>{children}</main>
+      <div className='flex-1 flex flex-col'>{children}</div>
     </div>
   );
 }

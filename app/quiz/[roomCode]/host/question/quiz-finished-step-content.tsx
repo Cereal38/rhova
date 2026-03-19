@@ -46,7 +46,7 @@ export default function QuizFinishedStepContent({
             </p>
           </div>
           <Button asChild className='mt-4 cursor-pointer'>
-            <Link href={routes.quizSettingsStart()}>
+            <Link href={routes.start()}>
               {t('host-quiz-finished.start-new-quiz')}
             </Link>
           </Button>

@@ -1,13 +1,16 @@
 import { getTranslations } from 'next-intl/server';
 import StartQuizForm from './start-quiz-form';
+import { Card } from '@/components/ui/card';
 
 export default async function StartQuizPage() {
   const t = await getTranslations();
 
   return (
-    <main>
-      <h1 className='text-xl'>{t('start-quiz.title')}</h1>
-      <StartQuizForm />
+    <main className='flex-1 flex items-center justify-center max-w-[600px] m-auto '>
+      <Card className='flex flex-col gap-2 p-8 md:min-w-[400px]'>
+        <h1 className='text-xl'>{t('start-quiz.title')}</h1>
+        <StartQuizForm />
+      </Card>
     </main>
   );
 }

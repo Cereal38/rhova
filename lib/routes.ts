@@ -1,6 +1,6 @@
 export const routes = {
   home: () => '/',
-  quizSettingsStart: () => '/quiz-settings/start',
+  start: () => '/start',
   quizSettingsCreate: () => '/quiz-settings/create',
   hostWaitingRoom: (roomCode: string) => `/quiz/${roomCode}/host/waiting-room`,
   playerWaitingRoom: (roomCode: string) =>
