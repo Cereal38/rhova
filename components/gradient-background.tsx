@@ -1,3 +1,4 @@
+// Parent should be in relative position
 export default function GradientBackground() {
   return (
     <div
