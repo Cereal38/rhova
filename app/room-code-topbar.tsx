@@ -9,9 +9,7 @@ export default async function RoomCodeTopbar() {
 
   return (
     <header className='z-30 absolute flex items-center justify-between gap-8 px-4 py-4 w-full backdrop-blur-3xl border-b border-white/5'>
-      <span className=''>
-        <ClickableLogo />
-      </span>
+      <ClickableLogo />
       <div className='flex'>
         <Button asChild variant='ghost' className='font-bold h-8'>
           <Link href={routes.start()} className='text-white'>

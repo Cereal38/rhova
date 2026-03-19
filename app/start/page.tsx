@@ -8,7 +8,9 @@ export default async function StartQuizPage() {
   return (
     <main className='flex-1 flex items-center justify-center max-w-[600px] m-auto '>
       <Card className='flex flex-col gap-2 p-8 md:min-w-[400px]'>
-        <h1 className='text-xl'>{t('start-quiz.title')}</h1>
+        <h1 id='start-quiz-title' className='text-xl'>
+          {t('start-quiz.title')}
+        </h1>
         <StartQuizForm />
       </Card>
     </main>

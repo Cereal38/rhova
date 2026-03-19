@@ -113,7 +113,11 @@ export default function StartQuizForm() {
   };
 
   return (
-    <form className='flex flex-col gap-4' onSubmit={startQuizHandler}>
+    <form
+      aria-labelledby='start-quiz-title'
+      className='flex flex-col gap-4'
+      onSubmit={startQuizHandler}
+    >
       <Field className='pt-4'>
         <FieldLabel htmlFor='quiz'>{t('start-quiz.file-label')}</FieldLabel>
         <FieldDescription>
