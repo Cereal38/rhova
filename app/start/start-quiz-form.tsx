@@ -123,7 +123,8 @@ export default function StartQuizForm() {
         <FieldDescription>
           {t.rich('start-quiz.file-description', {
             link: (chunks) => (
-              <Link href={routes.quizSettingsCreate()}>{chunks}</Link>
+              // TODO: Update it to point to the creation page
+              <Link href={routes.home()}>{chunks}</Link>
             ),
           })}
         </FieldDescription>

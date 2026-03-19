@@ -11,15 +11,8 @@ export default async function RoomCodeTopbar() {
     <header className='z-30 absolute flex items-center justify-between gap-8 px-4 py-4 w-full backdrop-blur-3xl border-b border-white/5'>
       <ClickableLogo />
       <div className='flex'>
-        <Button asChild variant='ghost' className='font-bold h-8'>
-          <Link href={routes.start()} className='text-white'>
-            {t('common.start-a-quiz')}
-          </Link>
-        </Button>
         <Button asChild className='font-bold h-8 ml-4'>
-          <Link href={routes.quizSettingsCreate()}>
-            {t('common.create-a-quiz')}
-          </Link>
+          <Link href={routes.start()}>{t('common.start-a-quiz')}</Link>
         </Button>
       </div>
     </header>

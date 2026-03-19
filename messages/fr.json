@@ -26,27 +26,6 @@
     "error-read-file": "Impossible de lire le fichier",
     "error-invalid-config": "Configuration de quiz invalide. Avez-vous sélectionné un fichier .rhova ?"
   },
-  "create-quiz": {
-    "title": "Créer un quiz",
-    "description": "Remplissez le formulaire ci-dessous pour créer votre quiz. Vous pourrez ensuite y jouer.",
-    "quiz-title-label": "Titre du quiz",
-    "quiz-title-description": "Quel sera le sujet de votre quiz ?",
-    "quiz-title-placeholder": "Terminologie de chimie",
-    "invalid-title": "Titre invalide",
-    "add-a-question": "Ajouter une question",
-    "create": "Créer",
-    "question-label": "Question {number}",
-    "question-description": "Voici la question qui sera affichée à l'écran",
-    "question-placeholder": "Formule moléculaire du dioxyde de carbone",
-    "correct-answer-label": "Bonne réponse",
-    "correct-answer-description": "Voici la bonne réponse à la question",
-    "correct-answer-placeholder": "CO2",
-    "wrong-answer-label": "Mauvaise réponse {number}",
-    "wrong-answer-description": "Voici une mauvaise réponse à la question",
-    "wrong-answer-1-placeholder": "O2",
-    "wrong-answer-2-placeholder": "H2O",
-    "wrong-answer-3-placeholder": "C2O"
-  },
   "player-waiting-room": {
     "title": "Vous êtes inscrit !",
     "waiting": "En attente que l'hôte lance la partie..."

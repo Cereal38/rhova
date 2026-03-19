@@ -26,27 +26,6 @@
     "error-read-file": "Failed to read the file",
     "error-invalid-config": "Invalid quiz config. Did you select a .rhova file?"
   },
-  "create-quiz": {
-    "title": "Create a quiz",
-    "description": "Fill the form below to create your quiz. You will then be able to play it.",
-    "quiz-title-label": "Quiz title",
-    "quiz-title-description": "What will your quiz be about?",
-    "quiz-title-placeholder": "Chemistry terminology",
-    "invalid-title": "Invalid title",
-    "add-a-question": "Add a question",
-    "create": "Create",
-    "question-label": "Question {number}",
-    "question-description": "This is the question which will be displayed on the screen",
-    "question-placeholder": "Molecular formula of carbon dioxide",
-    "correct-answer-label": "Correct answer",
-    "correct-answer-description": "This is the correct answer to the question",
-    "correct-answer-placeholder": "CO2",
-    "wrong-answer-label": "Wrong answer {number}",
-    "wrong-answer-description": "This is a wrong answer to the question",
-    "wrong-answer-1-placeholder": "O2",
-    "wrong-answer-2-placeholder": "H2O",
-    "wrong-answer-3-placeholder": "C2O"
-  },
   "player-waiting-room": {
     "title": "You're in!",
     "waiting": "Waiting for the host to start..."
