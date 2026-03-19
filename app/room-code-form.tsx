@@ -81,7 +81,6 @@ export default function RoomCodeForm() {
         />
       </Field>
       <Button
-        disabled={loading || roomCodeInput.length !== 6}
         type='submit'
         className='w-full text-xl h-16 uppercasep cursor-pointer'
       >
