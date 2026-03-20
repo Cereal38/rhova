@@ -12,6 +12,7 @@ export default function RoomCodeSection() {
       <h2 className='text-xl'>
         {t.rich('host-waiting-room.room-code-instructions', {
           strong: (chunks) => <strong>{chunks}</strong>,
+          url: window.location.host,
         })}
       </h2>
       <div className='flex-1 flex items-center'>

@@ -49,7 +49,7 @@
   "host-waiting-room": {
     "player-count": "{count} players ready!",
     "scan-qr-code": "Scan the QR Code",
-    "room-code-instructions": "Go to <strong>Rhova.io</strong> and enter the room code",
+    "room-code-instructions": "Go to <strong>{url}</strong> and enter the room code",
     "error-impossible-start": "Impossible to start the quiz",
     "error-failed-start": "Failed to start the quiz"
   },

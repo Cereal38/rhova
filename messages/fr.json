@@ -49,7 +49,7 @@
   "host-waiting-room": {
     "player-count": "{count} joueurs prêts !",
     "scan-qr-code": "Scannez le QR Code",
-    "room-code-instructions": "Allez sur <strong>Rhova.io</strong> et entrez le code de la salle",
+    "room-code-instructions": "Allez sur <strong>{url}</strong> et entrez le code de la salle",
     "error-impossible-start": "Impossible de lancer le quiz",
     "error-failed-start": "Échec du lancement du quiz"
   },
