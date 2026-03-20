@@ -9,7 +9,7 @@ interface Props {
 
 export default function Topbar({ items }: Props) {
   return (
-    <header className='z-30 absolute flex items-center justify-between gap-8 px-4 py-4 w-full backdrop-blur-3xl border-b border-white/5'>
+    <header className='z-30 absolute flex items-center justify-between gap-8 px-4 h-(--topbar-height) w-full backdrop-blur-3xl border-b border-white/5'>
       <ClickableLogo />
       <div className='flex gap-4'>
         {items.map((item) => (

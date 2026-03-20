@@ -86,6 +86,7 @@
   --answer-color-4: oklch(0.527 0.185 155.224);
   --answer-correct: oklch(0.72 0.19 145);
   --answer-wrong: oklch(0.63 0.22 25);
+  --topbar-height: 3.5rem;
 }
 
 .dark {
