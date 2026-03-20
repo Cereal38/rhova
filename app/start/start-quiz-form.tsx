@@ -8,13 +8,13 @@ import {
   FieldError,
   FieldLabel,
 } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
+import FileDropZone from '@/components/file-drop-zone';
 import { useSocket } from '@/hooks/use-socket';
 import { routes } from '@/lib/routes';
 import { quizFormatValidator } from '@/validators/quiz-format-validator';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Spinner } from '@/components/ui/spinner';
 import { EventName } from '@/models/enums/event-name';
@@ -25,18 +25,10 @@ export default function StartQuizForm() {
   const router = useRouter();
   const t = useTranslations();
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileInput, setFileInput] = useState<File>();
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(false);
-
-  const fileInputChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setFileInput(file);
-    }
-  };
 
   // TODO: Improve the code of this function
   const startQuizHandler = async (
@@ -110,6 +102,7 @@ export default function StartQuizForm() {
   const handleError = (message: string) => {
     setError(message);
     setFileInput(undefined);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   return (
@@ -128,7 +121,14 @@ export default function StartQuizForm() {
             ),
           })}
         </FieldDescription>
-        <Input id='quiz' type='file' onChange={fileInputChangeHandler} />
+        <FileDropZone
+          ref={fileInputRef}
+          id='quiz'
+          label={t('start-quiz.dropzone-hint')}
+          file={fileInput}
+          onFileChange={setFileInput}
+          accept='.rhova'
+        />
         {error && <FieldError>{error}</FieldError>}
       </Field>
       <Button

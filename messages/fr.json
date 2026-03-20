@@ -22,6 +22,7 @@
   "start-quiz": {
     "title": "Lancer un quiz",
     "file-label": "Fichier",
+    "dropzone-hint": "Déposez un fichier .rhova ici, ou cliquez pour parcourir",
     "file-description": "Pour lancer un quiz, sélectionnez un fichier .rhova depuis votre système. Si vous n'en avez pas, vous pouvez en créer un depuis la page « <link>créer un quiz</link> »",
     "error-read-file": "Impossible de lire le fichier",
     "error-invalid-config": "Configuration de quiz invalide. Avez-vous sélectionné un fichier .rhova ?"
