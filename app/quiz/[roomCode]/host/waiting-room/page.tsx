@@ -4,18 +4,14 @@ import RoomCodeSection from './room-code-section';
 import QrCodeSection from './qr-code-section';
 import StartQuizButton from './start-quiz-button';
 import { getTranslations } from 'next-intl/server';
+import GradientBackground from '@/components/gradient-background';
 
 export default async function HostWaitingRoomPage() {
   const t = await getTranslations();
 
   return (
     <div className='relative flex min-h-dvh items-center justify-center overflow-hidden font-sans'>
-      <object
-        data='/room-code-bg.svg'
-        type='image/svg+xml'
-        aria-hidden='true'
-        className='pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover'
-      />
+      <GradientBackground />
       <main className='flex min-h-dvh w-full flex-col items-center justify-center gap-8 px-4'>
         <Card className='p-8 flex flex-col items-center gap-16'>
           <div className=' flex flex-col items-center'>
