@@ -29,10 +29,5 @@ export default function QuizHostLayoutClient({ children }: Props) {
     },
   ];
 
-  return (
-    <div className='flex flex-col h-dvh'>
-      <Topbar items={items} />
-      <div className='flex-1'>{children}</div>
-    </div>
-  );
+  return <div className='flex flex-col h-dvh'>{children}</div>;
 }
