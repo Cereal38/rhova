@@ -1,6 +1,6 @@
+import Link from 'next/link';
 import ClickableLogo from './clickable-logo';
 import { Button } from './ui/button';
-import { Link } from 'lucide-react';
 import { TopbarItem } from '@/models/interfaces/topbar-item';
 
 interface Props {

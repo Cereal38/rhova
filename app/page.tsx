@@ -1,12 +1,24 @@
 import { Card } from '@/components/ui/card';
 import RoomCodeForm from './room-code-form';
-import RoomCodeTopbar from '@/app/room-code-topbar';
 import GradientBackground from '@/components/gradient-background';
+import { getTranslations } from 'next-intl/server';
+import { TopbarItem } from '@/models/interfaces/topbar-item';
+import { routes } from '@/lib/routes';
+import Topbar from '@/components/topbar';
 
-export default function RoomCodePage() {
+export default async function RoomCodePage() {
+  const t = await getTranslations();
+
+  const topbarItems: TopbarItem[] = [
+    {
+      label: t('common.start-a-quiz'),
+      href: routes.start(),
+    },
+  ];
+
   return (
     <>
-      <RoomCodeTopbar />
+      <Topbar items={topbarItems} />
       <div className='relative flex min-h-dvh items-center justify-center overflow-hidden font-sans'>
         <GradientBackground />
         <main className='flex min-h-dvh w-full max-w-3xl flex-col items-center justify-center gap-8 px-4'>
