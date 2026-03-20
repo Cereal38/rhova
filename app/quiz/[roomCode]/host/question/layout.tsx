@@ -24,7 +24,7 @@ export default async function QuizHostQuestionLayout({ children }: Props) {
   return (
     <>
       <Topbar items={topbarItems} />
-      <div className='flex-1'>{children}</div>
+      <div className='flex-1 pt-(--topbar-height)'>{children}</div>
     </>
   );
 }
