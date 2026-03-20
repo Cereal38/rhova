@@ -13,7 +13,12 @@ export default function Topbar({ items }: Props) {
       <ClickableLogo />
       <div className='flex gap-4'>
         {items.map((item) => (
-          <Button key={item.label} asChild className='font-bold h-8 ml-4'>
+          <Button
+            key={item.label}
+            asChild
+            variant={item.variant}
+            className='font-bold h-8 ml-4 text-white'
+          >
             <Link href={item.href}>{item.label}</Link>
           </Button>
         ))}
