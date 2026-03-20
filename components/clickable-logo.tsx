@@ -11,9 +11,10 @@ export default function ClickableLogo() {
       <Image
         src='/logo.svg'
         alt=''
-        width={24}
-        height={24}
-        className='brightness-0 invert'
+        width={27}
+        height={32}
+        priority
+        className='brightness-0 invert h-8 w-auto'
       />
       Rhova
     </Link>
