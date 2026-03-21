@@ -7,6 +7,7 @@ import WsLeaderboardItem from '@/models/interfaces/ws-leaderboard-item';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
+import { Card } from '@/components/ui/card';
 
 interface Props {
   leaderboard?: WsLeaderboardItem[];
@@ -32,7 +33,7 @@ export default function QuizFinishedStepContent({
   return (
     <main className='h-full mx-auto w-[90%] overflow-y-auto py-12'>
       {leaderboard && numberOfQuestions && (
-        <div className='w-full h-full flex flex-col items-center justify-center gap-8'>
+        <Card className='p-8 w-full h-full flex flex-col items-center justify-center gap-8'>
           <ScoreChart score={averageScore} max={numberOfQuestions} />
           <div className='flex flex-col gap-2'>
             <h1 className='text-center text-4xl font-bold'>
@@ -50,7 +51,7 @@ export default function QuizFinishedStepContent({
               {t('host-quiz-finished.start-new-quiz')}
             </Link>
           </Button>
-        </div>
+        </Card>
       )}
     </main>
   );

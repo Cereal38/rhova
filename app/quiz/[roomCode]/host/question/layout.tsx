@@ -1,3 +1,4 @@
+import GradientBackground from '@/components/gradient-background';
 import Topbar from '@/components/topbar';
 import { routes } from '@/lib/routes';
 import { TopbarItem } from '@/models/interfaces/topbar-item';
@@ -24,7 +25,10 @@ export default async function QuizHostQuestionLayout({ children }: Props) {
   return (
     <>
       <Topbar items={topbarItems} />
-      <div className='flex-1 pt-(--topbar-height)'>{children}</div>
+      <div className='relative flex-1 pt-(--topbar-height)'>
+        <GradientBackground />
+        {children}
+      </div>
     </>
   );
 }

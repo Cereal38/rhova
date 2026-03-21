@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import QuizFinishedStepContent from './quiz-finished-step-content';
 import { EventName } from '@/models/enums/event-name';
 import { useTranslations } from 'next-intl';
+import { Card } from '@/components/ui/card';
 
 enum Step {
   'quiz',
@@ -136,7 +137,7 @@ export default function HostQuestionPage() {
     case Step.quiz:
       return (
         <main className='h-full mx-auto w-[90%] overflow-y-auto py-12'>
-          <div className='h-full flex flex-col justify-between'>
+          <Card className='p-8 h-full flex flex-col justify-between'>
             {!!question && (
               <>
                 <div>
@@ -184,7 +185,7 @@ export default function HostQuestionPage() {
                 </div>
               </>
             )}
-          </div>
+          </Card>
         </main>
       );
     case Step.quizFinished:
