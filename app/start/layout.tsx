@@ -22,6 +22,11 @@ export default async function StartQuizLayout({
 
   const topbarItems: TopbarItem[] = [
     {
+      label: t('common.create-a-quiz'),
+      href: routes.create(),
+      variant: 'ghost',
+    },
+    {
       label: t('common.join'),
       href: routes.home(),
     },

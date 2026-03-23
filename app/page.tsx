@@ -11,6 +11,11 @@ export default async function RoomCodePage() {
 
   const topbarItems: TopbarItem[] = [
     {
+      label: t('common.create-a-quiz'),
+      href: routes.create(),
+      variant: 'ghost',
+    },
+    {
       label: t('common.start-a-quiz'),
       href: routes.start(),
     },

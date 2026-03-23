@@ -13,6 +13,11 @@ export default async function QuizHostQuestionLayout({ children }: Props) {
 
   const topbarItems: TopbarItem[] = [
     {
+      label: t('common.create-a-quiz'),
+      href: routes.create(),
+      variant: 'ghost',
+    },
+    {
       label: t('common.start-a-quiz'),
       href: routes.start(),
       variant: 'ghost',
