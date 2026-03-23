@@ -13,7 +13,8 @@
   "metadata": {
     "home-description": "Entrez le code de la salle et profitez d'un quiz ensemble",
     "start-quiz-description": "Lancer un quiz en 1 clic pour commencer à jouer",
-    "quiz-play-description": "Jouez à un quiz ensemble"
+    "quiz-play-description": "Jouez à un quiz ensemble",
+    "create-quiz-description": "Créez un quiz en 1 minute pour commencer à jouer"
   },
   "home": {
     "room-code": "Code de la salle",

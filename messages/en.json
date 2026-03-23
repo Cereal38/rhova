@@ -13,7 +13,8 @@
   "metadata": {
     "home-description": "Enter the room code and enjoy a quiz together",
     "start-quiz-description": "Start a quiz in 1 click to play with anyone you want",
-    "quiz-play-description": "Play a quiz together"
+    "quiz-play-description": "Play a quiz together",
+    "create-quiz-description": "Create a quiz in 1 minute to start playing"
   },
   "home": {
     "room-code": "Room code",
