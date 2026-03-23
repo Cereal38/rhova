@@ -28,6 +28,9 @@
     "error-read-file": "Impossible de lire le fichier",
     "error-invalid-config": "Configuration de quiz invalide. Avez-vous sélectionné un fichier .rhova ?"
   },
+  "create-quiz": {
+    "title": "Créer un quiz"
+  },
   "player-waiting-room": {
     "title": "Vous êtes inscrit !",
     "waiting": "En attente que l'hôte lance la partie..."

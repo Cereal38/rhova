@@ -28,6 +28,9 @@
     "error-read-file": "Failed to read the file",
     "error-invalid-config": "Invalid quiz config. Did you select a .rhova file?"
   },
+  "create-quiz": {
+    "title": "Create a quiz"
+  },
   "player-waiting-room": {
     "title": "You're in!",
     "waiting": "Waiting for the host to start..."
