@@ -29,7 +29,9 @@
     "error-invalid-config": "Configuration de quiz invalide. Avez-vous sélectionné un fichier .rhova ?"
   },
   "create-quiz": {
-    "title": "Créer un quiz"
+    "title": "Créer un quiz",
+    "new-quiz": "Nouveau quiz",
+    "edit-quiz": "Éditer le quiz"
   },
   "player-waiting-room": {
     "title": "Vous êtes inscrit !",
