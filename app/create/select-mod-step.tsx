@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
+import { FilePenLine, FilePlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 interface Props {
@@ -12,13 +13,26 @@ export default function SelectModStep({ onStepChange }: Readonly<Props>) {
   const t = useTranslations();
 
   return (
-    <div>
-      <Button onClick={() => onStepChange(CreateQuizStep.CreateSetName)}>
-        {t('create-quiz.new-quiz')}
-      </Button>
-      <Button onClick={() => onStepChange(CreateQuizStep.EditSetName)}>
-        {t('create-quiz.edit-quiz')}
-      </Button>
+    <div className='flex flex-col gap-4'>
+      <h1 className='text-xl'>{t('create-quiz.title')}</h1>
+      <div className='flex gap-4'>
+        <Button
+          variant='outline'
+          className='flex-1 flex-col h-auto py-8 gap-3 text-base cursor-pointer'
+          onClick={() => onStepChange(CreateQuizStep.CreateSetName)}
+        >
+          <span>{t('create-quiz.new-quiz')}</span>
+          <FilePlus className='size-10' />
+        </Button>
+        <Button
+          variant='outline'
+          className='flex-1 flex-col h-auto py-8 gap-3 text-base cursor-pointer'
+          onClick={() => onStepChange(CreateQuizStep.EditSetName)}
+        >
+          <span>{t('create-quiz.edit-quiz')}</span>
+          <FilePenLine className='size-10' />
+        </Button>
+      </div>{' '}
     </div>
   );
 }
