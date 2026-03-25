@@ -3,9 +3,10 @@
 import FileDropZone from '@/components/file-drop-zone';
 import { Button } from '@/components/ui/button';
 import { Field, FieldDescription, FieldError } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
 import { routes } from '@/lib/routes';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
+import Quiz from '@/models/interfaces/quiz';
+import { quizFormatValidator } from '@/validators/quiz-format-validator';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -23,6 +24,56 @@ export default function UploadFileStep({ onStepChange }: Readonly<Props>) {
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(false);
 
+  const nextStepHandler = async (event: React.SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoading(true);
+
+    if (!fileInput) {
+      console.error('No file selected');
+      setLoading(false);
+      return;
+    }
+
+    let text: string;
+    try {
+      text = await fileInput.text();
+    } catch (err) {
+      handleError(t('common.error-read-file'));
+      setLoading(false);
+      console.error(
+        'An error occurred while reading the given file. Error: ' + err,
+      );
+      return;
+    }
+
+    let parsedData: unknown;
+    try {
+      parsedData = JSON.parse(text);
+    } catch (err) {
+      handleError(t('common.error-invalid-rhova-config'));
+      setLoading(false);
+      console.error(
+        'An error occurred while parsing the given file. Error: ' + err,
+      );
+      return;
+    }
+
+    const quizFormatValidation = quizFormatValidator.safeParse(parsedData);
+    if (!quizFormatValidation.success) {
+      handleError(t('common.error-invalid-rhova-config'));
+      setLoading(false);
+      return;
+    }
+
+    const quizData: Quiz = quizFormatValidation.data;
+  };
+
+  const handleError = (message: string) => {
+    setError(message);
+    setFileInput(undefined);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
   return (
     <div className='flex flex-col gap-4'>
       <h1 className='text-xl'>{t('create-quiz.upload-file-title')}</h1>
@@ -35,7 +86,7 @@ export default function UploadFileStep({ onStepChange }: Readonly<Props>) {
         <FileDropZone
           ref={fileInputRef}
           id='quiz'
-          label={t('start-quiz.dropzone-hint')}
+          label={t('common.dropzone-rhova-hint')}
           file={fileInput}
           onFileChange={setFileInput}
           accept='.rhova'

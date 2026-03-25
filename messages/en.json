@@ -10,7 +10,10 @@
     "or": "OR",
     "loading": "Loading",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "error-read-file": "Failed to read the file",
+    "error-invalid-rhova-config": "Invalid quiz config. Did you select a .rhova file?",
+    "dropzone-rhova-hint": "Drop a .rhova file here, or click to browse"
   },
   "metadata": {
     "home-description": "Enter the room code and enjoy a quiz together",
@@ -25,10 +28,7 @@
   "start-quiz": {
     "title": "Start a quiz",
     "file-label": "File",
-    "dropzone-hint": "Drop a .rhova file here, or click to browse",
-    "file-description": "To start a quiz, select a .rhova file from your system. If you don't have one, you can create one from the \"<link>create a quiz</link>\" page",
-    "error-read-file": "Failed to read the file",
-    "error-invalid-config": "Invalid quiz config. Did you select a .rhova file?"
+    "file-description": "To start a quiz, select a .rhova file from your system. If you don't have one, you can create one from the \"<link>create a quiz</link>\" page"
   },
   "create-quiz": {
     "title": "Create a quiz",

@@ -53,7 +53,7 @@ export default function StartQuizForm() {
     try {
       text = await fileInput.text();
     } catch (err) {
-      handleError(t('start-quiz.error-read-file'));
+      handleError(t('common.error-read-file'));
       setLoading(false);
       console.error(
         'An error occurred while reading the given file. Error: ' + err,
@@ -65,7 +65,7 @@ export default function StartQuizForm() {
     try {
       parsedData = JSON.parse(text);
     } catch (err) {
-      handleError(t('start-quiz.error-invalid-config'));
+      handleError(t('common.error-invalid-rhova-config'));
       setLoading(false);
       console.error(
         'An error occurred while parsing the given file. Error: ' + err,
@@ -75,7 +75,7 @@ export default function StartQuizForm() {
 
     const quizFormatValidation = quizFormatValidator.safeParse(parsedData);
     if (!quizFormatValidation.success) {
-      handleError(t('start-quiz.error-invalid-config'));
+      handleError(t('common.error-invalid-rhova-config'));
       setLoading(false);
       return;
     }
@@ -121,7 +121,7 @@ export default function StartQuizForm() {
         <FileDropZone
           ref={fileInputRef}
           id='quiz'
-          label={t('start-quiz.dropzone-hint')}
+          label={t('common.dropzone-rhova-hint')}
           file={fileInput}
           onFileChange={setFileInput}
           accept='.rhova'
