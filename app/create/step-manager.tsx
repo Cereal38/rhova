@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import SelectModStep from './select-mod-step';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
-import CreateSetTitleStep from './create-set-title-step';
+import SetTitleStep from './set-title-step';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Quiz from '@/models/interfaces/quiz';
 
@@ -58,6 +58,6 @@ export default function StepManager() {
     case CreateQuizStep.SelectMod:
       return <SelectModStep onStepChange={stepChangeHandler} />;
     case CreateQuizStep.CreateSetTitle:
-      return <CreateSetTitleStep onStepChange={stepChangeHandler} />;
+      return <SetTitleStep onStepChange={stepChangeHandler} />;
   }
 }

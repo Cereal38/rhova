@@ -10,7 +10,7 @@ interface Props {
   onStepChange: (step: CreateQuizStep) => void;
 }
 
-export default function CreateSetTitleStep({ onStepChange }: Readonly<Props>) {
+export default function SetTitleStep({ onStepChange }: Readonly<Props>) {
   const t = useTranslations();
 
   return (
