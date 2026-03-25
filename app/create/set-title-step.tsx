@@ -51,6 +51,7 @@ export default function SetTitleStep({
         >
           <ArrowLeft />
         </Button>
+        {/* TODO: Should be grayed out if invalid title */}
         <Button
           type='button'
           className='w-fit cursor-pointer'
