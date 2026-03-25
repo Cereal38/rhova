@@ -14,9 +14,13 @@ import { useRef, useState } from 'react';
 
 interface Props {
   onStepChange: (step: CreateQuizStep) => void;
+  onFileUpload: (quiz: Quiz) => void;
 }
 
-export default function UploadFileStep({ onStepChange }: Readonly<Props>) {
+export default function UploadFileStep({
+  onStepChange,
+  onFileUpload,
+}: Readonly<Props>) {
   const t = useTranslations();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -24,8 +28,7 @@ export default function UploadFileStep({ onStepChange }: Readonly<Props>) {
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(false);
 
-  const nextStepHandler = async (event: React.SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const nextStepHandler = async () => {
     setLoading(true);
 
     if (!fileInput) {
@@ -66,6 +69,8 @@ export default function UploadFileStep({ onStepChange }: Readonly<Props>) {
     }
 
     const quizData: Quiz = quizFormatValidation.data;
+
+    onFileUpload(quizData);
   };
 
   const handleError = (message: string) => {
@@ -106,8 +111,9 @@ export default function UploadFileStep({ onStepChange }: Readonly<Props>) {
         <Button
           type='button'
           className='w-fit cursor-pointer'
+          disabled={!fileInput || loading}
           aria-label={t('common.next')}
-          onClick={() => onStepChange(CreateQuizStep.SelectMod)}
+          onClick={() => nextStepHandler()}
         >
           <ArrowRight />
         </Button>

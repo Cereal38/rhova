@@ -60,11 +60,21 @@ export default function StepManager() {
     setQuiz((prev) => ({ ...prev, title }));
   }
 
+  function fileUploadHandler(quiz: Quiz) {
+    setQuiz(quiz);
+    stepChangeHandler(CreateQuizStep.SetTitle);
+  }
+
   switch (step) {
     case CreateQuizStep.SelectMod:
       return <SelectModStep onStepChange={stepChangeHandler} />;
     case CreateQuizStep.UploadFile:
-      return <UploadFileStep onStepChange={stepChangeHandler} />;
+      return (
+        <UploadFileStep
+          onStepChange={stepChangeHandler}
+          onFileUpload={fileUploadHandler}
+        />
+      );
     case CreateQuizStep.SetTitle:
       return (
         <SetTitleStep
