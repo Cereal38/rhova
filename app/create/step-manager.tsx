@@ -33,14 +33,15 @@ export default function StepManager() {
   }, [searchParams]);
 
   // Get the current quiz from the localstorage if one exists
-  const [quiz, setQuiz] = useState<Quiz>(() => {
+  const [quiz, setQuiz] = useState<Quiz>(quizDefault);
+
+  useEffect(() => {
     try {
       const quizLocal = localStorage.getItem('create-quiz');
-      return quizLocal ? JSON.parse(quizLocal) : quizDefault;
-    } catch {
-      return quizDefault;
-    }
-  });
+      // We have an IDE warning here, but i don't know how to fix it. No problem to execute tho
+      if (quizLocal) setQuiz(JSON.parse(quizLocal));
+    } catch {}
+  }, []);
 
   // Everytime the quiz is updated, set the new version to localstorage
   useEffect(() => {
