@@ -5,6 +5,12 @@ import SelectModStep from './select-mod-step';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import CreateSetTitleStep from './create-set-title-step';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import Quiz from '@/models/interfaces/quiz';
+
+const quizDefault: Quiz = {
+  title: '',
+  questions: [],
+};
 
 export default function StepManager() {
   const pathname = usePathname();
@@ -23,6 +29,16 @@ export default function StepManager() {
     return CreateQuizStep.SelectMod;
   }, [searchParams]);
 
+  // Get the current quiz from the localstorage if one exists
+  const [quiz, setQuiz] = useState<Quiz>(() => {
+    try {
+      const quizLocal = localStorage.getItem('create-quiz');
+      return quizLocal ? JSON.parse(quizLocal) : quizDefault;
+    } catch {
+      return quizDefault;
+    }
+  });
+
   const createQueryString = (name: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set(name, value);
@@ -32,6 +48,10 @@ export default function StepManager() {
 
   function stepChangeHandler(step: CreateQuizStep) {
     router.push(pathname + '?' + createQueryString('step', step));
+  }
+
+  function quizTitleChangeHandler(title: string) {
+    setQuiz((prev) => ({ ...prev, title }));
   }
 
   switch (step) {
