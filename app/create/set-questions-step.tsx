@@ -100,7 +100,7 @@ export default function SetQuestionsStep({
               </Button>
             </div>
             <AccordionContent className='flex flex-col gap-3 px-1'>
-              <div className='flex flex-col gap-1.5'>
+              <div className='flex flex-col gap-2'>
                 <Label>{t('create-quiz.question-label')}</Label>
                 <Input
                   placeholder={t('create-quiz.question-placeholder')}
@@ -110,7 +110,7 @@ export default function SetQuestionsStep({
                   }
                 />
               </div>
-              <div className='flex flex-col gap-1.5'>
+              <div className='flex flex-col gap-2'>
                 <Label>{t('create-quiz.correct-answer-label')}</Label>
                 <Input
                   placeholder={t('create-quiz.correct-answer-placeholder')}
@@ -120,7 +120,7 @@ export default function SetQuestionsStep({
                   }
                 />
               </div>
-              <div className='flex flex-col gap-1.5'>
+              <div className='flex flex-col gap-2'>
                 <Label>{t('create-quiz.wrong-answers-label')}</Label>
                 <div className='flex flex-col gap-2'>
                   {question.wrongAnswers.map((answer, aIndex) => (
