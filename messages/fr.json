@@ -26,7 +26,7 @@
     "title": "Lancer un quiz",
     "file-label": "Fichier",
     "dropzone-hint": "Déposez un fichier .rhova ici, ou cliquez pour parcourir",
-    "file-description": "Pour lancer un quiz, sélectionnez un fichier .rhova depuis votre système. Si vous n'en avez pas, vous pouvez en créer un depuis la page « <link>créer un quiz</link> »",
+    "file-description": "Pour lancer un quiz, sélectionnez un fichier .rhova depuis votre système. Si vous n'en avez pas, vous pouvez en créer un depuis la page \"<link>créer un quiz</link>\"",
     "error-read-file": "Impossible de lire le fichier",
     "error-invalid-config": "Configuration de quiz invalide. Avez-vous sélectionné un fichier .rhova ?"
   },
@@ -36,7 +36,9 @@
     "edit-quiz": "Éditer un quiz",
     "set-title-title": "Nommez votre quiz",
     "set-title-placeholder": "ex. Les chanteurs célèbres",
-    "set-title-description": "Choisissez un nom qui évoque le thème. Il sera également le nom du fichier contenant votre quiz."
+    "set-title-description": "Choisissez un nom qui évoque le thème. Il sera également le nom du fichier contenant votre quiz.",
+    "upload-file-title": "Sélectionnez le quiz à éditer",
+    "upload-file-description": "Choisissez un fichier .rhova pour éditer un quiz existant. Si vous n'en avez pas, vous pouvez en créer un depuis la page \"<link>créer un quiz</link>\"."
   },
   "player-waiting-room": {
     "title": "Vous êtes inscrit !",

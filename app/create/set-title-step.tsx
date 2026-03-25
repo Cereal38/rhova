@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { FieldDescription } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -27,9 +28,9 @@ export default function SetTitleStep({
     <div className='flex flex-col gap-4'>
       <div className='flex flex-col gap-2'>
         <h1 className='text-xl'>{t('create-quiz.set-title-title')}</h1>
-        <p className='text-muted-foreground text-sm leading-relaxed'>
+        <FieldDescription>
           {t('create-quiz.set-title-description')}
-        </p>
+        </FieldDescription>
       </div>
       <Input
         autoFocus

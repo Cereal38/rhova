@@ -115,10 +115,7 @@ export default function StartQuizForm() {
         <FieldLabel htmlFor='quiz'>{t('start-quiz.file-label')}</FieldLabel>
         <FieldDescription>
           {t.rich('start-quiz.file-description', {
-            link: (chunks) => (
-              // TODO: Update it to point to the creation page
-              <Link href={routes.home()}>{chunks}</Link>
-            ),
+            link: (chunks) => <Link href={routes.create()}>{chunks}</Link>,
           })}
         </FieldDescription>
         <FileDropZone
