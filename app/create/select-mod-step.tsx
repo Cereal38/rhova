@@ -18,7 +18,7 @@ export default function SelectModStep({ onStepChange }: Readonly<Props>) {
       <div className='flex gap-4'>
         <Button
           variant='outline'
-          className='flex-1 flex-col h-auto py-8 gap-3 text-base cursor-pointer'
+          className='flex-1 flex-col h-auto py-8 gap-3 text-primary cursor-pointer'
           onClick={() => onStepChange(CreateQuizStep.CreateSetTitle)}
         >
           <span>{t('create-quiz.new-quiz')}</span>
@@ -26,7 +26,7 @@ export default function SelectModStep({ onStepChange }: Readonly<Props>) {
         </Button>
         <Button
           variant='outline'
-          className='flex-1 flex-col h-auto py-8 gap-3 text-base cursor-pointer'
+          className='flex-1 flex-col h-auto py-8 gap-3 text-primary cursor-pointer'
           onClick={() => onStepChange(CreateQuizStep.EditSetTitle)}
         >
           <span>{t('create-quiz.edit-quiz')}</span>
