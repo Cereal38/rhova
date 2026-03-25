@@ -50,7 +50,6 @@
     "wrong-answer-placeholder": "Mauvaise réponse {number}",
     "add-question": "Ajouter une question",
     "remove-question": "Supprimer la question",
-    "add-wrong-answer": "Ajouter une mauvaise réponse",
     "remove-wrong-answer": "Supprimer la mauvaise réponse"
   },
   "player-waiting-room": {

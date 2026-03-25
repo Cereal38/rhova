@@ -69,25 +69,6 @@ export default function SetQuestionsStep({
     onQuestionsChange(updated);
   }
 
-  function addWrongAnswer(questionIndex: number) {
-    const updated = questions.map((q, i) =>
-      i === questionIndex ? { ...q, wrongAnswers: [...q.wrongAnswers, ''] } : q,
-    );
-    onQuestionsChange(updated);
-  }
-
-  function removeWrongAnswer(questionIndex: number, answerIndex: number) {
-    const updated = questions.map((q, i) =>
-      i === questionIndex
-        ? {
-            ...q,
-            wrongAnswers: q.wrongAnswers.filter((_, j) => j !== answerIndex),
-          }
-        : q,
-    );
-    onQuestionsChange(updated);
-  }
-
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex flex-col gap-2'>
@@ -99,7 +80,7 @@ export default function SetQuestionsStep({
       <div className='flex flex-col gap-3'>
         {questions.map((question, qIndex) => (
           <Collapsible
-            key={qIndex}
+            key={qIndex + question.question}
             className='rounded-xl border data-[state=open]:bg-muted'
           >
             <div className='flex items-center'>
@@ -154,7 +135,7 @@ export default function SetQuestionsStep({
                 <Label>{t('create-quiz.wrong-answers-label')}</Label>
                 <div className='flex flex-col gap-2'>
                   {question.wrongAnswers.map((answer, aIndex) => (
-                    <div key={aIndex} className='flex gap-2'>
+                    <div key={aIndex + answer} className='flex gap-2'>
                       <Input
                         placeholder={t('create-quiz.wrong-answer-placeholder', {
                           number: aIndex + 1,
@@ -164,30 +145,8 @@ export default function SetQuestionsStep({
                           updateWrongAnswer(qIndex, aIndex, e.target.value)
                         }
                       />
-                      {question.wrongAnswers.length > 1 && (
-                        <Button
-                          type='button'
-                          variant='ghost'
-                          size='icon'
-                          className='shrink-0 cursor-pointer text-destructive'
-                          aria-label={t('create-quiz.remove-wrong-answer')}
-                          onClick={() => removeWrongAnswer(qIndex, aIndex)}
-                        >
-                          <Trash2 />
-                        </Button>
-                      )}
                     </div>
                   ))}
-                  <Button
-                    type='button'
-                    variant='outline'
-                    size='sm'
-                    className='w-fit cursor-pointer'
-                    onClick={() => addWrongAnswer(qIndex)}
-                  >
-                    <Plus />
-                    {t('create-quiz.add-wrong-answer')}
-                  </Button>
                 </div>
               </div>
             </CollapsibleContent>

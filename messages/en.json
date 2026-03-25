@@ -51,7 +51,6 @@
     "wrong-answer-placeholder": "Wrong answer {number}",
     "add-question": "Add a question",
     "remove-question": "Remove question",
-    "add-wrong-answer": "Add a wrong answer",
     "remove-wrong-answer": "Remove wrong answer"
   },
   "player-waiting-room": {
