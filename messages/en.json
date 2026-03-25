@@ -13,7 +13,8 @@
     "next": "Next",
     "error-read-file": "Failed to read the file",
     "error-invalid-rhova-config": "Invalid quiz config. Did you select a .rhova file?",
-    "dropzone-rhova-hint": "Drop a .rhova file here, or click to browse"
+    "dropzone-rhova-hint": "Drop a .rhova file here, or click to browse",
+    "finish": "Finish"
   },
   "metadata": {
     "home-description": "Enter the room code and enjoy a quiz together",

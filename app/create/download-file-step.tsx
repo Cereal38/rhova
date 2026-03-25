@@ -2,10 +2,13 @@
 
 import { Button } from '@/components/ui/button';
 import { FieldDescription } from '@/components/ui/field';
+import { routes } from '@/lib/routes';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import Quiz from '@/models/interfaces/quiz';
 import { ArrowLeft, Download } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface Props {
   onStepChange: (step: CreateQuizStep) => void;
@@ -55,6 +58,15 @@ export default function DownloadFileStep({
           onClick={() => onStepChange(CreateQuizStep.SetQuestions)}
         >
           <ArrowLeft />
+        </Button>
+        <Button
+          asChild
+          variant='outline'
+          type='button'
+          className='cursor-pointer'
+          aria-label={t('common.finish')}
+        >
+          <Link href={routes.home()}>{t('common.finish')}</Link>
         </Button>
       </div>
     </div>
