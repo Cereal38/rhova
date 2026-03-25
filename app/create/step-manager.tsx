@@ -6,6 +6,7 @@ import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import SetTitleStep from './set-title-step';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Quiz from '@/models/interfaces/quiz';
+import UploadFileStep from './upload-file-step';
 
 const quizDefault: Quiz = {
   title: '',
@@ -62,7 +63,9 @@ export default function StepManager() {
   switch (step) {
     case CreateQuizStep.SelectMod:
       return <SelectModStep onStepChange={stepChangeHandler} />;
-    case CreateQuizStep.CreateSetTitle:
+    case CreateQuizStep.UploadFile:
+      return <UploadFileStep onStepChange={stepChangeHandler} />;
+    case CreateQuizStep.SetTitle:
       return (
         <SetTitleStep
           onStepChange={stepChangeHandler}
