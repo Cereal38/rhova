@@ -19,7 +19,7 @@ export default function SelectModStep({ onStepChange }: Readonly<Props>) {
         <Button
           variant='outline'
           className='flex-1 flex-col h-auto py-8 gap-3 text-base cursor-pointer'
-          onClick={() => onStepChange(CreateQuizStep.CreateSetName)}
+          onClick={() => onStepChange(CreateQuizStep.CreateSetTitle)}
         >
           <span>{t('create-quiz.new-quiz')}</span>
           <FilePlus className='size-10' />
@@ -27,7 +27,7 @@ export default function SelectModStep({ onStepChange }: Readonly<Props>) {
         <Button
           variant='outline'
           className='flex-1 flex-col h-auto py-8 gap-3 text-base cursor-pointer'
-          onClick={() => onStepChange(CreateQuizStep.EditSetName)}
+          onClick={() => onStepChange(CreateQuizStep.EditSetTitle)}
         >
           <span>{t('create-quiz.edit-quiz')}</span>
           <FilePenLine className='size-10' />

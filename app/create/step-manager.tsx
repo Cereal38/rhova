@@ -14,7 +14,7 @@ export default function StepManager() {
   switch (step) {
     case CreateQuizStep.SelectMod:
       return <SelectModStep onStepChange={stepChangeHandler} />;
-    case CreateQuizStep.CreateSetName:
+    case CreateQuizStep.CreateSetTitle:
       return <div>Create set name</div>;
   }
 }
