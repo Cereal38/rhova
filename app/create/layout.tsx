@@ -36,7 +36,9 @@ export default async function CreateQuizLayout({
     <div className='relative min-h-dvh flex flex-col'>
       <GradientBackground />
       <Topbar items={topbarItems} />;
-      <div className='flex-1 flex flex-col'>{children}</div>
+      <div className='flex-1 flex flex-col pt-(--topbar-height) pb-4'>
+        {children}
+      </div>
     </div>
   );
 }
