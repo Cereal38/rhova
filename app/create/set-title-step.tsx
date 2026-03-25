@@ -24,6 +24,11 @@ export default function SetTitleStep({
     onTitleChange(e.target.value);
   }
 
+  function nextStepHandler() {
+    if (!title) return;
+    onStepChange(CreateQuizStep.SetQuestions);
+  }
+
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex flex-col gap-2'>
@@ -36,7 +41,7 @@ export default function SetTitleStep({
         autoFocus
         placeholder={t('create-quiz.set-title-placeholder')}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') onStepChange(CreateQuizStep.SelectMod);
+          if (e.key === 'Enter') nextStepHandler();
         }}
         onChange={handleTitleChange}
         value={title}
@@ -51,12 +56,12 @@ export default function SetTitleStep({
         >
           <ArrowLeft />
         </Button>
-        {/* TODO: Should be grayed out if invalid title */}
         <Button
           type='button'
           className='w-fit cursor-pointer'
           aria-label={t('common.next')}
-          onClick={() => onStepChange(CreateQuizStep.SetQuestions)}
+          disabled={!title}
+          onClick={() => nextStepHandler}
         >
           <ArrowRight />
         </Button>

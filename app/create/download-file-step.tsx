@@ -8,7 +8,6 @@ import Quiz from '@/models/interfaces/quiz';
 import { ArrowLeft, Download } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 interface Props {
   onStepChange: (step: CreateQuizStep) => void;
@@ -43,7 +42,7 @@ export default function DownloadFileStep({
       </div>
       <Button
         type='button'
-        className='w-fit cursor-pointer'
+        className='cursor-pointer'
         onClick={downloadHandler}
       >
         <Download />
