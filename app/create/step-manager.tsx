@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useMemo, useState } from 'react';
 import SelectModStep from './select-mod-step';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import CreateSetTitleStep from './create-set-title-step';
@@ -11,7 +11,17 @@ export default function StepManager() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [step, setStep] = useState<CreateQuizStep>(CreateQuizStep.SelectMod);
+  // Get the step from search params (Set select mod as default)
+  const step = useMemo<CreateQuizStep>(() => {
+    const paramStep = searchParams.get('step');
+    if (
+      paramStep &&
+      Object.values(CreateQuizStep).includes(paramStep as CreateQuizStep)
+    ) {
+      return paramStep as CreateQuizStep;
+    }
+    return CreateQuizStep.SelectMod;
+  }, [searchParams]);
 
   const createQueryString = (name: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -21,7 +31,6 @@ export default function StepManager() {
   };
 
   function stepChangeHandler(step: CreateQuizStep) {
-    setStep(step);
     router.push(pathname + '?' + createQueryString('step', step));
   }
 
