@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import Question from '@/models/interfaces/question';
-import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Plus, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 interface Props {
@@ -68,6 +68,10 @@ export default function SetQuestionsStep({
       return { ...q, wrongAnswers };
     });
     onQuestionsChange(updated);
+  }
+
+  function nextStepHandler() {
+    onStepChange(CreateQuizStep.DownloadFile);
   }
 
   return (
@@ -160,6 +164,14 @@ export default function SetQuestionsStep({
           onClick={() => onStepChange(CreateQuizStep.SetTitle)}
         >
           <ArrowLeft />
+        </Button>
+        <Button
+          type='button'
+          className='w-fit cursor-pointer'
+          aria-label={t('common.next')}
+          onClick={() => nextStepHandler()}
+        >
+          <ArrowRight />
         </Button>
       </div>
     </div>

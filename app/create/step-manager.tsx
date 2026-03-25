@@ -5,6 +5,7 @@ import SelectModStep from './select-mod-step';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import SetTitleStep from './set-title-step';
 import SetQuestionsStep from './set-questions-step';
+import DownloadFileStep from './download-file-step';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Quiz from '@/models/interfaces/quiz';
 import Question from '@/models/interfaces/question';
@@ -96,6 +97,13 @@ export default function StepManager() {
           onStepChange={stepChangeHandler}
           onQuestionsChange={quizQuestionsChangeHandler}
           questions={quiz.questions}
+        />
+      );
+    case CreateQuizStep.DownloadFile:
+      return (
+        <DownloadFileStep
+          onStepChange={stepChangeHandler}
+          quiz={quiz}
         />
       );
   }

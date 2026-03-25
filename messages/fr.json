@@ -50,7 +50,10 @@
     "wrong-answer-placeholder": "Mauvaise réponse {number}",
     "add-question": "Ajouter une question",
     "remove-question": "Supprimer la question",
-    "remove-wrong-answer": "Supprimer la mauvaise réponse"
+    "remove-wrong-answer": "Supprimer la mauvaise réponse",
+    "download-file-title": "Téléchargez votre quiz",
+    "download-file-description": "Votre quiz est prêt ! Téléchargez-le en fichier .rhova pour commencer à jouer.",
+    "download-file-button": "Télécharger le fichier .rhova"
   },
   "player-waiting-room": {
     "title": "Vous êtes inscrit !",

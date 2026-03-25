@@ -51,7 +51,10 @@
     "wrong-answer-placeholder": "Wrong answer {number}",
     "add-question": "Add a question",
     "remove-question": "Remove question",
-    "remove-wrong-answer": "Remove wrong answer"
+    "remove-wrong-answer": "Remove wrong answer",
+    "download-file-title": "Download your quiz",
+    "download-file-description": "Your quiz is ready! Download it as a .rhova file to start playing.",
+    "download-file-button": "Download .rhova file"
   },
   "player-waiting-room": {
     "title": "You're in!",
