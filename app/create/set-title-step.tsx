@@ -61,7 +61,7 @@ export default function SetTitleStep({
           className='w-fit cursor-pointer'
           aria-label={t('common.next')}
           disabled={!title}
-          onClick={() => nextStepHandler}
+          onClick={() => nextStepHandler()}
         >
           <ArrowRight />
         </Button>

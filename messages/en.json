@@ -53,6 +53,8 @@
     "add-question": "Add a question",
     "remove-question": "Remove question",
     "remove-wrong-answer": "Remove wrong answer",
+    "set-questions-error-no-questions": "Add at least one question before you continue.",
+    "set-questions-error-incomplete": "Fill in every field before continuing.",
     "download-file-title": "Download your quiz",
     "download-file-description": "Your quiz is ready! Download it as a .rhova file to start playing.",
     "download-file-button": "Download .rhova file"

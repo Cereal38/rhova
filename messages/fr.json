@@ -52,6 +52,8 @@
     "add-question": "Ajouter une question",
     "remove-question": "Supprimer la question",
     "remove-wrong-answer": "Supprimer la mauvaise réponse",
+    "set-questions-error-no-questions": "Ajoutez au moins une question avant de continuer.",
+    "set-questions-error-incomplete": "Remplissez tous les champs avant de continuer.",
     "download-file-title": "Téléchargez votre quiz",
     "download-file-description": "Votre quiz est prêt ! Téléchargez-le en fichier .rhova pour commencer à jouer.",
     "download-file-button": "Télécharger le fichier .rhova"

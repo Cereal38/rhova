@@ -7,13 +7,14 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-import { FieldDescription } from '@/components/ui/field';
+import { FieldDescription, FieldError } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import Question from '@/models/interfaces/question';
 import { ArrowLeft, ArrowRight, Plus, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useRef, useState } from 'react';
 
 interface Props {
   onStepChange: (step: CreateQuizStep) => void;
@@ -27,14 +28,39 @@ const emptyQuestion: Question = {
   wrongAnswers: ['', '', ''],
 };
 
+function isQuestionIncomplete(question: Question) {
+  return (
+    question.question === '' ||
+    question.correctAnswer === '' ||
+    question.wrongAnswers.includes('')
+  );
+}
+
+function firstIncompleteQuestionIndex(questions: Question[]) {
+  const index = questions.findIndex(isQuestionIncomplete);
+  return index === -1 ? null : index;
+}
+
 export default function SetQuestionsStep({
   onStepChange,
   onQuestionsChange,
   questions,
 }: Readonly<Props>) {
   const t = useTranslations();
+  const validationSummaryRef = useRef<HTMLDivElement>(null);
+  const [openAccordionItem, setOpenAccordionItem] = useState<
+    string | undefined
+  >(undefined);
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const [showFieldErrors, setShowFieldErrors] = useState(false);
+
+  function clearValidationFeedback() {
+    setValidationError(null);
+    setShowFieldErrors(false);
+  }
 
   function addQuestion() {
+    clearValidationFeedback();
     onQuestionsChange([
       ...questions,
       { ...emptyQuestion, wrongAnswers: [...emptyQuestion.wrongAnswers] },
@@ -42,6 +68,7 @@ export default function SetQuestionsStep({
   }
 
   function removeQuestion(index: number) {
+    clearValidationFeedback();
     onQuestionsChange(questions.filter((_, i) => i !== index));
   }
 
@@ -50,6 +77,7 @@ export default function SetQuestionsStep({
     field: 'question' | 'correctAnswer',
     value: string,
   ) {
+    clearValidationFeedback();
     const updated = questions.map((q, i) =>
       i === index ? { ...q, [field]: value } : q,
     );
@@ -61,6 +89,7 @@ export default function SetQuestionsStep({
     answerIndex: number,
     value: string,
   ) {
+    clearValidationFeedback();
     const updated = questions.map((q, i) => {
       if (i !== questionIndex) return q;
       const wrongAnswers = [...q.wrongAnswers];
@@ -71,6 +100,33 @@ export default function SetQuestionsStep({
   }
 
   function nextStepHandler() {
+    if (questions.length === 0) {
+      setShowFieldErrors(true);
+      setValidationError(t('create-quiz.set-questions-error-no-questions'));
+      requestAnimationFrame(() => {
+        validationSummaryRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+        });
+      });
+      return;
+    }
+
+    const firstBad = firstIncompleteQuestionIndex(questions);
+    if (firstBad !== null) {
+      setShowFieldErrors(true);
+      setValidationError(t('create-quiz.set-questions-error-incomplete'));
+      setOpenAccordionItem(`question-${firstBad}`);
+      requestAnimationFrame(() => {
+        validationSummaryRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+        });
+      });
+      return;
+    }
+
+    clearValidationFeedback();
     onStepChange(CreateQuizStep.DownloadFile);
   }
 
@@ -82,7 +138,12 @@ export default function SetQuestionsStep({
           {t('create-quiz.set-questions-description')}
         </FieldDescription>
       </div>
-      <Accordion type='single' collapsible defaultValue={undefined}>
+      <Accordion
+        type='single'
+        collapsible
+        value={openAccordionItem}
+        onValueChange={setOpenAccordionItem}
+      >
         {questions.map((question, qIndex) => (
           <AccordionItem key={qIndex} value={`question-${qIndex}`}>
             <div className='flex items-center'>
@@ -109,6 +170,9 @@ export default function SetQuestionsStep({
                 <Input
                   placeholder={t('create-quiz.question-placeholder')}
                   value={question.question}
+                  aria-invalid={
+                    showFieldErrors && question.question === '' ? true : undefined
+                  }
                   onChange={(e) =>
                     updateQuestion(qIndex, 'question', e.target.value)
                   }
@@ -119,6 +183,11 @@ export default function SetQuestionsStep({
                 <Input
                   placeholder={t('create-quiz.correct-answer-placeholder')}
                   value={question.correctAnswer}
+                  aria-invalid={
+                    showFieldErrors && question.correctAnswer === ''
+                      ? true
+                      : undefined
+                  }
                   onChange={(e) =>
                     updateQuestion(qIndex, 'correctAnswer', e.target.value)
                   }
@@ -134,6 +203,9 @@ export default function SetQuestionsStep({
                           number: aIndex + 1,
                         })}
                         value={answer}
+                        aria-invalid={
+                          showFieldErrors && answer === '' ? true : undefined
+                        }
                         onChange={(e) =>
                           updateWrongAnswer(qIndex, aIndex, e.target.value)
                         }
@@ -155,6 +227,13 @@ export default function SetQuestionsStep({
         <Plus />
         {t('create-quiz.add-question')}
       </Button>
+      {validationError && (
+        <div ref={validationSummaryRef} className='scroll-mt-4'>
+          <FieldError className='rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2.5'>
+            {validationError}
+          </FieldError>
+        </div>
+      )}
       <div className='flex justify-end gap-4'>
         <Button
           type='button'
