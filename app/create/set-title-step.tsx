@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
-import { ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 interface Props {
@@ -19,7 +19,6 @@ export default function SetTitleStep({
 }: Readonly<Props>) {
   const t = useTranslations();
 
-  // Handle title change
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     onTitleChange(e.target.value);
   }
@@ -41,14 +40,25 @@ export default function SetTitleStep({
         onChange={handleTitleChange}
         value={title}
       />
-      <Button
-        type='button'
-        className='w-fit self-end cursor-pointer'
-        aria-label={t('common.next')}
-        onClick={() => onStepChange(CreateQuizStep.SelectMod)}
-      >
-        <ArrowRight />
-      </Button>
+      <div className='flex justify-end gap-4'>
+        <Button
+          type='button'
+          variant='outline'
+          className='w-fit cursor-pointer'
+          aria-label={t('common.previous')}
+          onClick={() => onStepChange(CreateQuizStep.SelectMod)}
+        >
+          <ArrowLeft />
+        </Button>
+        <Button
+          type='button'
+          className='w-fit cursor-pointer'
+          aria-label={t('common.next')}
+          onClick={() => onStepChange(CreateQuizStep.SelectMod)}
+        >
+          <ArrowRight />
+        </Button>
+      </div>
     </div>
   );
 }
