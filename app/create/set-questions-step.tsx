@@ -82,15 +82,17 @@ export default function SetQuestionsStep({
         {questions.map((question, qIndex) => (
           <AccordionItem key={qIndex} value={`question-${qIndex}`}>
             <div className='flex items-center'>
-              <AccordionTrigger className='flex-1'>
-                {question.question ||
-                  t('create-quiz.question-number', { number: qIndex + 1 })}
-              </AccordionTrigger>
+              <div className='flex-1'>
+                <AccordionTrigger className='cursor-pointer'>
+                  {question.question ||
+                    t('create-quiz.question-number', { number: qIndex + 1 })}
+                </AccordionTrigger>
+              </div>
               <Button
                 type='button'
                 variant='ghost'
                 size='icon'
-                className='mr-1 shrink-0 cursor-pointer text-destructive'
+                className='mx-1 cursor-pointer text-destructive'
                 aria-label={t('create-quiz.remove-question')}
                 onClick={() => removeQuestion(qIndex)}
               >
