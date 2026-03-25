@@ -1,17 +1,18 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
 import { FieldDescription } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import Question from '@/models/interfaces/question';
-import { ArrowLeft, ChevronDown, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 interface Props {
@@ -77,28 +78,14 @@ export default function SetQuestionsStep({
           {t('create-quiz.set-questions-description')}
         </FieldDescription>
       </div>
-      <div className='flex flex-col gap-3'>
+      <Accordion type='single' collapsible defaultValue={undefined}>
         {questions.map((question, qIndex) => (
-          <Collapsible
-            key={qIndex + question.question}
-            className='rounded-xl border data-[state=open]:bg-muted'
-          >
+          <AccordionItem key={qIndex} value={`question-${qIndex}`}>
             <div className='flex items-center'>
-              <CollapsibleTrigger asChild>
-                <Button
-                  type='button'
-                  variant='ghost'
-                  className='group flex-1 cursor-pointer justify-start'
-                >
-                  <span className='text-sm font-medium'>
-                    {question.question ||
-                      t('create-quiz.question-number', {
-                        number: qIndex + 1,
-                      })}
-                  </span>
-                  <ChevronDown className='ml-auto group-data-[state=open]:rotate-180' />
-                </Button>
-              </CollapsibleTrigger>
+              <AccordionTrigger className='flex-1'>
+                {question.question ||
+                  t('create-quiz.question-number', { number: qIndex + 1 })}
+              </AccordionTrigger>
               <Button
                 type='button'
                 variant='ghost'
@@ -110,7 +97,7 @@ export default function SetQuestionsStep({
                 <Trash2 />
               </Button>
             </div>
-            <CollapsibleContent className='flex flex-col gap-3 p-4 pt-0'>
+            <AccordionContent className='flex flex-col gap-3 px-1'>
               <div className='flex flex-col gap-1.5'>
                 <Label>{t('create-quiz.question-label')}</Label>
                 <Input
@@ -135,7 +122,7 @@ export default function SetQuestionsStep({
                 <Label>{t('create-quiz.wrong-answers-label')}</Label>
                 <div className='flex flex-col gap-2'>
                   {question.wrongAnswers.map((answer, aIndex) => (
-                    <div key={aIndex + answer} className='flex gap-2'>
+                    <div key={aIndex} className='flex gap-2'>
                       <Input
                         placeholder={t('create-quiz.wrong-answer-placeholder', {
                           number: aIndex + 1,
@@ -149,10 +136,10 @@ export default function SetQuestionsStep({
                   ))}
                 </div>
               </div>
-            </CollapsibleContent>
-          </Collapsible>
+            </AccordionContent>
+          </AccordionItem>
         ))}
-      </div>
+      </Accordion>
       <Button
         type='button'
         variant='outline'
