@@ -8,7 +8,8 @@
     "home": "Accueil",
     "back": "Retour",
     "or": "OU",
-    "loading": "Chargement"
+    "loading": "Chargement",
+    "next": "Suivant"
   },
   "metadata": {
     "home-description": "Entrez le code de la salle et profitez d'un quiz ensemble",
@@ -31,7 +32,10 @@
   "create-quiz": {
     "title": "Créer un quiz",
     "new-quiz": "Nouveau quiz",
-    "edit-quiz": "Éditer un quiz"
+    "edit-quiz": "Éditer un quiz",
+    "set-title-title": "Nommez votre quiz",
+    "set-title-placeholder": "ex. Les chanteurs célèbres",
+    "set-title-description": "Choisissez un nom qui évoque le thème. Il sera également le nom du fichier contenant votre quiz."
   },
   "player-waiting-room": {
     "title": "Vous êtes inscrit !",

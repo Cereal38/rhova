@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import SelectModStep from './select-mod-step';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
+import CreateSetTitleStep from './create-set-title-step';
 
 export default function StepManager() {
   const [step, setStep] = useState<CreateQuizStep>(CreateQuizStep.SelectMod);
@@ -15,6 +16,6 @@ export default function StepManager() {
     case CreateQuizStep.SelectMod:
       return <SelectModStep onStepChange={stepChangeHandler} />;
     case CreateQuizStep.CreateSetTitle:
-      return <div>Create set name</div>;
+      return <CreateSetTitleStep onStepChange={stepChangeHandler} />;
   }
 }

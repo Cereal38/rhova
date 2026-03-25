@@ -8,7 +8,8 @@
     "home": "Home",
     "back": "Back",
     "or": "OR",
-    "loading": "Loading"
+    "loading": "Loading",
+    "next": "Next"
   },
   "metadata": {
     "home-description": "Enter the room code and enjoy a quiz together",
@@ -31,7 +32,10 @@
   "create-quiz": {
     "title": "Create a quiz",
     "new-quiz": "New quiz",
-    "edit-quiz": "Edit quiz"
+    "edit-quiz": "Edit quiz",
+    "set-title-title": "Name your quiz",
+    "set-title-placeholder": "e.g. Famous singers",
+    "set-title-description": "Pick something that reflects the theme. It will also be used as the filename for your .rhova file."
   },
   "player-waiting-room": {
     "title": "You're in!",
