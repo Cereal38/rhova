@@ -40,7 +40,7 @@
     "upload-file-title": "Sélectionnez le quiz à éditer",
     "upload-file-description": "Choisissez un fichier .rhova pour éditer un quiz existant. Si vous n'en avez pas, vous pouvez en créer un depuis la page \"<link>créer un quiz</link>\".",
     "set-questions-title": "Ajoutez vos questions",
-    "set-questions-description": "Ajoutez des questions avec une bonne réponse et au moins une mauvaise réponse chacune.",
+    "set-questions-description": "Ajoutez des questions. Il faut une bonne réponse et trois mauvaises réponses par question.",
     "question-number": "Question {number}",
     "question-label": "Question",
     "question-placeholder": "ex. Qui a peint la Joconde ?",

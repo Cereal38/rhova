@@ -1,12 +1,17 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import { FieldDescription } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import Question from '@/models/interfaces/question';
-import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Plus, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 interface Props {
@@ -66,9 +71,7 @@ export default function SetQuestionsStep({
 
   function addWrongAnswer(questionIndex: number) {
     const updated = questions.map((q, i) =>
-      i === questionIndex
-        ? { ...q, wrongAnswers: [...q.wrongAnswers, ''] }
-        : q,
+      i === questionIndex ? { ...q, wrongAnswers: [...q.wrongAnswers, ''] } : q,
     );
     onQuestionsChange(updated);
   }
@@ -76,7 +79,10 @@ export default function SetQuestionsStep({
   function removeWrongAnswer(questionIndex: number, answerIndex: number) {
     const updated = questions.map((q, i) =>
       i === questionIndex
-        ? { ...q, wrongAnswers: q.wrongAnswers.filter((_, j) => j !== answerIndex) }
+        ? {
+            ...q,
+            wrongAnswers: q.wrongAnswers.filter((_, j) => j !== answerIndex),
+          }
         : q,
     );
     onQuestionsChange(updated);
@@ -90,88 +96,102 @@ export default function SetQuestionsStep({
           {t('create-quiz.set-questions-description')}
         </FieldDescription>
       </div>
-      <div className='flex flex-col gap-6'>
+      <div className='flex flex-col gap-3'>
         {questions.map((question, qIndex) => (
-          <div
+          <Collapsible
             key={qIndex}
-            className='flex flex-col gap-3 rounded-xl border p-4'
+            className='rounded-xl border data-[state=open]:bg-muted'
           >
-            <div className='flex items-center justify-between'>
-              <span className='text-sm font-medium'>
-                {t('create-quiz.question-number', { number: qIndex + 1 })}
-              </span>
+            <div className='flex items-center'>
+              <CollapsibleTrigger asChild>
+                <Button
+                  type='button'
+                  variant='ghost'
+                  className='group flex-1 cursor-pointer justify-start'
+                >
+                  <span className='text-sm font-medium'>
+                    {question.question ||
+                      t('create-quiz.question-number', {
+                        number: qIndex + 1,
+                      })}
+                  </span>
+                  <ChevronDown className='ml-auto group-data-[state=open]:rotate-180' />
+                </Button>
+              </CollapsibleTrigger>
               <Button
                 type='button'
                 variant='ghost'
-                size='icon-xs'
-                className='cursor-pointer text-destructive'
+                size='icon'
+                className='mr-1 shrink-0 cursor-pointer text-destructive'
                 aria-label={t('create-quiz.remove-question')}
                 onClick={() => removeQuestion(qIndex)}
               >
                 <Trash2 />
               </Button>
             </div>
-            <div className='flex flex-col gap-1.5'>
-              <Label>{t('create-quiz.question-label')}</Label>
-              <Input
-                placeholder={t('create-quiz.question-placeholder')}
-                value={question.question}
-                onChange={(e) =>
-                  updateQuestion(qIndex, 'question', e.target.value)
-                }
-              />
-            </div>
-            <div className='flex flex-col gap-1.5'>
-              <Label>{t('create-quiz.correct-answer-label')}</Label>
-              <Input
-                placeholder={t('create-quiz.correct-answer-placeholder')}
-                value={question.correctAnswer}
-                onChange={(e) =>
-                  updateQuestion(qIndex, 'correctAnswer', e.target.value)
-                }
-              />
-            </div>
-            <div className='flex flex-col gap-1.5'>
-              <Label>{t('create-quiz.wrong-answers-label')}</Label>
-              <div className='flex flex-col gap-2'>
-                {question.wrongAnswers.map((answer, aIndex) => (
-                  <div key={aIndex} className='flex gap-2'>
-                    <Input
-                      placeholder={t('create-quiz.wrong-answer-placeholder', {
-                        number: aIndex + 1,
-                      })}
-                      value={answer}
-                      onChange={(e) =>
-                        updateWrongAnswer(qIndex, aIndex, e.target.value)
-                      }
-                    />
-                    {question.wrongAnswers.length > 1 && (
-                      <Button
-                        type='button'
-                        variant='ghost'
-                        size='icon'
-                        className='shrink-0 cursor-pointer text-destructive'
-                        aria-label={t('create-quiz.remove-wrong-answer')}
-                        onClick={() => removeWrongAnswer(qIndex, aIndex)}
-                      >
-                        <Trash2 />
-                      </Button>
-                    )}
-                  </div>
-                ))}
-                <Button
-                  type='button'
-                  variant='outline'
-                  size='sm'
-                  className='w-fit cursor-pointer'
-                  onClick={() => addWrongAnswer(qIndex)}
-                >
-                  <Plus />
-                  {t('create-quiz.add-wrong-answer')}
-                </Button>
+            <CollapsibleContent className='flex flex-col gap-3 p-4 pt-0'>
+              <div className='flex flex-col gap-1.5'>
+                <Label>{t('create-quiz.question-label')}</Label>
+                <Input
+                  placeholder={t('create-quiz.question-placeholder')}
+                  value={question.question}
+                  onChange={(e) =>
+                    updateQuestion(qIndex, 'question', e.target.value)
+                  }
+                />
               </div>
-            </div>
-          </div>
+              <div className='flex flex-col gap-1.5'>
+                <Label>{t('create-quiz.correct-answer-label')}</Label>
+                <Input
+                  placeholder={t('create-quiz.correct-answer-placeholder')}
+                  value={question.correctAnswer}
+                  onChange={(e) =>
+                    updateQuestion(qIndex, 'correctAnswer', e.target.value)
+                  }
+                />
+              </div>
+              <div className='flex flex-col gap-1.5'>
+                <Label>{t('create-quiz.wrong-answers-label')}</Label>
+                <div className='flex flex-col gap-2'>
+                  {question.wrongAnswers.map((answer, aIndex) => (
+                    <div key={aIndex} className='flex gap-2'>
+                      <Input
+                        placeholder={t('create-quiz.wrong-answer-placeholder', {
+                          number: aIndex + 1,
+                        })}
+                        value={answer}
+                        onChange={(e) =>
+                          updateWrongAnswer(qIndex, aIndex, e.target.value)
+                        }
+                      />
+                      {question.wrongAnswers.length > 1 && (
+                        <Button
+                          type='button'
+                          variant='ghost'
+                          size='icon'
+                          className='shrink-0 cursor-pointer text-destructive'
+                          aria-label={t('create-quiz.remove-wrong-answer')}
+                          onClick={() => removeWrongAnswer(qIndex, aIndex)}
+                        >
+                          <Trash2 />
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                  <Button
+                    type='button'
+                    variant='outline'
+                    size='sm'
+                    className='w-fit cursor-pointer'
+                    onClick={() => addWrongAnswer(qIndex)}
+                  >
+                    <Plus />
+                    {t('create-quiz.add-wrong-answer')}
+                  </Button>
+                </div>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         ))}
       </div>
       <Button

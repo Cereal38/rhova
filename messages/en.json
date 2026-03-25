@@ -41,7 +41,7 @@
     "upload-file-title": "Select the quiz to edit",
     "upload-file-description": "Select a .rhova file to edit an existing quiz. If you don't have one, you can create one from the \"<link>create a quiz</link>\" page.",
     "set-questions-title": "Add your questions",
-    "set-questions-description": "Add questions with one correct answer and at least one wrong answer each.",
+    "set-questions-description": "Add questions to your quiz. Each question must have a correct answer and three wrong answers.",
     "question-number": "Question {number}",
     "question-label": "Question",
     "question-placeholder": "e.g. Who painted the Mona Lisa?",
