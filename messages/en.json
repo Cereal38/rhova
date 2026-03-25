@@ -39,7 +39,20 @@
     "set-title-description": "Pick something that reflects the theme. It will also be used as the filename for your .rhova file.",
     "set-description-title": "Describe your quiz",
     "upload-file-title": "Select the quiz to edit",
-    "upload-file-description": "Select a .rhova file to edit an existing quiz. If you don't have one, you can create one from the \"<link>create a quiz</link>\" page."
+    "upload-file-description": "Select a .rhova file to edit an existing quiz. If you don't have one, you can create one from the \"<link>create a quiz</link>\" page.",
+    "set-questions-title": "Add your questions",
+    "set-questions-description": "Add questions with one correct answer and at least one wrong answer each.",
+    "question-number": "Question {number}",
+    "question-label": "Question",
+    "question-placeholder": "e.g. Who painted the Mona Lisa?",
+    "correct-answer-label": "Correct answer",
+    "correct-answer-placeholder": "e.g. Leonardo da Vinci",
+    "wrong-answers-label": "Wrong answers",
+    "wrong-answer-placeholder": "Wrong answer {number}",
+    "add-question": "Add a question",
+    "remove-question": "Remove question",
+    "add-wrong-answer": "Add a wrong answer",
+    "remove-wrong-answer": "Remove wrong answer"
   },
   "player-waiting-room": {
     "title": "You're in!",

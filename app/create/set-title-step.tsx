@@ -56,7 +56,7 @@ export default function SetTitleStep({
           type='button'
           className='w-fit cursor-pointer'
           aria-label={t('common.next')}
-          onClick={() => onStepChange(CreateQuizStep.SelectMod)}
+          onClick={() => onStepChange(CreateQuizStep.SetQuestions)}
         >
           <ArrowRight />
         </Button>

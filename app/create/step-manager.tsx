@@ -4,8 +4,10 @@ import { useEffect, useMemo, useState } from 'react';
 import SelectModStep from './select-mod-step';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import SetTitleStep from './set-title-step';
+import SetQuestionsStep from './set-questions-step';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Quiz from '@/models/interfaces/quiz';
+import Question from '@/models/interfaces/question';
 import UploadFileStep from './upload-file-step';
 
 const quizDefault: Quiz = {
@@ -60,6 +62,10 @@ export default function StepManager() {
     setQuiz((prev) => ({ ...prev, title }));
   }
 
+  function quizQuestionsChangeHandler(questions: Question[]) {
+    setQuiz((prev) => ({ ...prev, questions }));
+  }
+
   function fileUploadHandler(quiz: Quiz) {
     setQuiz(quiz);
     stepChangeHandler(CreateQuizStep.SetTitle);
@@ -81,6 +87,14 @@ export default function StepManager() {
           onStepChange={stepChangeHandler}
           onTitleChange={quizTitleChangeHandler}
           title={quiz.title}
+        />
+      );
+    case CreateQuizStep.SetQuestions:
+      return (
+        <SetQuestionsStep
+          onStepChange={stepChangeHandler}
+          onQuestionsChange={quizQuestionsChangeHandler}
+          questions={quiz.questions}
         />
       );
   }

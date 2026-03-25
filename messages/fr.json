@@ -38,7 +38,20 @@
     "set-title-placeholder": "ex. Les chanteurs célèbres",
     "set-title-description": "Choisissez un nom qui évoque le thème. Il sera également le nom du fichier contenant votre quiz.",
     "upload-file-title": "Sélectionnez le quiz à éditer",
-    "upload-file-description": "Choisissez un fichier .rhova pour éditer un quiz existant. Si vous n'en avez pas, vous pouvez en créer un depuis la page \"<link>créer un quiz</link>\"."
+    "upload-file-description": "Choisissez un fichier .rhova pour éditer un quiz existant. Si vous n'en avez pas, vous pouvez en créer un depuis la page \"<link>créer un quiz</link>\".",
+    "set-questions-title": "Ajoutez vos questions",
+    "set-questions-description": "Ajoutez des questions avec une bonne réponse et au moins une mauvaise réponse chacune.",
+    "question-number": "Question {number}",
+    "question-label": "Question",
+    "question-placeholder": "ex. Qui a peint la Joconde ?",
+    "correct-answer-label": "Bonne réponse",
+    "correct-answer-placeholder": "ex. Léonard de Vinci",
+    "wrong-answers-label": "Mauvaises réponses",
+    "wrong-answer-placeholder": "Mauvaise réponse {number}",
+    "add-question": "Ajouter une question",
+    "remove-question": "Supprimer la question",
+    "add-wrong-answer": "Ajouter une mauvaise réponse",
+    "remove-wrong-answer": "Supprimer la mauvaise réponse"
   },
   "player-waiting-room": {
     "title": "Vous êtes inscrit !",
