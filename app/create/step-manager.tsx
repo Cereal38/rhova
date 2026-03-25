@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import SelectModStep from './select-mod-step';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import SetTitleStep from './set-title-step';
@@ -39,12 +39,17 @@ export default function StepManager() {
     }
   });
 
-  const createQueryString = (name: string, value: string) => {
+  // Everytime the quiz is updated, set the new version to localstorage
+  useEffect(() => {
+    localStorage.setItem('create-quiz', JSON.stringify(quiz));
+  }, [quiz]);
+
+  function createQueryString(name: string, value: string) {
     const params = new URLSearchParams(searchParams.toString());
     params.set(name, value);
 
     return params.toString();
-  };
+  }
 
   function stepChangeHandler(step: CreateQuizStep) {
     router.push(pathname + '?' + createQueryString('step', step));
@@ -58,6 +63,12 @@ export default function StepManager() {
     case CreateQuizStep.SelectMod:
       return <SelectModStep onStepChange={stepChangeHandler} />;
     case CreateQuizStep.CreateSetTitle:
-      return <SetTitleStep onStepChange={stepChangeHandler} />;
+      return (
+        <SetTitleStep
+          onStepChange={stepChangeHandler}
+          onTitleChange={quizTitleChangeHandler}
+          title={quiz.title}
+        />
+      );
   }
 }

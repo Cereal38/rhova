@@ -8,10 +8,21 @@ import { useTranslations } from 'next-intl';
 
 interface Props {
   onStepChange: (step: CreateQuizStep) => void;
+  onTitleChange: (title: string) => void;
+  title: string;
 }
 
-export default function SetTitleStep({ onStepChange }: Readonly<Props>) {
+export default function SetTitleStep({
+  onStepChange,
+  onTitleChange,
+  title,
+}: Readonly<Props>) {
   const t = useTranslations();
+
+  // Handle title change
+  function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    onTitleChange(e.target.value);
+  }
 
   return (
     <div className='flex flex-col gap-4'>
@@ -27,6 +38,8 @@ export default function SetTitleStep({ onStepChange }: Readonly<Props>) {
         onKeyDown={(e) => {
           if (e.key === 'Enter') onStepChange(CreateQuizStep.SelectMod);
         }}
+        onChange={handleTitleChange}
+        value={title}
       />
       <Button
         type='button'
