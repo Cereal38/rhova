@@ -13,7 +13,7 @@ export default function Topbar({ items }: Readonly<Props>) {
       <ClickableLogo />
       <nav
         aria-label='Main'
-        className='flex min-w-0 shrink items-center justify-end gap-1 sm:gap-2 md:gap-4'
+        className='flex min-w-0 shrink items-center justify-end gap-2 md:gap-4'
       >
         {items.map((item) => (
           <Button

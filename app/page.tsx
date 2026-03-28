@@ -42,6 +42,7 @@ export default async function RoomCodePage() {
               href='https://github.com/Cereal38/rhova'
               target='_blank'
               rel='noopener noreferrer'
+              className='text-xs sm:text-sm'
             >
               Github
             </Link>
@@ -52,6 +53,7 @@ export default async function RoomCodePage() {
               href='https://github.com/Cereal38/rhova/blob/master/LICENSE'
               target='_blank'
               rel='noopener noreferrer'
+              className='text-xs sm:text-sm'
             >
               MIT License
             </Link>
