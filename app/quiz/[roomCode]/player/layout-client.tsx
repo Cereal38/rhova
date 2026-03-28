@@ -8,12 +8,12 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function QuizPlayerLayoutClient({ children }: Props) {
+export default function QuizPlayerLayoutClient({ children }: Readonly<Props>) {
   const { roomCode } = useParams<{ roomCode: string }>();
   usePlayerConnect(roomCode);
 
   return (
-    <div className='h-dvh'>
+    <div className='flex h-dvh flex-col'>
       {children}
       <SessionPendingDialog />
     </div>

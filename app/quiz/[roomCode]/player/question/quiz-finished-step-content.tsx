@@ -13,7 +13,7 @@ export default function QuizFinishedStepContent({ playerFinalScore }: Props) {
   const t = useTranslations();
 
   return (
-    <main className='h-full flex flex-col justify-between p-8'>
+    <main className='h-full flex flex-col justify-between p-8 text-white'>
       {playerFinalScore && (
         <>
           <div className='flex-1 flex flex-col justify-center items-center gap-8'>
@@ -22,8 +22,12 @@ export default function QuizFinishedStepContent({ playerFinalScore }: Props) {
               max={playerFinalScore?.total}
             />
             <div className='flex flex-col gap-2'>
-              <h2 className='text-center text-3xl'>{t('player-quiz-finished.title')}</h2>
-              <span className='text-center'>{t('player-quiz-finished.play-again')}</span>
+              <h2 className='text-center text-3xl'>
+                {t('player-quiz-finished.title')}
+              </h2>
+              <span className='text-center'>
+                {t('player-quiz-finished.play-again')}
+              </span>
             </div>
           </div>
           <Button asChild>
