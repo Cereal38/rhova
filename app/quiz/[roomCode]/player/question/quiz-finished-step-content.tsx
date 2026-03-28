@@ -30,7 +30,7 @@ export default function QuizFinishedStepContent({ playerFinalScore }: Props) {
               </span>
             </div>
           </div>
-          <Button asChild>
+          <Button asChild className='bg-white text-black hover:bg-white/90'>
             <Link href={routes.home()}>{t('common.home')}</Link>
           </Button>
         </>
