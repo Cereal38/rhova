@@ -15,7 +15,7 @@ export default function RoomCodeSection() {
   );
 
   return (
-    <div className='flex flex-col items-center gap-8 h-full text-wrap px-16'>
+    <div className='flex h-full flex-col items-center gap-8 text-wrap px-4 md:px-16'>
       <h2 className='text-xl'>
         {t.rich('host-waiting-room.room-code-instructions', {
           strong: (chunks) => <strong>{chunks}</strong>,
