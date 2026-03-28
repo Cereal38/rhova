@@ -5,6 +5,8 @@ import { getTranslations } from 'next-intl/server';
 import { TopbarItem } from '@/models/interfaces/topbar-item';
 import { routes } from '@/lib/routes';
 import Topbar from '@/components/topbar';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default async function RoomCodePage() {
   const t = await getTranslations();
@@ -34,6 +36,27 @@ export default async function RoomCodePage() {
             <RoomCodeForm />
           </Card>
         </main>
+        <footer className='absolute bottom-4 opacity-80'>
+          <Button asChild variant='link' className='text-white'>
+            <Link
+              href='https://github.com/Cereal38/rhova'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              Github
+            </Link>
+          </Button>
+          <span className='text-white'>•</span>
+          <Button asChild variant='link' className='text-white'>
+            <Link
+              href='https://github.com/Cereal38/rhova/blob/master/LICENSE'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              MIT License
+            </Link>
+          </Button>
+        </footer>
       </div>
     </>
   );
