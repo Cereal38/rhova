@@ -31,7 +31,7 @@ export default async function QuizHostQuestionLayout({ children }: Props) {
     <>
       <Topbar items={topbarItems} />
       <div className='relative flex-1 pt-(--topbar-height)'>
-        <GradientBackground />
+        <GradientBackground dark />
         {children}
       </div>
     </>

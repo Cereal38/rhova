@@ -7,7 +7,7 @@ interface Props {
 export default function PlayerQuestionLayout({ children }: Readonly<Props>) {
   return (
     <div className='relative flex min-h-0 w-full flex-1 flex-col'>
-      <GradientBackground />
+      <GradientBackground dark />
       {children}
     </div>
   );
