@@ -6,7 +6,8 @@ export default function ClickableLogo() {
   return (
     <Link
       href={routes.home()}
-      className='text-white font-bold flex items-center gap-4'
+      aria-label='Rhova home'
+      className='text-white font-bold flex shrink-0 items-center gap-2 sm:gap-4'
     >
       <Image
         src='/logo.svg'
@@ -16,7 +17,7 @@ export default function ClickableLogo() {
         priority
         className='brightness-0 invert h-8 w-auto'
       />
-      Rhova
+      <span className='max-sm:hidden'>Rhova</span>
     </Link>
   );
 }
