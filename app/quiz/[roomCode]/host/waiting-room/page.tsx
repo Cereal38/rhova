@@ -39,13 +39,15 @@ export default async function HostWaitingRoomPage() {
               <h1 className='text-3xl'>Rhova.io</h1>
               <PlayerCounter />
             </div>
-            <div className='grid grid-cols-[1fr_10px_1fr]'>
-              <QrCodeSection />
+            <div className='grid w-full grid-cols-1 md:grid-cols-[1fr_auto_1fr]'>
+              <div className='hidden md:block'>
+                <QrCodeSection />
+              </div>
 
-              <div className='flex flex-col items-center gap-4'>
-                <div className='flex-1 w-[2px] bg-black'></div>
+              <div className='hidden md:flex md:flex-col md:items-center md:gap-4'>
+                <div className='flex-1 w-[2px] bg-black' />
                 <span>{t('common.or')}</span>
-                <div className='flex-1 w-[2px] bg-black'></div>
+                <div className='flex-1 w-[2px] bg-black' />
               </div>
 
               <RoomCodeSection />

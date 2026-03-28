@@ -6,10 +6,14 @@ import { FilePenLine, FilePlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 interface Props {
-  onStepChange: (step: CreateQuizStep) => void;
+  onCreateQuiz: () => void;
+  onEditQuiz: () => void;
 }
 
-export default function SelectModStep({ onStepChange }: Readonly<Props>) {
+export default function SelectModStep({
+  onCreateQuiz,
+  onEditQuiz,
+}: Readonly<Props>) {
   const t = useTranslations();
 
   return (
@@ -19,7 +23,7 @@ export default function SelectModStep({ onStepChange }: Readonly<Props>) {
         <Button
           variant='outline'
           className='flex-1 flex-col h-auto py-8 gap-3 text-primary cursor-pointer'
-          onClick={() => onStepChange(CreateQuizStep.SetTitle)}
+          onClick={onCreateQuiz}
         >
           <span>{t('create-quiz.new-quiz')}</span>
           <FilePlus className='size-10' />
@@ -27,7 +31,7 @@ export default function SelectModStep({ onStepChange }: Readonly<Props>) {
         <Button
           variant='outline'
           className='flex-1 flex-col h-auto py-8 gap-3 text-primary cursor-pointer'
-          onClick={() => onStepChange(CreateQuizStep.UploadFile)}
+          onClick={onEditQuiz}
         >
           <span>{t('create-quiz.edit-quiz')}</span>
           <FilePenLine className='size-10' />

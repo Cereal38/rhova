@@ -27,13 +27,13 @@ export default function QuizFinishedStepContent({
       0,
     );
 
-    return parseFloat((totalScore / leaderboard.length).toFixed(1)) || 0;
+    return Number.parseFloat((totalScore / leaderboard.length).toFixed(1)) || 0;
   }, [leaderboard]);
 
   return (
-    <main className='h-full mx-auto w-[90%] overflow-y-auto py-12'>
-      {leaderboard && numberOfQuestions && (
-        <Card className='p-8 w-full h-full flex flex-col items-center justify-center gap-8'>
+    <main className='h-full mx-auto w-[90%] overflow-y-auto py-12 text-white'>
+      {leaderboard && !!numberOfQuestions && (
+        <div className='p-8 w-full h-full flex flex-col items-center justify-center gap-8'>
           <ScoreChart score={averageScore} max={numberOfQuestions} />
           <div className='flex flex-col gap-2'>
             <h1 className='text-center text-4xl font-bold'>
@@ -46,12 +46,15 @@ export default function QuizFinishedStepContent({
               })}
             </p>
           </div>
-          <Button asChild className='mt-4 cursor-pointer'>
+          <Button
+            asChild
+            className='mt-4 cursor-pointer bg-white text-black hover:bg-white/90'
+          >
             <Link href={routes.start()}>
               {t('host-quiz-finished.start-new-quiz')}
             </Link>
           </Button>
-        </Card>
+        </div>
       )}
     </main>
   );

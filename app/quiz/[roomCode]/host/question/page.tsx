@@ -136,8 +136,8 @@ export default function HostQuestionPage() {
     // TODO: Move the content of this step to a dedicated component
     case Step.quiz:
       return (
-        <main className='h-full mx-auto w-[90%] overflow-y-auto py-12'>
-          <Card className='p-8 h-full flex flex-col justify-between'>
+        <main className='h-full mx-auto w-[90%] overflow-y-auto py-12 text-white'>
+          <div className='p-8 h-full flex flex-col justify-between'>
             {!!question && (
               <>
                 <div>
@@ -185,7 +185,7 @@ export default function HostQuestionPage() {
                 </div>
               </>
             )}
-          </Card>
+          </div>
         </main>
       );
     case Step.quizFinished:

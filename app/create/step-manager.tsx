@@ -73,9 +73,23 @@ export default function StepManager() {
     stepChangeHandler(CreateQuizStep.SetTitle);
   }
 
+  function createQuizNavigationHandler() {
+    setQuiz(quizDefault);
+    stepChangeHandler(CreateQuizStep.SetTitle);
+  }
+
+  function editQuizNavigationHandler() {
+    stepChangeHandler(CreateQuizStep.UploadFile);
+  }
+
   switch (step) {
     case CreateQuizStep.SelectMod:
-      return <SelectModStep onStepChange={stepChangeHandler} />;
+      return (
+        <SelectModStep
+          onCreateQuiz={createQuizNavigationHandler}
+          onEditQuiz={editQuizNavigationHandler}
+        />
+      );
     case CreateQuizStep.UploadFile:
       return (
         <UploadFileStep
@@ -100,11 +114,6 @@ export default function StepManager() {
         />
       );
     case CreateQuizStep.DownloadFile:
-      return (
-        <DownloadFileStep
-          onStepChange={stepChangeHandler}
-          quiz={quiz}
-        />
-      );
+      return <DownloadFileStep onStepChange={stepChangeHandler} quiz={quiz} />;
   }
 }
