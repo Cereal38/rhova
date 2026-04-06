@@ -37,14 +37,19 @@ export default function AnswerButton({
     'relative flex items-center gap-6 p-12 w-full rounded-xl text-white',
     colorByNumber[number],
     clickable && !wrongAnswer && 'cursor-pointer hover:opacity-75',
-    wrongAnswer && 'opacity-25',
+    wrongAnswer && 'bg-blue-500/10',
     iconOnly && 'justify-center',
   );
 
   const inner = (
     <>
       {displayCount && (
-        <span className='absolute top-4 right-4'>
+        <span
+          className={cn(
+            'absolute top-4 right-4 border bg-white text-black rounded px-2 py-1',
+            (answerCount ?? 0) === 0 && 'opacity-5',
+          )}
+        >
           {answerCount ?? 0} / {totalPlayer ?? 0}
         </span>
       )}
