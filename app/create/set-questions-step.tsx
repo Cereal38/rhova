@@ -198,7 +198,7 @@ export default function SetQuestionsStep({
               </Button>
             </div>
             {/* QUESTION */}
-            <AccordionContent className='flex flex-col gap-3 px-1'>
+            <AccordionContent className='flex flex-col gap-3 border-l border-border pl-4 mb-4 pb-0 ml-1'>
               <div className='flex flex-col gap-2'>
                 <Label>{t('create-quiz.question-label')}</Label>
                 <Input
