@@ -87,7 +87,8 @@
   },
   "host-question": {
     "question-number": "Question {number}",
-    "players-answered": "{answerCount}/{playerCount} players answered"
+    "players-answered": "{answerCount}/{playerCount} players answered",
+    "all-players-answered": "All players have responded"
   },
   "host-quiz-finished": {
     "title": "Quiz finished!",

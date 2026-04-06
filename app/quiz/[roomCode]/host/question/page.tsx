@@ -67,10 +67,10 @@ export default function HostQuestionPage() {
   }
 
   const nextButtonHandler = () => {
-    if (!questionResults) {
-      revealResults();
-    } else {
+    if (questionResults) {
       nextQuestion();
+    } else {
+      revealResults();
     }
   };
 
@@ -147,12 +147,18 @@ export default function HostQuestionPage() {
                         number: question.questionIndex + 1,
                       })}
                     </h2>
-                    <span className='opacity-75 -translate-y-[2px]'>
-                      {t('host-question.players-answered', {
-                        answerCount,
-                        playerCount: playerCount ?? 0,
-                      })}
-                    </span>
+                    {playerCount === answerCount ? (
+                      <span className='py-2 px-4 bg-white rounded text-black mt-2'>
+                        {t('host-question.all-players-answered')}
+                      </span>
+                    ) : (
+                      <span className='opacity-75 -translate-y-[2px]'>
+                        {t('host-question.players-answered', {
+                          answerCount,
+                          playerCount: playerCount ?? 0,
+                        })}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className='flex-1 flex items-center justify-center relative'>
