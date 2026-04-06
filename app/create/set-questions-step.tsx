@@ -12,7 +12,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import Question from '@/models/interfaces/question';
-import { ArrowLeft, ArrowRight, Minus, Plus, Trash2 } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Minus,
+  Plus,
+  PlusIcon,
+  Trash2,
+} from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
 
@@ -76,13 +83,23 @@ export default function SetQuestionsStep({
     questionIndex: number,
     answerIndex: number,
   ) {
-    console.log('REMOVE ANSWER');
     clearValidationFeedback();
     onQuestionsChange(
       questions.map((q, i) => {
         if (i !== questionIndex) return q;
         const wrongAnswers = [...q.wrongAnswers];
         wrongAnswers.splice(answerIndex, 1);
+        return { ...q, wrongAnswers };
+      }),
+    );
+  }
+
+  function addWrongQuestionHandler(questionIndex: number) {
+    onQuestionsChange(
+      questions.map((q, i) => {
+        if (i !== questionIndex) return q;
+        const wrongAnswers = [...q.wrongAnswers];
+        wrongAnswers.push('');
         return { ...q, wrongAnswers };
       }),
     );
@@ -231,7 +248,7 @@ export default function SetQuestionsStep({
                           updateWrongAnswer(qIndex, aIndex, e.target.value)
                         }
                       />
-                      {aIndex !== 0 && (
+                      {question.wrongAnswers.length > 1 && (
                         <Button
                           variant='ghost'
                           size='icon'
@@ -245,6 +262,15 @@ export default function SetQuestionsStep({
                       )}
                     </div>
                   ))}
+                  {question.wrongAnswers.length < 3 && (
+                    <Button
+                      variant='ghost'
+                      className='cursor-pointer'
+                      onClick={() => addWrongQuestionHandler(qIndex)}
+                    >
+                      <PlusIcon />
+                    </Button>
+                  )}
                 </div>
               </div>
             </AccordionContent>
