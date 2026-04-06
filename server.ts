@@ -29,8 +29,8 @@ import { EventName } from './models/enums/event-name';
 import { SessionPhase } from './models/enums/session-phase';
 
 const dev = process.env.NODE_ENV !== 'production';
-const hostname = 'localhost';
-const port = 3000;
+const port = Number(process.env.PORT ?? 3000);
+const hostname = process.env.HOST ?? '0.0.0.0';
 const sessionTimeoutMs = 5 * 60 * 1000;
 
 const app = next({ dev, hostname, port });
@@ -430,7 +430,7 @@ app.prepare().then(() => {
     );
   });
 
-  httpServer.listen(port, () => {
+  httpServer.listen(port, hostname, () => {
     console.log(`> Ready on http://${hostname}:${port}`);
   });
 });
