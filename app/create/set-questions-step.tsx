@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import Question from '@/models/interfaces/question';
-import { ArrowLeft, ArrowRight, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Minus, Plus, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
 
@@ -70,6 +70,22 @@ export default function SetQuestionsStep({
   function removeQuestion(index: number) {
     clearValidationFeedback();
     onQuestionsChange(questions.filter((_, i) => i !== index));
+  }
+
+  function removeWrongAnswerHandler(
+    questionIndex: number,
+    answerIndex: number,
+  ) {
+    console.log('REMOVE ANSWER');
+    clearValidationFeedback();
+    onQuestionsChange(
+      questions.map((q, i) => {
+        if (i !== questionIndex) return q;
+        const wrongAnswers = [...q.wrongAnswers];
+        wrongAnswers.splice(answerIndex, 1);
+        return { ...q, wrongAnswers };
+      }),
+    );
   }
 
   function updateQuestion(
@@ -164,6 +180,7 @@ export default function SetQuestionsStep({
                 <Trash2 />
               </Button>
             </div>
+            {/* QUESTION */}
             <AccordionContent className='flex flex-col gap-3 px-1'>
               <div className='flex flex-col gap-2'>
                 <Label>{t('create-quiz.question-label')}</Label>
@@ -171,13 +188,16 @@ export default function SetQuestionsStep({
                   placeholder={t('create-quiz.question-placeholder')}
                   value={question.question}
                   aria-invalid={
-                    showFieldErrors && question.question === '' ? true : undefined
+                    showFieldErrors && question.question === ''
+                      ? true
+                      : undefined
                   }
                   onChange={(e) =>
                     updateQuestion(qIndex, 'question', e.target.value)
                   }
                 />
               </div>
+              {/* CORRECT ANSWER */}
               <div className='flex flex-col gap-2'>
                 <Label>{t('create-quiz.correct-answer-label')}</Label>
                 <Input
@@ -193,11 +213,12 @@ export default function SetQuestionsStep({
                   }
                 />
               </div>
+              {/* WRONG ANSWERS */}
               <div className='flex flex-col gap-2'>
                 <Label>{t('create-quiz.wrong-answers-label')}</Label>
                 <div className='flex flex-col gap-2'>
                   {question.wrongAnswers.map((answer, aIndex) => (
-                    <div key={aIndex} className='flex gap-2'>
+                    <div key={aIndex} className='relative'>
                       <Input
                         placeholder={t('create-quiz.wrong-answer-placeholder', {
                           number: aIndex + 1,
@@ -210,6 +231,18 @@ export default function SetQuestionsStep({
                           updateWrongAnswer(qIndex, aIndex, e.target.value)
                         }
                       />
+                      {aIndex !== 0 && (
+                        <Button
+                          variant='ghost'
+                          size='icon'
+                          className='absolute right-0 top-0 h-full px-3 cursor-pointer'
+                          onClick={() =>
+                            removeWrongAnswerHandler(qIndex, aIndex)
+                          }
+                        >
+                          <Minus className='h-4 w-4' />
+                        </Button>
+                      )}
                     </div>
                   ))}
                 </div>
