@@ -25,7 +25,7 @@ export default async function ContactPage() {
             </h2>
             <Link
               href='mailto:contact@rhova.app'
-              className='text-sm text-primary underline underline-offset-4 hover:text-primary/80 transition-colors break-all'
+              className='text-sm underline underline-offset-4 hover:opacity-75'
             >
               contact@rhova.app
             </Link>
@@ -38,7 +38,7 @@ export default async function ContactPage() {
               href='https://github.com/Cereal38'
               target='_blank'
               rel='noopener noreferrer'
-              className='text-sm text-primary underline underline-offset-4 hover:text-primary/80 transition-colors break-all'
+              className='text-sm underline underline-offset-4 hover:opacity-75'
             >
               github.com/Cereal38
             </Link>
