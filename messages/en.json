@@ -100,7 +100,7 @@
     "start-new-quiz": "Start a new quiz"
   },
   "contact": {
-    "description": "For questions, suggestions, bug reports, custom feature requests, or assistance deploying Rhova on your own infrastructure, reach out at contact@rhova.app",
+    "description": "For questions, suggestions, bug reports, custom feature requests, or assistance deploying Rhova on your own infrastructure, contact me by email.",
     "contact-email": "Contact Email",
     "creator-github-profile": "Creator's GitHub Profile"
   },
