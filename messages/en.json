@@ -22,7 +22,8 @@
     "home-description": "Enter the room code and enjoy a quiz together",
     "start-quiz-description": "Start a quiz in 1 click to play with anyone you want",
     "quiz-play-description": "Play a quiz together",
-    "create-quiz-description": "Create a quiz in 1 minute to start playing"
+    "create-quiz-description": "Create a quiz in 1 minute to start playing",
+    "contact-description": "If you have a question, an idea, or if you've found a bug, you're in the right place."
   },
   "home": {
     "room-code": "Room code",
