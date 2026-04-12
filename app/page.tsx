@@ -38,13 +38,19 @@ export default async function RoomCodePage() {
         </main>
         <footer className='absolute bottom-4 opacity-80'>
           <Button asChild variant='link' className='text-white'>
+            <Link href={routes.contact()} className='text-xs sm:text-sm'>
+              {t('common.contact')}
+            </Link>
+          </Button>
+          <span className='text-white'>•</span>
+          <Button asChild variant='link' className='text-white'>
             <Link
               href='https://github.com/Cereal38/rhova'
               target='_blank'
               rel='noopener noreferrer'
               className='text-xs sm:text-sm'
             >
-              Github
+              {t('common.github')}
             </Link>
           </Button>
           <span className='text-white'>•</span>
@@ -55,7 +61,7 @@ export default async function RoomCodePage() {
               rel='noopener noreferrer'
               className='text-xs sm:text-sm'
             >
-              MIT License
+              {t('home.license')}
             </Link>
           </Button>
         </footer>

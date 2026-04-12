@@ -14,7 +14,9 @@
     "error-read-file": "Impossible de lire le fichier",
     "error-invalid-rhova-config": "Configuration de quiz invalide. Avez-vous sélectionné un fichier .rhova ?",
     "dropzone-rhova-hint": "Déposez un fichier .rhova ici, ou cliquez pour parcourir",
-    "finish": "Terminer"
+    "finish": "Terminer",
+    "contact": "Contact",
+    "github": "Github"
   },
   "metadata": {
     "home-description": "Entrez le code de la salle et profitez d'un quiz ensemble",
@@ -24,7 +26,8 @@
   },
   "home": {
     "room-code": "Code de la salle",
-    "error-connection": "Erreur de connexion au serveur"
+    "error-connection": "Erreur de connexion au serveur",
+    "license": "Licence MIT"
   },
   "start-quiz": {
     "title": "Lancer un quiz",

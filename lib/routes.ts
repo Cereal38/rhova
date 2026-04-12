@@ -7,4 +7,5 @@ export const routes = {
     `/quiz/${roomCode}/player/waiting-room`,
   hostQuestion: (roomCode: string) => `/quiz/${roomCode}/host/question`,
   playerQuestion: (roomCode: string) => `/quiz/${roomCode}/player/question`,
+  contact: () => '/contact',
 };
