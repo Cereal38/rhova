@@ -18,45 +18,27 @@ export default async function ContactPage() {
           <CardTitle>{t('common.contact')}</CardTitle>
           <CardDescription>{t('contact.description')}</CardDescription>
         </CardHeader>
-        <CardContent className='flex flex-col gap-4 mt-4'>
-          <div>
-            <h2 className='font-semibold'>{t('contact.contact-email')}</h2>
+        <CardContent className='flex flex-col gap-6 mt-4'>
+          <div className='flex flex-col gap-1'>
+            <h2 className='text-xs font-medium text-muted-foreground uppercase'>
+              {t('contact.contact-email')}
+            </h2>
             <Link
               href='mailto:contact@rhova.app'
-              className='text-primary hover:underline'
+              className='text-sm text-primary underline underline-offset-4 hover:text-primary/80 transition-colors break-all'
             >
               contact@rhova.app
             </Link>
           </div>
-          <div>
-            <h2 className='font-semibold'>{t('contact.project-repository')}</h2>
-            <Link
-              href='https://github.com/Cereal38/rhova'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='text-primary hover:underline'
-            >
-              github.com/Cereal38/rhova
-            </Link>
-          </div>
-          <div>
-            <h2 className='font-semibold'>{t('contact.github-issue')}</h2>
-            <Link
-              href='https://github.com/Cereal38/rhova/issues'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='text-primary hover:underline'
-            >
-              github.com/Cereal38/rhova/issues
-            </Link>
-          </div>
-          <div>
-            <h2 className='font-semibold'>{t('contact.creator-github-profile')}</h2>
+          <div className='flex flex-col gap-1'>
+            <h2 className='text-xs font-medium text-muted-foreground uppercase'>
+              {t('contact.creator-github-profile')}
+            </h2>
             <Link
               href='https://github.com/Cereal38'
               target='_blank'
               rel='noopener noreferrer'
-              className='text-primary hover:underline'
+              className='text-sm text-primary underline underline-offset-4 hover:text-primary/80 transition-colors break-all'
             >
               github.com/Cereal38
             </Link>

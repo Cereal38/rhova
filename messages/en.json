@@ -102,8 +102,6 @@
   "contact": {
     "description": "For questions, suggestions, bug reports, custom feature requests, or assistance deploying Rhova on your own infrastructure, reach out at contact@rhova.app",
     "contact-email": "Contact Email",
-    "project-repository": "Project Repository",
-    "github-issue": "GitHub Issues",
     "creator-github-profile": "Creator's GitHub Profile"
   },
   "not-found": {

@@ -101,8 +101,6 @@
   "contact": {
     "description": "Pour toute question, suggestion, signalement de bug, demande de fonctionnalité sur mesure ou besoin d’assistance pour déployer Rhova sur votre propre infrastructure, envoyez un email à l’adresse suivante : contact@rhova.app",
     "contact-email": "Email de contact",
-    "project-repository": "Dépôt GitHub du projet",
-    "github-issue": "Issues GitHub",
     "creator-github-profile": "Profil GitHub du créateur"
   },
   "not-found": {
