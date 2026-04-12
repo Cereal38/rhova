@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { CreateQuizStep } from '@/models/enums/create-quiz-step';
 import { FilePenLine, FilePlus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
