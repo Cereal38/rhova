@@ -13,7 +13,7 @@ export default async function ContactPage() {
 
   return (
     <main className='flex-1 flex items-center justify-center w-full m-auto px-4'>
-      <Card className='flex flex-col gap-2 p-8 min-w-[90%] md:min-w-[600px]'>
+      <Card className='flex flex-col gap-2 py-8 px-4 min-w-[90%] md:min-w-[600px]'>
         <CardHeader>
           <CardTitle>{t('common.contact')}</CardTitle>
           <CardDescription>{t('contact.description')}</CardDescription>
