@@ -27,6 +27,7 @@ import { Player } from './server/types';
 import { UserRole } from './models/enums/user-role';
 import { EventName } from './models/enums/event-name';
 import { SessionPhase } from './models/enums/session-phase';
+import { WsPlayerConnect } from './models/interfaces/ws-player-connect';
 
 const dev = process.env.NODE_ENV !== 'production';
 const port = Number(process.env.PORT ?? 3000);
@@ -88,7 +89,7 @@ app.prepare().then(() => {
       (
         roomCode: string,
         playerToken: string,
-        callback: (res: WsCallback) => void,
+        callback: (res: WsCallback<WsPlayerConnect>) => void,
       ) => {
         const session = getSession(roomCode);
 
@@ -126,8 +127,7 @@ app.prepare().then(() => {
           console.log(
             `Player ${existingPlayer.playerNumber} rejoined ${roomCode}`,
           );
-          // TODO: Should return the current game state, so the user can navigate to the correct page
-          return callback({ success: true });
+          return callback({ success: true, payload: { phase: session.phase } });
         }
 
         // This is the first connection of this player to the room
@@ -150,7 +150,7 @@ app.prepare().then(() => {
           count: getPlayerCount(roomCode),
         });
 
-        return callback({ success: true });
+        return callback({ success: true, payload: { phase: session.phase } });
       },
     );
 

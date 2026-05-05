@@ -6,6 +6,9 @@ import { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import WsCallback from '@/models/interfaces/ws-callback';
 import { EventName } from '@/models/enums/event-name';
+import { SessionPhase } from '@/models/enums/session-phase';
+import { routes } from '@/lib/routes';
+import { WsPlayerConnect } from '@/models/interfaces/ws-player-connect';
 
 export function usePlayerConnect(roomCode: string) {
   const { socket } = useSocket();
@@ -25,7 +28,7 @@ export function usePlayerConnect(roomCode: string) {
         EventName.PlayerConnect,
         roomCode,
         playerToken,
-        (res: WsCallback) => {
+        (res: WsCallback<WsPlayerConnect>) => {
           if (!res.success) {
             console.error(
               `Can't connect to session ${roomCode}. ${res.error}.`,
@@ -34,7 +37,12 @@ export function usePlayerConnect(roomCode: string) {
             return;
           }
 
-          // TODO: Redirect to the correct page using res.phase
+          if (
+            res.payload?.phase === SessionPhase.Question ||
+            res.payload?.phase === SessionPhase.Result
+          ) {
+            router.replace(routes.playerQuestion(roomCode));
+          }
         },
       );
     };

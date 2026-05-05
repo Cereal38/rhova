@@ -126,7 +126,12 @@ export function startQuiz(roomCode: string, socketId: string): boolean {
 
 export function getCurrentQuestion(roomCode: string): WsQuestion | null {
   const session = sessions.get(roomCode);
-  if (!session || session.phase !== SessionPhase.Question) return null;
+  if (
+    !session ||
+    (session.phase !== SessionPhase.Question &&
+      session.phase !== SessionPhase.Result)
+  )
+    return null;
 
   const question = session.quiz.questions[session.currentQuestionIndex];
   if (!question) return null;
