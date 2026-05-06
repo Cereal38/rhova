@@ -38,15 +38,16 @@ export function usePlayerConnect(roomCode: string) {
             return;
           }
 
-          if (res.payload) {
+          const shouldRestorePlayerPage =
+            res.payload?.phase === SessionPhase.Question ||
+            res.payload?.phase === SessionPhase.Result ||
+            res.payload?.phase === SessionPhase.Finished;
+
+          if (res.payload && shouldRestorePlayerPage) {
             savePlayerConnectState(roomCode, res.payload);
           }
 
-          if (
-            res.payload?.phase === SessionPhase.Question ||
-            res.payload?.phase === SessionPhase.Result ||
-            res.payload?.phase === SessionPhase.Finished
-          ) {
+          if (shouldRestorePlayerPage) {
             router.replace(routes.playerQuestion(roomCode));
           }
         },
