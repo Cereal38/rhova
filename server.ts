@@ -97,6 +97,8 @@ app.prepare().then(() => {
           return callback({ success: false, error: 'Session not found' });
         }
 
+        const phase = session?.phase;
+
         // If the token already belongs to a player in the session, reconnect the user
         let existingKey: string | null = null;
         let existingPlayer: Player | null = null;
@@ -109,6 +111,8 @@ app.prepare().then(() => {
         }
 
         if (existingPlayer && existingKey) {
+          const currentQuestion = getCurrentQuestion(roomCode);
+
           existingPlayer.socketId = socket.id;
           session.players.delete(existingKey);
           session.players.set(socket.id, existingPlayer);
@@ -127,11 +131,15 @@ app.prepare().then(() => {
           console.log(
             `Player ${existingPlayer.playerNumber} rejoined ${roomCode}`,
           );
-          return callback({ success: true, payload: { phase: session.phase } });
+
+          return callback({
+            success: true,
+            payload: { phase: phase, currentQuestion },
+          });
         }
 
         // This is the first connection of this player to the room
-        if (session.phase !== SessionPhase.Lobby) {
+        if (phase !== SessionPhase.Lobby) {
           return callback({ success: false, error: 'Could not join session' });
         }
 
@@ -150,7 +158,10 @@ app.prepare().then(() => {
           count: getPlayerCount(roomCode),
         });
 
-        return callback({ success: true, payload: { phase: session.phase } });
+        return callback({
+          success: true,
+          payload: { phase: phase, currentQuestion: null },
+        });
       },
     );
 
@@ -399,7 +410,7 @@ app.prepare().then(() => {
       }
     });
 
-    // ─── Reconnection handling ───
+    // ─── Host: Reconnection handling ───
     socket.on(
       EventName.HostRejoinSession,
       (roomCode: string, hostToken: string, callback) => {
