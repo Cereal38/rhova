@@ -6,7 +6,7 @@ import WsQuestion from './ws-question';
 export interface WsPlayerConnect {
   phase: SessionPhase;
   currentQuestion: WsQuestion | null;
-  hasAnswered?: boolean;
+  hasAnswered: boolean;
   playerResult?: WsPlayerResult;
   finalScore?: WsPlayerScore;
 }

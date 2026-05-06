@@ -97,7 +97,8 @@ app.prepare().then(() => {
           return callback({ success: false, error: 'Session not found' });
         }
 
-        const phase = session?.phase;
+        const phase = session.phase;
+        const currentQuestion = getCurrentQuestion(roomCode);
 
         // If the token already belongs to a player in the session, reconnect the user
         let existingKey: string | null = null;
@@ -111,8 +112,6 @@ app.prepare().then(() => {
         }
 
         if (existingPlayer && existingKey) {
-          const currentQuestion = getCurrentQuestion(roomCode);
-
           existingPlayer.socketId = socket.id;
           session.players.delete(existingKey);
           session.players.set(socket.id, existingPlayer);
@@ -132,9 +131,15 @@ app.prepare().then(() => {
             `Player ${existingPlayer.playerNumber} rejoined ${roomCode}`,
           );
 
+          const hasAnswered = existingAnswer !== undefined;
+
           return callback({
             success: true,
-            payload: { phase: phase, currentQuestion },
+            payload: {
+              phase: phase,
+              currentQuestion: currentQuestion,
+              hasAnswered: hasAnswered,
+            },
           });
         }
 
@@ -160,7 +165,7 @@ app.prepare().then(() => {
 
         return callback({
           success: true,
-          payload: { phase: phase, currentQuestion: null },
+          payload: { phase: phase, currentQuestion: null, hasAnswered: false },
         });
       },
     );
