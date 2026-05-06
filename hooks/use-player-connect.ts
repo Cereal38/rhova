@@ -9,6 +9,7 @@ import { EventName } from '@/models/enums/event-name';
 import { SessionPhase } from '@/models/enums/session-phase';
 import { routes } from '@/lib/routes';
 import { WsPlayerConnect } from '@/models/interfaces/ws-player-connect';
+import { savePlayerConnectState } from '@/lib/player-connect-state-storage';
 
 export function usePlayerConnect(roomCode: string) {
   const { socket } = useSocket();
@@ -37,9 +38,14 @@ export function usePlayerConnect(roomCode: string) {
             return;
           }
 
+          if (res.payload) {
+            savePlayerConnectState(roomCode, res.payload);
+          }
+
           if (
             res.payload?.phase === SessionPhase.Question ||
-            res.payload?.phase === SessionPhase.Result
+            res.payload?.phase === SessionPhase.Result ||
+            res.payload?.phase === SessionPhase.Finished
           ) {
             router.replace(routes.playerQuestion(roomCode));
           }
