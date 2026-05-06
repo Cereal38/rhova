@@ -29,6 +29,7 @@ import { EventName } from './models/enums/event-name';
 import { SessionPhase } from './models/enums/session-phase';
 import { WsPlayerConnect } from './models/interfaces/ws-player-connect';
 import WsPlayerResult from './models/interfaces/ws-player-result';
+import { WsPlayerScore } from './models/interfaces/ws-player-score';
 
 const dev = process.env.NODE_ENV !== 'production';
 const port = Number(process.env.PORT ?? 3000);
@@ -147,6 +148,15 @@ app.prepare().then(() => {
             }
           }
 
+          let finalScore: WsPlayerScore | undefined;
+
+          if (phase === SessionPhase.Finished) {
+            finalScore = {
+              score: existingPlayer.score,
+              total: session.quiz.questions.length,
+            };
+          }
+
           return callback({
             success: true,
             payload: {
@@ -154,6 +164,7 @@ app.prepare().then(() => {
               currentQuestion,
               hasAnswered,
               playerResult,
+              finalScore,
             },
           });
         }
