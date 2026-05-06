@@ -28,6 +28,7 @@ import { UserRole } from './models/enums/user-role';
 import { EventName } from './models/enums/event-name';
 import { SessionPhase } from './models/enums/session-phase';
 import { WsPlayerConnect } from './models/interfaces/ws-player-connect';
+import WsPlayerResult from './models/interfaces/ws-player-result';
 
 const dev = process.env.NODE_ENV !== 'production';
 const port = Number(process.env.PORT ?? 3000);
@@ -133,12 +134,26 @@ app.prepare().then(() => {
 
           const hasAnswered = existingAnswer !== undefined;
 
+          let playerResult: WsPlayerResult | undefined;
+          if (phase === SessionPhase.Result) {
+            const question =
+              session.quiz.questions[session.currentQuestionIndex];
+
+            if (question) {
+              playerResult = {
+                correctAnswer: question.correctAnswer,
+                wasCorrect: existingAnswer === question.correctAnswer,
+              };
+            }
+          }
+
           return callback({
             success: true,
             payload: {
-              phase: phase,
-              currentQuestion: currentQuestion,
-              hasAnswered: hasAnswered,
+              phase,
+              currentQuestion,
+              hasAnswered,
+              playerResult,
             },
           });
         }
