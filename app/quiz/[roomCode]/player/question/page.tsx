@@ -12,6 +12,11 @@ import AnswerSubmittedStepContent from './answer-submitted-step-content';
 import ResultStepContent from './result-step-content';
 import QuizFinishedStepContent from './quiz-finished-step-content';
 import { EventName } from '@/models/enums/event-name';
+import {
+  clearPlayerConnectState,
+  readPlayerConnectState,
+} from '@/lib/player-connect-state-storage';
+import { SessionPhase } from '@/models/enums/session-phase';
 
 enum Step {
   'question',
@@ -23,15 +28,48 @@ enum Step {
 export default function PlayerQuestionPage() {
   const { roomCode } = useParams();
   const { socket } = useSocket();
+  const roomCodeString = roomCode as string;
+
+  const [initialPlayerConnectState] = useState(() => {
+    if (globalThis.window === undefined) return null;
+
+    return readPlayerConnectState(roomCodeString);
+  });
 
   const [roomNotFound, setRoomNotFound] = useState(false);
-  const [question, setQuestion] = useState<WsQuestion>();
-  const [playerResult, setPlayerResult] = useState<WsPlayerResult>();
-  const [playerFinalScore, setPlayerFinalScore] = useState<WsPlayerScore>();
-  const [step, setStep] = useState<Step>(Step.question);
+  const [question, setQuestion] = useState<WsQuestion | undefined>(
+    initialPlayerConnectState?.currentQuestion ?? undefined,
+  );
+  const [playerResult, setPlayerResult] = useState<WsPlayerResult | undefined>(
+    initialPlayerConnectState?.playerResult,
+  );
+  const [playerFinalScore, setPlayerFinalScore] = useState<
+    WsPlayerScore | undefined
+  >(initialPlayerConnectState?.finalScore);
+  const [step, setStep] = useState<Step>(() => {
+    if (!initialPlayerConnectState) return Step.question;
+
+    if (initialPlayerConnectState.phase === SessionPhase.Finished) {
+      return Step.quizFinished;
+    }
+
+    if (initialPlayerConnectState.phase === SessionPhase.Result) {
+      return Step.result;
+    }
+
+    if (initialPlayerConnectState.hasAnswered) {
+      return Step.answerSubmitted;
+    }
+
+    return Step.question;
+  });
 
   useEffect(() => {
     if (!socket) return;
+
+    if (initialPlayerConnectState) {
+      clearPlayerConnectState(roomCodeString);
+    }
 
     const getQuestionHandler = (res: WsCallback<WsQuestion>) => {
       if (!res.success || !res.payload) {
@@ -69,7 +107,10 @@ export default function PlayerQuestionPage() {
       setStep(Step.quizFinished);
     };
 
-    socket.emit(EventName.GetQuestion, roomCode, getQuestionHandler);
+    if (!initialPlayerConnectState) {
+      socket.emit(EventName.GetQuestion, roomCodeString, getQuestionHandler);
+    }
+
     socket.on(EventName.ShowQuestion, showQuestionHandler);
     socket.on(EventName.PlayerResult, playerResultHandler);
     socket.on(EventName.QuizFinished, quizFinishHandler);
@@ -78,26 +119,32 @@ export default function PlayerQuestionPage() {
       socket.off(EventName.PlayerResult, playerResultHandler);
       socket.off(EventName.QuizFinished, quizFinishHandler);
     };
-  }, [socket, roomCode]);
+  }, [socket, roomCodeString, initialPlayerConnectState]);
 
   if (roomNotFound) {
     notFound();
   }
 
   const submitAnswerHandler = (answer: string) => {
-    if (!socket || !roomCode) {
+    if (!socket || !roomCodeString) {
       return;
     }
 
-    socket.emit(EventName.SubmitAnswer, roomCode, answer, (res: WsCallback) => {
-      if (!res.success) {
-        console.error(
-          'An error occurred while submitting the answer. Error: ' + res.error,
-        );
-        return;
-      }
-      setStep(Step.answerSubmitted);
-    });
+    socket.emit(
+      EventName.SubmitAnswer,
+      roomCodeString,
+      answer,
+      (res: WsCallback) => {
+        if (!res.success) {
+          console.error(
+            'An error occurred while submitting the answer. Error: ' +
+              res.error,
+          );
+          return;
+        }
+        setStep(Step.answerSubmitted);
+      },
+    );
   };
 
   switch (step) {
